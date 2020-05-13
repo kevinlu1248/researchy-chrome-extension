@@ -8,7 +8,7 @@ chrome.runtime.onInstalled.addListener(function() {
 
 chrome.browserAction.onClicked.addListener((tab) => {
 	chrome.storage.sync.get(['plugin_is_on'], function(data) {
-		// console.log('test')
+		// alert(data.plugin_is_on)
 		if (data.plugin_is_on === true) {
 			chrome.storage.sync.set({plugin_is_on: false});
 			chrome.browserAction.setIcon({path: {'16': 'icons/off.png'}});
@@ -21,10 +21,11 @@ chrome.browserAction.onClicked.addListener((tab) => {
 
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
+		console.log("sending request");
 		if (request.contentScriptQuery == 'annotateText') {
 			$.ajax({
 				method: "POST",
-				url: 'https://researchy-api--kevinlu2.repl.co/',
+				url: 'http://157.245.229.128:5001/',
 				data: JSON.stringify(request), 
 				contentType: "application/json; charset=UTF-8",
 				success: function(data, status, xhr) {

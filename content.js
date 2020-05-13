@@ -33,10 +33,13 @@ $(document).ready(() => {
 		chrome.runtime.sendMessage(
 			{contentScriptQuery: "annotateText", text: doc_html, url: document.location},
 			annotated => {
+				console.log("responded");
+				console.log(annotated[0]);
 				if (annotated[1] == 'success') {
-					annotatedDoc = annotated[0];
+					var obj = annotated[0];
+					var annotateDoc = obj["annotated_tree"];
 					var domparser = new DOMParser();
-					var annotatedDocDOM = domparser.parseFromString(annotated[0], 'text/html');
+					var annotatedDocDOM = domparser.parseFromString(annotateDoc, 'text/html');
 					annotatedDocDOM.getElementsByTagName('head')[0].insertAdjacentHTML('beforeend', 
 						`
 						<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -44,12 +47,18 @@ $(document).ready(() => {
 						html {
 							font-family: 'Literata', serif;
 							display: flex;
-							align-items: center;
 							line-height: 1.75;
+							padding: 2rem;
 						}
 
 						body {
-							padding: 2rem 30rem;
+							max-width: 800px;
+							margin: auto;
+							text-align: justify;
+						}
+
+						title {
+							text-align: left;
 						}
 
 						p, annotated, li {
@@ -60,10 +69,13 @@ $(document).ready(() => {
 							background-color: pink;
 						}
 
+						cancer, organ, cell, tissue, gene_or_gene_product, simple_chemical, immaterial_anatomical_entity {
+						            background-color: aquamarine;
+						        }
+
 						term {
 							font-weight: bold;
 						}
-						</style>
 						</style>`);
 					annotatedDoc = annotatedDocDOM.documentElement.outerHTML
 				}
