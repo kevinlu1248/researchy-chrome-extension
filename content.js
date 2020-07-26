@@ -47,17 +47,17 @@ var annotatedDoc = "";
 var annotationIsCurrentlyOn = false;
 
 $(document).ready(() => {
-
     const DOC_HTML = "<html>" + $("html").html() + "</html>";
 
-    $("html")
-        .prepend(`<iframe id="annotatedHTML" style="width: 100vw; height: 100vh; display: none; background-color: white;"></iframe>`);
-    const ANNOTATED_IFRAME = $("iframe#annotatedHTML")
+    $("html").prepend(
+        `<iframe id="annotatedHTML" style="width: 100vw; height: 100vh; display: none; background-color: white;"></iframe>`
+    );
+    const ANNOTATED_IFRAME = $("iframe#annotatedHTML");
     ANNOTATED_IFRAME.contents().find("head").html(READER_CSS);
     ANNOTATED_IFRAME.contents().find("body").html("Loading...");
 
     var setDocToAnnotated = (toAnnotated) => {
-        ANNOTATED_IFRAME.css('display', toAnnotated ? 'inline-block' : 'none');
+        ANNOTATED_IFRAME.css("display", toAnnotated ? "inline-block" : "none");
     };
 
     var updatePageMode = () => {
@@ -76,7 +76,7 @@ $(document).ready(() => {
     });
 
     console.log(document.domain);
-    
+
     console.log("sending message to background.js");
     chrome.runtime.sendMessage(
         {
@@ -84,9 +84,10 @@ $(document).ready(() => {
             text: DOC_HTML,
             url: document.location,
         },
-        annotated => {
+        (annotated) => {
             console.log("responded");
             if (annotated[1] == "success") {
+                // initializing variables
                 var obj = annotated[0];
                 var annotateDoc = obj["annotated_tree"];
                 var domparser = new DOMParser();
@@ -94,47 +95,11 @@ $(document).ready(() => {
                     annotateDoc,
                     "text/html"
                 );
-      //           annotatedDocDOM
-      //               .getElementsByTagName("head")[0]
-      //               .insertAdjacentHTML(
-      //                   "beforeend",
-      //                   `
-						// <link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-						// <style>
-						// html {
-						// 	font-family: 'Literata', serif;
-						// 	display: flex;
-						// 	line-height: 1.75;
-						// 	padding: 2rem;
-						// }
+                var annotatedDocBody = annotatedDocDOM.getElementsByTagName(
+                    "body"
+                )[0].innerHTML;
 
-						// body {
-						// 	max-width: 800px;
-						// 	margin: auto;
-						// 	text-align: justify;
-						// }
-
-						// title {
-						// 	text-align: left;
-						// }
-
-						// p, annotated, li {
-						// 	font-size: 20px;
-						// }
-
-						// gpe, cardinal, percentage, org {
-						// 	background-color: pink;
-						// }
-
-						// cancer, organ, cell, tissue, gene_or_gene_product, simple_chemical, immaterial_anatomical_entity {
-						//             background-color: aquamarine;
-						//         }
-
-						// term {
-						// 	font-weight: bold;
-						// }
-						// </style>`
-      //               );
+                // interpreting grade level
                 var reading_level = "";
                 if (30 < obj.reading_ease < 50) {
                     reading_level = "College";
@@ -143,38 +108,21 @@ $(document).ready(() => {
                 } else {
                     reading_level = `Grade ${Math.round(obj.grade_level)}`;
                 }
-                annotatedDocDOM
-                    .getElementsByTagName("body")[0]
-                    .insertAdjacentHTML(
-                        "beforeBegin",
-                        `
+                annotatedDocBody =
+                    `
 						<div style="text-align: right;position: fixed;top: 1rem;right: 1rem;">
 						Word count: ${obj.word_count} (${Math.round(
-                            obj.word_count / 250
-                        )} minute read)<br>
+                        obj.word_count / 250
+                    )} minute read)<br>
 						${reading_level} level reading
 						</div>
-						`
-                    );
+						` + annotatedDocBody;
 
+                // updating string
                 $("iframe#annotatedHTML")
                     .contents()
                     .find("body")
-                    .html(
-                        `
-						<div style="text-align: right;position: fixed;top: 1rem;right: 1rem;">
-						Word count: ${obj.word_count} (${Math.round(
-                            obj.word_count / 250
-                        )} minute read)<br>
-						${reading_level} level reading
-						</div>
-						`
-                    );
-                console.log(
-                    annotatedDocDOM.getElementsByTagName("body")[0].innerHTML
-                );
-                $("iframe#annotatedHTML").contents().find('body').append(annotatedDocDOM.getElementsByTagName('body')[0].innerHTML);
-                annotatedDoc = annotatedDocDOM.documentElement.outerHTML;
+                    .html(annotatedDocBody);
             }
             updatePageMode();
         }
