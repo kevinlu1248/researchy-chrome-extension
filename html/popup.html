@@ -6,10 +6,10 @@
             rel="stylesheet"
         />
         <!-- Bootstrap core CSS -->
-        <!-- <link
+        <link
             href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
             rel="stylesheet"
-        /> -->
+        />
         <!-- Material Design Bootstrap -->
         <!-- <link
             href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css"
@@ -23,12 +23,12 @@
         />
 
         <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="/js/materialize.min.js"></script>
 
         <style>
             body {
                 width: 180px;
-                height: 50px;
+                height: auto;
             }
             button {
                 background-color: white;
@@ -67,7 +67,14 @@
                 power_settings_new
             </span>
         </button> -->
-
+        <button
+            class="waves-effect waves-light btn text-primary py-1 w-100 z-depth-0 transparent"
+            style="max-height: none; height: auto;"
+        >
+            <span class="material-icons display-1 light-blue-text py-0">
+                power_settings_new
+            </span>
+        </button>
         <div
             class="text-center my-auto mx-auto d-flex justify-content-between pb-2 px-3"
         >
@@ -83,13 +90,14 @@
             >
                 Annotate
             </button> -->
-            <a class="waves-effect waves-light btn text-primary py-1 w-100"
-                ><span class="material-icons text-primary display-1">
-                    power_settings_new
-                </span></a
+
+            <button class="waves-effect waves-light btn light-blue">
+                Annotate
+            </button>
+            <button
+                type="button"
+                class="waves-effect waves-light btn py-1 px-0 mx-1 light-blue"
             >
-            <a class="waves-effect waves-light btn">Annotate </a>
-            <button type="button" class="btn btn-link py-1 px-0 mx-1">
                 <span class="material-icons my-0 d-flex">
                     settings
                 </span>
