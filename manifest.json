@@ -3,11 +3,13 @@
     "name": "Researchy",
     "version": "0.0.0.1",
     "description": "A simple Chrome extension for making pages readable and auto-highlighting and bolding key terms. Press the icon to turn it on and reload your page.",
-    // "browser_action": {
-    //     "default_icon": {
-    //         "16": "icons/off.png"
-    //     }
-    // },
+    "browser_action": {
+        "default_popup": "html/popup.html",
+        "default_title": "Researchy Chrome Extension",
+        "default_icon": {
+            "16": "icons/off.png"
+        }
+    },
     "permissions": ["storage", "http://*/", "https://*/"],
     "content_scripts": [
         {
@@ -16,12 +18,7 @@
             "css": ["css/hideScrollbar.css"]
         }
     ],
-    "page_action": {
-        "default_popup": "popup.html",
-        "default_icon": {
-            "16": "icons/off.png"
-        }
-    },
+    "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/**; object-src 'self'",
     "background": {
         "scripts": ["jquery.min.js", "background.js"]
     }
