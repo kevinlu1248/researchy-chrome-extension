@@ -2,7 +2,7 @@
 // Special thanks to FA for the two icons
 
 chrome.runtime.onInstalled.addListener(function () {
-	chrome.storage.sync.set({ plugin_is_on: false });
+	chrome.storage.sync.set({ plugin_is_on: false, include_list: [] });
 });
 
 // chrome.browserAction.onClicked.addListener((tab) => {
@@ -24,20 +24,20 @@ chrome.runtime.onInstalled.addListener(function () {
 //     });
 // });
 
-chrome.runtime.onInstalled.addListener(() => {
-	chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
-		chrome.declarativeContent.onPageChanged.addRules([
-			{
-				conditions: [
-					new chrome.declarativeContent.PageStateMatcher({
-						pageUrl: { hostEquals: "developer.chrome.com" },
-					}),
-				],
-				actions: [new chrome.declarativeContent.ShowPageAction()],
-			},
-		]);
-	});
-});
+// chrome.runtime.onInstalled.addListener(() => {
+// 	chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
+// 		chrome.declarativeContent.onPageChanged.addRules([
+// 			{
+// 				conditions: [
+// 					new chrome.declarativeContent.PageStateMatcher({
+// 						pageUrl: { hostEquals: "developer.chrome.com" },
+// 					}),
+// 				],
+// 				actions: [new chrome.declarativeContent.ShowPageAction()],
+// 			},
+// 		]);
+// 	});
+// });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	console.log("sending request");
@@ -62,5 +62,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 		});
 
 		return true;
+	} else if (request.contentScriptQuery == "updateTabStatus") {
+		alert("received");
 	}
 });

@@ -10,11 +10,6 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
             rel="stylesheet"
         />
-        <!-- Material Design Bootstrap -->
-        <!-- <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css"
-            rel="stylesheet"
-        /> -->
 
         <!-- Compiled and minified CSS -->
         <link
@@ -27,7 +22,7 @@
 
         <style>
             body {
-                width: 180px;
+                width: 200px;
                 height: auto;
             }
             button {
@@ -37,66 +32,35 @@
         </style>
     </head>
     <body>
-        <!-- <button class="btn btn-link text-primary py-1 w-100">
-            <span class="material-icons text-primary display-1">
-                power_settings_new
-            </span>
-        </button>
-
-        <div
-            class="text-center my-auto mx-auto d-flex justify-content-between pb-2 px-3"
-        >
-            <button
-                type="button"
-                class="btn btn-primary w-auto py-1 px-3 mx-0"
-                data-toggle="button"
-                aria-pressed="false"
-                autocomplete="off"
-            >
-                Annotate
-            </button>
-            <button type="button" class="btn btn-link py-1 px-0 mx-1">
-                <span class="material-icons my-0 d-flex">
-                    settings
-                </span>
-            </button>
-        </div>
-
-        <button class="btn btn-link text-primary py-1 w-100">
-            <span class="material-icons text-primary display-1">
-                power_settings_new
-            </span>
-        </button> -->
         <button
-            class="waves-effect waves-light btn text-primary py-1 w-100 z-depth-0 transparent"
-            style="max-height: none; height: auto;"
+            id="power-button"
+            class="waves-effect waves-light btn py-1 w-100 z-depth-0 transparent"
+            style="
+                max-height: none;
+                height: auto;
+                transition: color 0.3s linear;
+            "
+            toggle="on"
         >
-            <span class="material-icons display-1 light-blue-text py-0">
+            <span class="material-icons display-1 py-0">
                 power_settings_new
             </span>
         </button>
         <div
-            class="text-center my-auto mx-auto d-flex justify-content-between pb-2 px-3"
+            class="text-center my-auto mx-auto d-flex justify-content-between pb-3 px-3"
         >
-            <!-- <button type="button" class="btn btn-light py-1 px-2">
-                Annotate
-            </button> -->
-            <!-- <button
-                type="button"
-                class="btn btn-primary w-auto py-1 px-3 mx-0"
-                data-toggle="button"
-                aria-pressed="false"
-                autocomplete="off"
+            <button
+                id="annotate-button"
+                class="waves-effect waves-light btn light-blue"
             >
-                Annotate
-            </button> -->
-
-            <button class="waves-effect waves-light btn light-blue">
-                Annotate
+                Annotate&nbsp;<i class="material-icons right mx-0 py-0">
+                    create
+                </i>
             </button>
             <button
+                id="settings-button"
                 type="button"
-                class="waves-effect waves-light btn py-1 px-0 mx-1 light-blue"
+                class="waves-effect waves-light btn py-1 px-2 mx-0 light-blue"
             >
                 <span class="material-icons my-0 d-flex">
                     settings
@@ -104,13 +68,6 @@
             </button>
         </div>
 
-        <!-- JQuery -->
-        <!-- <script src="/jquery.min.js"></script> -->
-        <!-- Bootstrap tooltips -->
-        <!-- <script src="/js/popper.min.js"></script> -->
-        <!-- Bootstrap core JavaScript -->
-        <!-- <script src="/js/bootstrap.min.js"></script> -->
-        <!-- MDB core JavaScript -->
-        <!-- <script src="/js/mdb.min.js"></script> -->
+        <script src="/js/popup.js"></script>
     </body>
 </html>
