@@ -78,7 +78,6 @@ chrome.tabs.query({ active: true }, (tabs) => {
 	console.log(url.host + url.pathname);
 	chrome.storage.sync.get("include_list", (res) => {
 		var doSetToOn = res.include_list.includes(urlName);
-		updateAnnotateColor(doSetToOn);
 	});
 });
 
@@ -90,4 +89,5 @@ annotateButton.addEventListener("click", () => {
 		console.log(res.include_list);
 	});
 	updateBackgroundTabStatus();
+	// TODO: Add load button
 });

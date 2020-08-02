@@ -64,16 +64,6 @@ $(document).ready(() => {
 		}
 	};
 
-	// var updatePageMode = (doSetToAnnotated) => {
-	// 	chrome.storage.sync.get(["plugin_is_on"], (data) => {
-	// 		console.log("Updating: setting plugin to " + data.plugin_is_on);
-	// 		setDocToAnnotated(data.plugin_is_on);
-	// 		if (data.plugin_is_on) {
-	// 			window.scrollTo(0, 0);
-	// 		}
-	// 	});
-	// };
-
 	var updatePageMode = () => {
 		chrome.storage.sync.get(["include_list", "plugin_is_on"], (res) => {
 			var toAnnotated =
