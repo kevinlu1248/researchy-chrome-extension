@@ -58,19 +58,34 @@ $(document).ready(() => {
 
 	var setDocToAnnotated = (toAnnotated) => {
 		ANNOTATED_IFRAME.css("display", toAnnotated ? "inline-block" : "none");
+		$("body").css("display", !toAnnotated ? "inline-block" : "none");
+		if (toAnnotated) {
+			window.scrollTo(0, 0);
+		}
 	};
 
+	// var updatePageMode = (doSetToAnnotated) => {
+	// 	chrome.storage.sync.get(["plugin_is_on"], (data) => {
+	// 		console.log("Updating: setting plugin to " + data.plugin_is_on);
+	// 		setDocToAnnotated(data.plugin_is_on);
+	// 		if (data.plugin_is_on) {
+	// 			window.scrollTo(0, 0);
+	// 		}
+	// 	});
+	// };
+
 	var updatePageMode = () => {
-		chrome.storage.sync.get(["plugin_is_on"], (data) => {
-			console.log("Updating: setting plugin to " + data.plugin_is_on);
-			setDocToAnnotated(data.plugin_is_on);
-			if (data.plugin_is_on) {
-				window.scrollTo(0, 0);
-			}
+		chrome.storage.sync.get(["include_list", "plugin_is_on"], (res) => {
+			var toAnnotated =
+				res.include_list.includes(
+					window.location.host + window.location.pathname
+				) && res.plugin_is_on;
+			setDocToAnnotated(toAnnotated);
 		});
 	};
 
 	chrome.runtime.onMessage.addListener((message, callback) => {
+		console.log(message);
 		switch (message.action) {
 			case "updatePageMode":
 				updatePageMode();

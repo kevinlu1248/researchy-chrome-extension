@@ -1,7 +1,7 @@
 "use strict";
 
 // Message background.js regarding changes
-var updateBackgroundUpdateTabStatus = () => {
+var updateBackgroundTabStatus = () => {
 	console.log("sending message");
 	chrome.runtime.sendMessage({ contentScriptQuery: "updateTabStatus" });
 };
@@ -34,7 +34,7 @@ powerButton.addEventListener("click", () => {
 	var doSetToOn = !powerButton.classList.contains("light-blue-text");
 	updatePowerColor(doSetToOn);
 	updatePowerSettings(doSetToOn);
-	updateBackgroundUpdateTabStatus();
+	updateBackgroundTabStatus();
 });
 
 // Annotate button ------------------------------------------------------------------------
@@ -72,16 +72,6 @@ var updateAnnotateColor = (doSetToOn) => {
 	}
 };
 
-var getDoAnnotateFromStorage = () => {
-	// get if the url is in the link
-	var output;
-	chrome.storage.sync.get("include_list", (res) => {
-		console.log(urlName, res.include_list);
-		output = res.include_list.includes(urlName);
-	});
-	return output;
-};
-
 chrome.tabs.query({ active: true }, (tabs) => {
 	var url = new URL(tabs[0].url);
 	urlName = url.host + url.pathname; // eg.google.com/search;
@@ -99,5 +89,5 @@ annotateButton.addEventListener("click", () => {
 	chrome.storage.sync.get("include_list", (res) => {
 		console.log(res.include_list);
 	});
-	updateBackgroundUpdateTabStatus();
+	updateBackgroundTabStatus();
 });

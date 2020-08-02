@@ -1,5 +1,5 @@
 "use strict";
-// Special thanks to FA for the two icons
+console.log("test");
 
 chrome.runtime.onInstalled.addListener(function () {
 	chrome.storage.sync.set({ plugin_is_on: false, include_list: [] });
@@ -40,7 +40,7 @@ chrome.runtime.onInstalled.addListener(function () {
 // });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	console.log("sending request");
+	console.log("sending request with request", request);
 	if (request.contentScriptQuery == "annotateText") {
 		$.ajax({
 			method: "POST",
@@ -68,7 +68,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 			chrome.tabs.query({}, function (tabs) {
 				var message = {
 					action: "updatePageMode",
-					include_list: include_list,
+					include_list: res.include_list,
 				};
 				for (var i = 0; i < tabs.length; ++i) {
 					chrome.tabs.sendMessage(tabs[i].id, message);
