@@ -6,12 +6,12 @@ chrome.runtime.onInstalled.addListener(function () {
 });
 
 // chrome.browserAction.onClicked.addListener((tab) => {
-//     chrome.tabs.query({}, function (tabs) {
-//         var message = { action: "updatePageMode" };
-//         for (var i = 0; i < tabs.length; ++i) {
-//             chrome.tabs.sendMessage(tabs[i].id, message);
-//         }
-//     });
+// chrome.tabs.query({}, function (tabs) {
+//     var message = { action: "updatePageMode" };
+//     for (var i = 0; i < tabs.length; ++i) {
+//         chrome.tabs.sendMessage(tabs[i].id, message);
+//     }
+// });
 //     chrome.storage.sync.get(["plugin_is_on"], function (data) {
 //         // alert(data.plugin_is_on)
 //         if (data.plugin_is_on === true) {
@@ -63,6 +63,17 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 		return true;
 	} else if (request.contentScriptQuery == "updateTabStatus") {
-		alert("received");
+		// message all tabs to update page
+		chrome.storage.sync.get("include_list", (res) => {
+			chrome.tabs.query({}, function (tabs) {
+				var message = {
+					action: "updatePageMode",
+					include_list: include_list,
+				};
+				for (var i = 0; i < tabs.length; ++i) {
+					chrome.tabs.sendMessage(tabs[i].id, message);
+				}
+			});
+		});
 	}
 });

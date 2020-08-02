@@ -10,7 +10,7 @@
             "16": "icons/icon16.png"
         }
     },
-    "permissions": ["storage", "http://*/", "https://*/"],
+    "permissions": ["storage", "tabs", "http://*/", "https://*/"],
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
