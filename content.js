@@ -8,7 +8,7 @@ const READER_CSS = `
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 	html {
-		font-family: 'Litauto_format_on_saveerata', serif;
+		font-family: 'Literata', serif;
 		display: flex;
 		line-height: 1.75;
 		padding: 2rem;
@@ -48,6 +48,7 @@ var annotationIsCurrentlyOn = false;
 
 $(document).ready(() => {
 	const DOC_HTML = "<html>" + $("html").html() + "</html>";
+	const BODY_CSS_DISPLAY = $("body").css("display");
 
 	$("html").prepend(
 		`<iframe id="annotatedHTML" style="width: 100vw; height: 100vh; display: none; background-color: white;"></iframe>`
@@ -58,7 +59,7 @@ $(document).ready(() => {
 
 	var setDocToAnnotated = (toAnnotated) => {
 		ANNOTATED_IFRAME.css("display", toAnnotated ? "inline-block" : "none");
-		$("body").css("display", !toAnnotated ? "inline-block" : "none");
+		$("body").css("display", !toAnnotated ? BODY_CSS_DISPLAY : "none");
 		if (toAnnotated) {
 			window.scrollTo(0, 0);
 		}
@@ -134,8 +135,10 @@ $(document).ready(() => {
 					.find("body")
 					.html(annotatedDocBody);
 			}
+
+			// For making reader mode more comprehensive
+
 			updatePageMode();
 		}
 	);
-	// }
 });

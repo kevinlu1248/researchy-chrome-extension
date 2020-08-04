@@ -10,12 +10,12 @@
             "16": "icons/icon16.png"
         }
     },
-    "permissions": ["storage", "tabs", "http://*/", "https://*/"],
+    "permissions": ["storage", "tabs", "http://*/", "https://*/", "webRequest"],
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["jquery.min.js", "content.js"],
-            "css": ["css/hideScrollbar.css"]
+            "js": ["jquery.min.js", "content.js", "sidebar.js"],
+            "css": ["css/hideScrollbar.css", "css/sidebar.css"]
         }
     ],
     "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/**; object-src 'self'",
