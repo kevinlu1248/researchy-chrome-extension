@@ -7,31 +7,42 @@ $(document).ready(() => {
 		<button id="activateSidebarButton">
 			&#9658;
 		</button>
-		<iframe id="researchySidePane"></iframe> 
+		<iframe id="researchySidebar"></iframe> 
+		<button id="deactivateSidebarButton">
+			&#9668;
+		</button>
 	`);
 
 	chrome.runtime.sendMessage(
 		{ contentScriptQuery: "readFile", fileName: "html/sidebar.html" },
 		(html) => {
 			// console.log(html);
-			var doc = $("#researchySidePane")[0].contentWindow.document;
+			var doc = $("#researchySidebar")[0].contentWindow.document;
 			doc.open();
 			doc.write(html);
 			doc.close();
 		}
 	);
 
-	// var doc = $("#researchySidePane")
-	// 	.contents()
-	// 	.find("head")
-	// 	.html(SIDE_BAR_HEAD);
-
-	// var doc = $("#researchySidePane")
-	// 	.contents()
-	// 	.find("body")
-	// 	.html(SIDE_BAR_BODY);
-
 	$("#activateSidebarButton").click(() => {
-		console.log("clicked");
+		$("#researchySidebar, #annotatedHTML").addClass("sidebarActive");
+	});
+
+	// console.log($("#researchySidebar").contents("#deactivateSidebarButton"));
+	// $("#researchySidebar")
+	// 	.contents("#deactivateSidebarButton")
+	// 	.click(() => {
+	// 		$("#researchySidebar, #annotatedHTML").removeClass("sidebarActive");
+	// 	});
+
+	window.addEventListener("message", function (event) {
+		console.log("Received message ", event.data);
+		switch (event.data.researchyAction) {
+			case "deactivateSidebarButton":
+				$("#researchySidebar, #annotatedHTML").removeClass(
+					"sidebarActive"
+				);
+				break;
+		}
 	});
 });

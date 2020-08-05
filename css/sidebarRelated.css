@@ -1,0 +1,63 @@
+#activateSidebarButton {
+	z-index: 2147483600;
+	cursor: pointer;
+	background-color: white;
+	border: none;
+	position: fixed;
+	font-size: 1.75rem;
+	margin-left: 0.5rem;
+	margin-top: 0.5rem;
+	border-radius: 50%;
+	width: 3rem;
+	height: 3rem;
+	box-shadow: #3338 0px 0px 10px;
+}
+
+#deactivateSidebarButton {
+	z-index: 2147483600;
+	cursor: pointer;
+	background-color: white;
+	border: none;
+	position: fixed;
+	font-size: 1.75rem;
+	margin-left: 40rem;
+	margin-top: 0.5rem;
+	border-radius: 50%;
+	width: 3rem;
+	height: 3rem;
+	box-shadow: #3338 0px 0px 10px;
+}
+
+#researchySidebar {
+	z-index: 2147483601;
+	position: fixed;
+	/*max-width: 500px;*/
+	width: 25vw;
+	height: 100vh;
+	left: 0;
+	top: 0;
+	background-color: white;
+	border: none;
+	transition: margin-left 0.3s ease-in-out, box-shadow 0.3s linear;
+	margin-left: -25vw;
+}
+
+#researchySidebar.sidebarActive {
+	margin-left: 0;
+	box-shadow: #3338 0 0 10px;
+}
+
+#annotatedHTML {
+	margin-left: 0;
+	width: 100vw;
+	height: 100vh;
+	display: none;
+	background-color: white;
+	border: none;
+	transition: width 0.3s ease-in-out, margin-left 0.3s ease-in-out;
+}
+
+#annotatedHTML.sidebarActive {
+	margin-left: 25vw;
+	width: 75vw;
+}

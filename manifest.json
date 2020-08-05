@@ -15,11 +15,12 @@
         {
             "matches": ["<all_urls>"],
             "js": ["jquery.min.js", "content.js", "sidebar.js"],
-            "css": ["css/hideScrollbar.css", "css/sidebar.css"]
+            "css": ["css/hideScrollbar.css", "css/sidebarRelated.css"]
         }
     ],
     "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/**; object-src 'self'",
     "background": {
         "scripts": ["jquery.min.js", "background.js"]
-    }
+    },
+    "web_accessible_resources": ["html/sidebar.html", "**.js", "**.css"]
 }

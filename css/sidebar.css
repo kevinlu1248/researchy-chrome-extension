@@ -1,25 +1,74 @@
-#activateSidebarButton {
-	z-index: 99;
-	cursor: pointer;
-	background-color: white;
-	border: none;
-	position: fixed;
-	font-size: 1.75rem;
-	margin-left: 0.5rem;
-	margin-top: 0.5rem;
-	border-radius: 50%;
-	width: 3rem;
-	height: 3rem;
-	box-shadow: #333 0px 0px 5px;
+body {
+	margin: 0;
 }
 
-#researchySidePane {
-	z-index: 100;
-	position: fixed;
-	max-width: 500px;
-	width: 25vw;
+html::-webkit-scrollbar {
+	width: 0px;
+	height: 0px;
+}
+
+.waves-effect.waves-blue .waves-ripple {
+	/* The alpha value allows the text and background color
+   of the button to still show through. */
+	background-color: rgba(144, 202, 249, 0.65);
+}
+
+#filenameInput {
+	margin-bottom: 0;
+	/*margin-top: 0.5rem;*/
+	/*border: none;*/
+}
+
+#filenameInput:focus {
+	border-color: #90caf9;
+}
+
+#topbar {
+	/*margin-top: 0.5rem;
+	margin-bottom: 0.25rem;
+*/
+	display: flex;
+}
+
+#editor {
+	border: none;
 	height: 100vh;
-	left: 0;
-	top: 0;
-	background-color: white;
+	height: auto;
+	flex-grow: 1;
+}
+
+.ql-toolbar.ql-snow {
+	border: none;
+}
+
+.ql-editor::-webkit-scrollbar {
+	width: 0px;
+	height: 0px;
+}
+
+.ql-editor {
+	font-family: "Literata", serif;
+}
+
+#editorContainer {
+	flex-flow: column;
+	height: 100vh;
+	display: flex;
+	padding: 0.25rem;
+}
+
+.ql-editor p,
+.ql-editor ol,
+.ql-editor ul,
+.ql-editor pre,
+.ql-editor blockquote {
+	font-size: 1.25rem;
+}
+
+.ql-snow .ql-editor h1 {
+	font-size: 2.5rem;
+}
+
+.ql-snow .ql-editor h2 {
+	font-size: 2rem;
 }

@@ -51,7 +51,7 @@ $(document).ready(() => {
 	const BODY_CSS_DISPLAY = $("body").css("display");
 
 	$("html").prepend(
-		`<iframe id="annotatedHTML" style="width: 100vw; height: 100vh; display: none; background-color: white;"></iframe>`
+		`<iframe id="annotatedHTML" style="transform: 0.5s ease-in-out width, 0.5s ease-in-out margin-left;"></iframe>`
 	);
 	const ANNOTATED_IFRAME = $("iframe#annotatedHTML");
 	ANNOTATED_IFRAME.contents().find("head").html(READER_CSS);
@@ -71,9 +71,12 @@ $(document).ready(() => {
 				res.include_list.includes(
 					window.location.host + window.location.pathname
 				) && res.plugin_is_on;
+			console.log("setting to " + toAnnotated);
 			setDocToAnnotated(toAnnotated);
 		});
 	};
+
+	updatePageMode();
 
 	chrome.runtime.onMessage.addListener((message, callback) => {
 		console.log(message);
@@ -137,8 +140,6 @@ $(document).ready(() => {
 			}
 
 			// For making reader mode more comprehensive
-
-			updatePageMode();
 		}
 	);
 });
