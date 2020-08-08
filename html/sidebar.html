@@ -6,11 +6,11 @@
             href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css"
         />
         <link
-            href="chrome-extension://ehloondkpaeflbcliilagbjffflhfhag/js/quill/quill.snow.css"
+            href="chrome-extension://ojgagjoefdghfmndalbncianoagapbon/modules/quill/quill.snow.css"
             rel="stylesheet"
         />
         <link
-            href="chrome-extension://ehloondkpaeflbcliilagbjffflhfhag/css/sidebar.css"
+            href="chrome-extension://ojgagjoefdghfmndalbncianoagapbon/css/sidebar.css"
             rel="stylesheet"
         />
 
@@ -31,9 +31,170 @@
         />
     </head>
     <body>
+        <div id="fileSystemMenu">
+            <div id="topbar">
+                <a id="newItemButton" class="waves-effect waves-blue btn-flat"
+                    ><i class="material-icons">add</i></a
+                >
+                <div
+                    class="input-field inline"
+                    style="margin: auto; flex-grow: 1; width: auto;"
+                >
+                    Notes
+                </div>
+                <a
+                    id="deactivateFileSystem"
+                    class="waves-effect waves-blue btn-flat"
+                >
+                    <i class="material-icons">chevron_left</i>
+                </a>
+            </div>
+            <div id="foldersMenu">
+                <ul class="collapsible expandable">
+                    <li>
+                        <div class="collapsible-header">
+                            First
+                            <span>
+                                <!-- <a class="waves-effect waves-blue btn-flat">
+                                    <i class="material-icons">more_vert</i>
+                                </a> -->
+
+                                <a
+                                    class="dropdown-trigger waves-effect waves-blue btn-flat"
+                                    data-target="/first"
+                                    ><i class="material-icons">more_vert</i></a
+                                >
+
+                                <ul id="/first" class="dropdown-content">
+                                    <li>
+                                        <a><i class="material-icons">add</i></a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            ><i class="material-icons"
+                                                >create_new_folder</i
+                                            ></a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a
+                                            ><i class="material-icons"
+                                                >edit</i
+                                            ></a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a
+                                            ><i class="material-icons"
+                                                >delete</i
+                                            ></a
+                                        >
+                                    </li>
+                                </ul>
+                            </span>
+                        </div>
+                        <ul class="collapsible-body collapsible expandable">
+                            <li>
+                                <div class="collapsible-header">
+                                    Second
+                                    <span>
+                                        <a
+                                            class="waves-effect waves-blue btn-flat"
+                                        >
+                                            <i class="material-icons">add</i>
+                                        </a>
+                                        <a
+                                            class="waves-effect waves-blue btn-flat"
+                                        >
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                        <a
+                                            class="waves-effect waves-blue btn-flat"
+                                        >
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <ul
+                                    class="collapsible-body collapsible expandable"
+                                >
+                                    <li class="fileItem">File 2</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div class="collapsible-header">
+                                    Third
+                                </div>
+                                <ul
+                                    class="collapsible-body collapsible expandable"
+                                >
+                                    <li class="fileItem">File 3</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="collapsible-header">
+                            Second
+                        </div>
+                        <ul class="collapsible-body collapsible expandable">
+                            <li class="fileItem">
+                                File 1
+                                <span>
+                                    <a class="waves-effect waves-blue btn-flat">
+                                        <i class="material-icons">delete</i>
+                                    </a>
+                                </span>
+                            </li>
+                            <li class="fileItem">File 2</li>
+                            <li class="fileItem">File 3</li>
+                            <li>
+                                <div class="collapsible-header">
+                                    First
+                                </div>
+                                <ul
+                                    class="collapsible-body collapsible expandable"
+                                >
+                                    <li class="fileItem">File 2</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="collapsible-header">
+                            Third
+                        </div>
+                        <ul class="collapsible-body collapsible expandable">
+                            <li class="fileItem">
+                                File 3
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="preloaderContainer">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="editorContainer">
             <div id="topbar">
-                <a class="waves-effect waves-blue btn-flat">&#9776;</a>
+                <a
+                    id="activateFileSystem"
+                    class="waves-effect waves-blue btn-flat"
+                    ><i class="material-icons">menu</i></a
+                >
                 <div
                     class="input-field inline"
                     style="
@@ -71,43 +232,7 @@
         </div>
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
-        <script src="chrome-extension://ehloondkpaeflbcliilagbjffflhfhag/js/quill/quill.min.js"></script>
-        <script>
-            var quill = new Quill("#editor", {
-                modules: {
-                    toolbar: [
-                        [{ header: 1 }, { header: 2 }],
-                        ["bold", "italic", "underline", "strike"],
-                        [{ list: "ordered" }, { list: "bullet" }],
-                        [{ script: "sub" }, { script: "super" }],
-                        ["blockquote", "code-block", "formula"],
-                        ["link", "image", "video"],
-                        [{ color: [] }, { background: [] }],
-                    ],
-                },
-                scrollingContainers: {
-                    "overflow-y": "auto",
-                },
-                theme: "snow",
-            });
-
-            [
-                [{ header: 1 }, { header: 2 }],
-                ["bold", "italic", "underline", "strike"],
-                [{ list: "ordered" }, { list: "bullet" }],
-                [
-                    { script: "sub" },
-                    { script: "super" },
-                    "blockquote",
-                    "code-block",
-                    "formula",
-                ],
-                [{ color: [] }, { background: [] }],
-            ];
-
-            document.getElementById("deactivateSidebarButton").onclick = () => {
-                parent.postMessage({"researchyAction": "deactivateSidebarButton"});
-            }
-        </script>
+        <script src="chrome-extension://ojgagjoefdghfmndalbncianoagapbon/modules/quill/quill.min.js"></script>
+        <script src="chrome-extension://ojgagjoefdghfmndalbncianoagapbon/js/sidebarScript.js"></script>
     </body>
 </html>

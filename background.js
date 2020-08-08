@@ -3,6 +3,15 @@ const API_URL = "http://64.225.115.179/api";
 
 chrome.runtime.onInstalled.addListener(function () {
 	chrome.storage.sync.set({ plugin_is_on: false, include_list: [] });
+	function displayPath(fileEntry) {
+		chrome.fileSystem.getDisplayPath(fileEntry, function (path) {
+			console.log(path);
+		});
+	}
+
+	chrome.fileSystem.chooseEntry((entry, fileEntries) => {
+		console.log(entry, fileEntries);
+	});
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -46,6 +55,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 			url: chrome.extension.getURL(request.fileName),
 			dataType: "html",
 			success: sendResponse,
+		});
+		return true;
+	} else if (request.contentScriptQuery == "getAuthToken") {
+		// chrome.identity.getAuthToken((token, scopes) => {
+		// 	sendResponse(token, scopes);
+		// });
+		chrome.identity.getProfileUserInfo((userinfo) => {
+			sendResponse(userinfo);
 		});
 		return true;
 	}

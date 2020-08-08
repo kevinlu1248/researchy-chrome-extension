@@ -6,6 +6,9 @@ const EXCLUDE = ["www.google.com"];
 const INCLUDE = ["www.ncbi.nlm.nih.gov", "www.wikipedia.org", "example.com"];
 const READER_CSS = `
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="${chrome.runtime.getURL(
+	"modules/materialize/css/materialize.min.css"
+)}" rel="stylesheet">
 <style>
 	html {
 		font-family: 'Literata', serif;
@@ -41,6 +44,20 @@ const READER_CSS = `
 	}
 </style>
 `;
+const SPINNER_HTML = `
+<div class="preloader-wrapper big active">
+    <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+            <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+            <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+            <div class="circle"></div>
+        </div>
+    </div>
+</div>`;
 
 var originalDoc = "<html>" + $("html").html() + "</html>";
 var annotatedDoc = "";
@@ -55,7 +72,7 @@ $(document).ready(() => {
 	);
 	const ANNOTATED_IFRAME = $("iframe#annotatedHTML");
 	ANNOTATED_IFRAME.contents().find("head").html(READER_CSS);
-	ANNOTATED_IFRAME.contents().find("body").html("Loading...");
+	ANNOTATED_IFRAME.contents().find("body").html(SPINNER_HTML);
 
 	var setDocToAnnotated = (toAnnotated) => {
 		ANNOTATED_IFRAME.css("display", toAnnotated ? "inline-block" : "none");

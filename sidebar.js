@@ -7,16 +7,12 @@ $(document).ready(() => {
 		<button id="activateSidebarButton">
 			&#9658;
 		</button>
-		<iframe id="researchySidebar"></iframe> 
-		<button id="deactivateSidebarButton">
-			&#9668;
-		</button>
+		<iframe id="researchySidebar"></iframe>
 	`);
 
 	chrome.runtime.sendMessage(
 		{ contentScriptQuery: "readFile", fileName: "html/sidebar.html" },
 		(html) => {
-			// console.log(html);
 			var doc = $("#researchySidebar")[0].contentWindow.document;
 			doc.open();
 			doc.write(html);
@@ -25,23 +21,28 @@ $(document).ready(() => {
 	);
 
 	$("#activateSidebarButton").click(() => {
-		$("#researchySidebar, #annotatedHTML").addClass("sidebarActive");
+		$("#researchySidebar, #annotatedHTML, body").addClass("sidebarActive");
 	});
-
-	// console.log($("#researchySidebar").contents("#deactivateSidebarButton"));
-	// $("#researchySidebar")
-	// 	.contents("#deactivateSidebarButton")
-	// 	.click(() => {
-	// 		$("#researchySidebar, #annotatedHTML").removeClass("sidebarActive");
-	// 	});
 
 	window.addEventListener("message", function (event) {
 		console.log("Received message ", event.data);
 		switch (event.data.researchyAction) {
 			case "deactivateSidebarButton":
-				$("#researchySidebar, #annotatedHTML").removeClass(
+				$("#researchySidebar, #annotatedHTML, body").removeClass(
 					"sidebarActive"
 				);
+				break;
+			case "activateFileSystem":
+				$("#researchySidebar")
+					.contents()
+					.find("#fileSystemMenu")
+					.addClass("fileSystemActive");
+				break;
+			case "deactivateFileSystem":
+				$("#researchySidebar")
+					.contents()
+					.find("#fileSystemMenu")
+					.removeClass("fileSystemActive");
 				break;
 		}
 	});

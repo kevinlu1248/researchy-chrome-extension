@@ -13,21 +13,6 @@
 	box-shadow: #3338 0px 0px 10px;
 }
 
-#deactivateSidebarButton {
-	z-index: 2147483600;
-	cursor: pointer;
-	background-color: white;
-	border: none;
-	position: fixed;
-	font-size: 1.75rem;
-	margin-left: 40rem;
-	margin-top: 0.5rem;
-	border-radius: 50%;
-	width: 3rem;
-	height: 3rem;
-	box-shadow: #3338 0px 0px 10px;
-}
-
 #researchySidebar {
 	z-index: 2147483601;
 	position: fixed;
@@ -54,10 +39,19 @@
 	display: none;
 	background-color: white;
 	border: none;
-	transition: width 0.3s ease-in-out, margin-left 0.3s ease-in-out;
+	transition: width, margin-left 0.3s ease-in-out;
 }
 
 #annotatedHTML.sidebarActive {
+	margin-left: 25vw;
+	width: 75vw;
+}
+
+body {
+	transition: width, margin-left 0.3s ease-in-out;
+}
+
+body.sidebarActive {
 	margin-left: 25vw;
 	width: 75vw;
 }
