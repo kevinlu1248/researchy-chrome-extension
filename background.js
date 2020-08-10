@@ -2,16 +2,54 @@
 const API_URL = "http://64.225.115.179/api";
 
 chrome.runtime.onInstalled.addListener(function () {
-	chrome.storage.sync.set({ plugin_is_on: false, include_list: [] });
+	// add length, contents of files, bibliography
+	// folder and files don't share names
+	// no quotation marks
+	chrome.storage.sync.set({
+		plugin_is_on: false,
+		include_list: [],
+		fileSystem: [
+			{
+				type: "folder",
+				name: "First",
+				contents: [
+					{
+						type: "folder",
+						name: "Second",
+						contents: [{ type: "rtf", name: "File 1" }],
+					},
+					{
+						type: "folder",
+						name: "Third",
+						contents: [{ type: "rtf", name: "File 1" }],
+					},
+				],
+			},
+			{
+				type: "folder",
+				name: "Second",
+				contents: [
+					{ type: "rtf", name: "File 1" },
+					{
+						type: "folder",
+						name: "Third",
+						contents: [{ type: "rtf", name: "File 1" }],
+					},
+				],
+			},
+			{
+				type: "folder",
+				name: "Third",
+				contents: [{ type: "rtf", name: "File 1" }],
+			},
+		],
+		activeFilePath: "Third/File 1",
+	});
 	function displayPath(fileEntry) {
 		chrome.fileSystem.getDisplayPath(fileEntry, function (path) {
 			console.log(path);
 		});
 	}
-
-	chrome.fileSystem.chooseEntry((entry, fileEntries) => {
-		console.log(entry, fileEntries);
-	});
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

@@ -32,7 +32,7 @@ html::-webkit-scrollbar {
 	border: none;
 	height: 100vh;
 	height: auto;
-	flex-grow: 1;
+	/*flex-grow: 1;*/
 }
 
 .ql-toolbar.ql-snow {
@@ -71,6 +71,12 @@ html::-webkit-scrollbar {
 	font-size: 2rem;
 }
 
+#editorPreloaderContainer {
+	margin-bottom: auto;
+	text-align: center;
+	margin-top: 30px;
+}
+
 #fileSystemMenu {
 	height: 100vh;
 	width: 100vw;
@@ -88,7 +94,7 @@ html::-webkit-scrollbar {
 	margin-left: 0;
 }
 
-#preloaderContainer {
+#menuPreloaderContainer {
 	text-align: center;
 	margin-top: 50px;
 }
@@ -133,6 +139,14 @@ html::-webkit-scrollbar {
 	margin: auto;
 	padding: 1rem;
 	display: flex;
+	cursor: pointer;
+	text-transform: none;
+	height: auto !important;
+}
+
+#foldersMenu li.fileItem:focus {
+	/*Files*/
+	background: lightgrey;
 }
 
 #foldersMenu li.fileItem::before {
@@ -140,7 +154,7 @@ html::-webkit-scrollbar {
 	font-family: "Material Icons";
 	content: "\e8d2";
 	font-size: 1.6rem;
-	line-height: 1;
+	line-height: 1 !important;
 	margin-right: 1rem;
 }
 
@@ -172,8 +186,13 @@ html::-webkit-scrollbar {
 	margin-left: auto;
 }
 
-.dropdown-content {
+/*.dropdown-content {
 	width: 60px !important;
 	left: 290px !important;
 	min-width: 0 !important;
+}
+*/
+
+#addItem .material-icons {
+	color: black;
 }

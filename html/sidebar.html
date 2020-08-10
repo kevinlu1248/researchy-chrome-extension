@@ -33,15 +33,38 @@
     <body>
         <div id="fileSystemMenu">
             <div id="topbar">
-                <a id="newItemButton" class="waves-effect waves-blue btn-flat"
+                <!-- <a id="newItemButton" class="waves-effect waves-blue btn-flat"
                     ><i class="material-icons">add</i></a
-                >
+                > -->
+                <span>
+                    <a
+                        class="dropdown-trigger waves-effect waves-blue btn-flat"
+                        href="#"
+                        data-target="addItem"
+                        ><i class="material-icons">more_vert</i></a
+                    >
+
+                    <ul id="addItem" class="dropdown-content">
+                        <li>
+                            <a><i class="material-icons">add</i></a>
+                        </li>
+                        <li>
+                            <a
+                                ><i class="material-icons"
+                                    >create_new_folder</i
+                                ></a
+                            >
+                        </li>
+                    </ul>
+                </span>
+
                 <div
                     class="input-field inline"
                     style="margin: auto; flex-grow: 1; width: auto;"
                 >
                     Notes
                 </div>
+
                 <a
                     id="deactivateFileSystem"
                     class="waves-effect waves-blue btn-flat"
@@ -49,130 +72,8 @@
                     <i class="material-icons">chevron_left</i>
                 </a>
             </div>
-            <div id="foldersMenu">
-                <ul class="collapsible expandable">
-                    <li>
-                        <div class="collapsible-header">
-                            First
-                            <span>
-                                <!-- <a class="waves-effect waves-blue btn-flat">
-                                    <i class="material-icons">more_vert</i>
-                                </a> -->
-
-                                <a
-                                    class="dropdown-trigger waves-effect waves-blue btn-flat"
-                                    data-target="/first"
-                                    ><i class="material-icons">more_vert</i></a
-                                >
-
-                                <ul id="/first" class="dropdown-content">
-                                    <li>
-                                        <a><i class="material-icons">add</i></a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            ><i class="material-icons"
-                                                >create_new_folder</i
-                                            ></a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a
-                                            ><i class="material-icons"
-                                                >edit</i
-                                            ></a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a
-                                            ><i class="material-icons"
-                                                >delete</i
-                                            ></a
-                                        >
-                                    </li>
-                                </ul>
-                            </span>
-                        </div>
-                        <ul class="collapsible-body collapsible expandable">
-                            <li>
-                                <div class="collapsible-header">
-                                    Second
-                                    <span>
-                                        <a
-                                            class="waves-effect waves-blue btn-flat"
-                                        >
-                                            <i class="material-icons">add</i>
-                                        </a>
-                                        <a
-                                            class="waves-effect waves-blue btn-flat"
-                                        >
-                                            <i class="material-icons">edit</i>
-                                        </a>
-                                        <a
-                                            class="waves-effect waves-blue btn-flat"
-                                        >
-                                            <i class="material-icons">delete</i>
-                                        </a>
-                                    </span>
-                                </div>
-                                <ul
-                                    class="collapsible-body collapsible expandable"
-                                >
-                                    <li class="fileItem">File 2</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <div class="collapsible-header">
-                                    Third
-                                </div>
-                                <ul
-                                    class="collapsible-body collapsible expandable"
-                                >
-                                    <li class="fileItem">File 3</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">
-                            Second
-                        </div>
-                        <ul class="collapsible-body collapsible expandable">
-                            <li class="fileItem">
-                                File 1
-                                <span>
-                                    <a class="waves-effect waves-blue btn-flat">
-                                        <i class="material-icons">delete</i>
-                                    </a>
-                                </span>
-                            </li>
-                            <li class="fileItem">File 2</li>
-                            <li class="fileItem">File 3</li>
-                            <li>
-                                <div class="collapsible-header">
-                                    First
-                                </div>
-                                <ul
-                                    class="collapsible-body collapsible expandable"
-                                >
-                                    <li class="fileItem">File 2</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">
-                            Third
-                        </div>
-                        <ul class="collapsible-body collapsible expandable">
-                            <li class="fileItem">
-                                File 3
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div id="preloaderContainer">
+            <div id="foldersMenu"></div>
+            <div id="menuPreloaderContainer" style="display: none;">
                 <div class="preloader-wrapper big active">
                     <div class="spinner-layer spinner-blue-only">
                         <div class="circle-clipper left">
@@ -224,10 +125,21 @@
                     <i class="material-icons">chevron_left</i>
                 </a>
             </div>
-            <div id="editor">
-                <h1>Title</h1>
-                <p>Pursue your scholarly desires...</p>
-                <p><br /></p>
+            <div id="editor"></div>
+            <div id="editorPreloaderContainer">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
