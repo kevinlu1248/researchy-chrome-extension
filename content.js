@@ -96,8 +96,8 @@ $(document).ready(() => {
 	updatePageMode();
 
 	chrome.runtime.onMessage.addListener((message, callback) => {
-		console.log(message);
-		switch (message.action) {
+		// console.log(message);
+		switch (message.researchyAction) {
 			case "updatePageMode":
 				updatePageMode();
 				break;
@@ -108,7 +108,7 @@ $(document).ready(() => {
 	console.log("sending message to background.js");
 	chrome.runtime.sendMessage(
 		{
-			contentScriptQuery: "annotateText",
+			researchyAction: "annotateText",
 			text: DOC_HTML,
 			url: document.location,
 		},

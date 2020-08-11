@@ -34,7 +34,11 @@
     ],
     "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/**; object-src 'self'",
     "background": {
-        "scripts": ["jquery.min.js", "background.js"]
+        "scripts": [
+            "jquery.min.js",
+            "modules/quill/quill.core.js",
+            "background.js"
+        ]
     },
     "web_accessible_resources": ["html/sidebar.html", "**.js", "**.css"],
     "oauth2": {

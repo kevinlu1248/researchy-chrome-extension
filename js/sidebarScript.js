@@ -24,7 +24,11 @@ const DEFAULT_FILE = {
     ],
 };
 
-var activeFilePath, activeFileContents, currentFileStructure;
+var activeFile,
+    activeFileName,
+    activeFilePath,
+    activeFileContents,
+    currentFileStructure;
 
 var Delta = Quill.import("delta");
 var quill = new Quill("#editor", {
@@ -44,20 +48,6 @@ var quill = new Quill("#editor", {
     },
     theme: "snow",
 });
-
-[
-    [{ header: 1 }, { header: 2 }],
-    ["bold", "italic", "underline", "strike"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [
-        { script: "sub" },
-        { script: "super" },
-        "blockquote",
-        "code-block",
-        "formula",
-    ],
-    [{ color: [] }, { background: [] }],
-];
 
 function getContentsFromFilePath(
     filePath,
@@ -102,7 +92,6 @@ function filesToHtml(fileStructure, filePath = "") {
                 </li>
             `);
         } else if (e.type == "folder") {
-            console.log(e);
             // TODO: add feature for determining openness
             html = html.concat(`
                 <li>
@@ -133,7 +122,7 @@ function filesToHtml(fileStructure, filePath = "") {
     return html + `</ul>`;
 }
 
-function refreshFileStructure(fileStructure = null) {
+function refreshFiles(fileStructure = null) {
     document.getElementById("menuPreloaderContainer").style.display = "block";
     if (fileStructure != null) {
         document.getElementById("foldersMenu").innerHTML = filesToHtml(
@@ -149,49 +138,113 @@ function refreshFileStructure(fileStructure = null) {
         document.getElementById("menuPreloaderContainer").style.display =
             "none";
     } else {
-        parent.postMessage({ researchyAction: "getFileStructure" });
+        parent.postMessage({ researchyAction: "getFiles" });
     }
 }
 
 window.addEventListener("message", (event) => {
     // cursor position constant
-    console.log(event, event.data);
-    if (event.data.researchyAction == "refreshFileStructure") {
-        currentFileStructure = event.data.fileSystem;
-        document.getElementById("foldersMenu").innerHTML = filesToHtml(
-            event.data.fileSystem
-        );
-        // reinitiate popups
-        var elems = document.querySelectorAll(".collapsible.expandable");
-        var instances = M.Collapsible.init(elems, {
-            accordion: false,
-            inDuration: 200,
-            outDuration: 200,
-        });
-        activeFilePath = event.data.activeFilePath;
-        activeFile = getContentsFromFilePath(event.data.activeFilePath);
-        activeFileContents = activeFile.contents || DEFAULT_FILE;
-        quill.setContents(activeFileContents);
-        quill.focus();
-        document.getElementById("menuPreloaderContainer").style.display =
-            "none";
-    } else if (event.data.researchyAction == "sidebarActivated") {
-        quill.focus();
+    // console.log(event);
+    switch (event.data.researchyAction) {
+        case "refreshFiles":
+            var storage = event.data.storage;
+            console.log(storage);
+            currentFileStructure = storage.fileSystem;
+            document.getElementById("foldersMenu").innerHTML = filesToHtml(
+                storage.fileSystem
+            );
+            activeFilePath = storage.activeFilePath;
+            activeFile = storage["FILE_" + activeFilePath];
+            activeFileContents = activeFile.contents || DEFAULT_FILE;
+            quill.setContents(activeFileContents);
+
+            // TODO: remember location
+            quill.focus();
+            quill.setSelection(activeFile.selection);
+
+            // reinitiate popups
+            var elems = document.querySelectorAll(".collapsible.expandable");
+            var instances = M.Collapsible.init(elems, {
+                accordion: false,
+                inDuration: 200,
+                outDuration: 200,
+            });
+
+            document.addEventListener("click", (e) => {
+                if (e.target.matches("li.fileItem")) {
+                    document.getElementById(
+                        "editorPreloaderContainer"
+                    ).style.display = "block";
+                    activeFilePath = e.target.getAttribute("file_path");
+                    parent.postMessage({
+                        researchyAction: "switchFile",
+                        filePath: activeFilePath,
+                    });
+                }
+            });
+            document.getElementById("menuPreloaderContainer").style.display =
+                "none";
+            break;
+        case "sidebarActivated":
+            quill.focus();
+            break;
+        case "updateFile":
+            quill.updateContents(event.data.contents.partial);
+            break;
+        case "updateSelection":
+            quill.setSelection(event.data.contents.selection);
+            break;
+        case "switchFile":
+            activeFile = event.data.fileContents;
+
+            document
+                .getElementById("fileSystemMenu")
+                .classList.remove("fileSystemActive");
+            quill.setContents(activeFile.contents);
+            quill.focus();
+            quill.setSelection(activeFile.selection);
+
+            var activeFileName = event.data.filePath.split("/");
+            if (activeFileName.length == 1) {
+                activeFileName = activeFileName[0].slice(5);
+            } else {
+                activeFileName = activeFileName.slice(-1)[0];
+            }
+            document.getElementById("filenameInput").value = activeFileName;
+            document.getElementById("editorPreloaderContainer").style.display =
+                "none";
+            break;
     }
 });
-
-refreshFileStructure();
 
 // Store accumulated changes
 var change = new Delta();
 quill.on("text-change", (delta, oldDelta, source) => {
-    change = change.compose(delta);
-    console.log(delta);
-    parent.postMessage({
-        researchyAction: "updateFile",
-        contents: { filePath: activeFilePath, partial: delta },
-    });
+    if (source == "user") {
+        change = change.compose(delta);
+        parent.postMessage({
+            researchyAction: "updateFile",
+            contents: {
+                filePath: activeFilePath,
+                partial: delta,
+            },
+        });
+    }
 });
+
+quill.on("selection-change", (range, oldRange, source) => {
+    if (source == "user") {
+        parent.postMessage({
+            researchyAction: "updateSelection",
+            contents: {
+                filePath: activeFilePath,
+                selection: range,
+            },
+        });
+    }
+});
+
+refreshFiles();
 
 document.addEventListener("DOMContentLoaded", function () {
     var elems = document.querySelectorAll(".dropdown-trigger");

@@ -1,4 +1,7 @@
 "use strict";
+
+// files stored as FILE_{filename}
+
 var Delta = Quill.import("delta");
 const DEFAULT_FILE = {
 	ops: [
@@ -6,6 +9,10 @@ const DEFAULT_FILE = {
 		{ attributes: { header: 1 }, insert: "\n" },
 		{ insert: "Pursue your scholarly desires..." },
 	],
+};
+const DEFAULT_SELECTION = {
+	index: 0,
+	length: 0,
 };
 
 function getContentsFromFilePath(filePath, fileStructure) {
@@ -38,10 +45,13 @@ $(document).ready(() => {
 		<iframe id="researchySidebar"></iframe>
 	`);
 
+	const sidebarWindow = document.getElementById("researchySidebar")
+		.contentWindow;
+
 	chrome.runtime.sendMessage(
-		{ contentScriptQuery: "readFile", fileName: "html/sidebar.html" },
+		{ researchyAction: "readFile", fileName: "html/sidebar.html" },
 		(html) => {
-			var doc = $("#researchySidebar")[0].contentWindow.document;
+			var doc = sidebarWindow.document;
 			doc.open();
 			doc.write(html);
 			doc.close();
@@ -50,13 +60,32 @@ $(document).ready(() => {
 
 	$("#activateSidebarButton").click(() => {
 		$("#researchySidebar, #annotatedHTML, body").addClass("sidebarActive");
-		document.getElementById("researchySidebar").contentWindow.postMessage({
+		sidebarWindow.postMessage({
 			researchyAction: "sidebarActivated",
 		});
 	});
 
+	chrome.runtime.onMessage.addListener((message, callback) => {
+		switch (message.researchyAction) {
+			case "updateFile":
+				sidebarWindow.postMessage(message);
+				break;
+			case "updateSelection":
+				sidebarWindow.postMessage(message);
+				break;
+		}
+	});
+
 	window.addEventListener("message", function (event) {
-		console.log("Received message ", event.data);
+		if (
+			!["updateFile", "updateSelection"].includes(
+				event.data.researchyAction
+			)
+		) {
+			// too frequent, less logging
+			console.log("Received message ", event.data);
+		}
+
 		switch (event.data.researchyAction) {
 			case "deactivateSidebarButton":
 				$("#researchySidebar, #annotatedHTML, body").removeClass(
@@ -75,24 +104,49 @@ $(document).ready(() => {
 					.find("#fileSystemMenu")
 					.removeClass("fileSystemActive");
 				break;
-			case "getFileStructure":
-				chrome.storage.sync.get(
-					["fileSystem", "activeFilePath"],
-					(res) => {
-						document
-							.getElementById("researchySidebar")
-							.contentWindow.postMessage({
-								researchyAction: "refreshFileStructure",
-								fileSystem: res.fileSystem,
-								activeFilePath: res.activeFilePath,
-							});
-					}
-				);
+			case "getFiles":
+				chrome.storage.sync.get(null, (res) => {
+					sidebarWindow.postMessage({
+						researchyAction: "refreshFiles",
+						storage: res,
+					});
+				});
 				break;
 			case "updateFile":
-				var filePath = event.data.contents.filePath;
-				var partial = new Delta(event.data.contents.partial); // partial change
-				chrome.storage.sync.get("fileSystem", () => {});
+				chrome.runtime.sendMessage(event.data);
+				break;
+			case "updateSelection":
+				chrome.runtime.sendMessage(event.data);
+				break;
+			case "switchFile":
+				var filePath = "FILE_" + event.data.filePath;
+				chrome.storage.sync.get(filePath, (res) => {
+					res[filePath].contents =
+						res[filePath].contents || DEFAULT_FILE;
+					res[filePath].selection = res[filePath].selection || {
+						index: 0,
+						length: 0,
+					};
+					sidebarWindow.postMessage({
+						researchyAction: "switchFile",
+						filePath: event.data.filePath,
+						fileContents: res[filePath] || defaultContents,
+					});
+				});
+				chrome.storage.sync.set("activeFilePath", filePath);
+				chrome.runtime.sendMessage(event.data);
+				break;
+			case "newFile":
+				break;
+			case "newFolder":
+				break;
+			case "renameFile":
+				break;
+			case "renameFolder":
+				break;
+			case "deleteFile":
+				break;
+			case "deleteFolder":
 				break;
 		}
 	});

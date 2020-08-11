@@ -3,7 +3,7 @@
 // Message background.js regarding changes
 var updateBackgroundTabStatus = () => {
 	console.log("sending message");
-	chrome.runtime.sendMessage({ contentScriptQuery: "updateTabStatus" });
+	chrome.runtime.sendMessage({ researchyAction: "updateTabStatus" });
 };
 
 // Power button information --------------------------------------------------------------
