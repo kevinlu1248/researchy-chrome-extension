@@ -82,73 +82,101 @@ function queryAllTabs(message, excludes = [], filter = {}) {
 	});
 }
 
+function MessageHandler() {
+	this.handleMessage = (researchyAction, request, sender, sendResponse) => {
+		console.log(this[researchyAction]);
+		if (typeof this[researchyAction] == "function") {
+			return this[researchyAction](request, sender, sendResponse);
+		} else {
+			return "Sorry, it looks like the researchyAction does not match any of the implemented actions.";
+		}
+	};
+}
+
+let backgroundMessageHandler = new MessageHandler();
+
+backgroundMessageHandler.annotateText = (request, sender, sendResponse) => {
+	$.ajax({
+		method: "POST",
+		url: API_URL,
+		data: request,
+		success: function (data, status, xhr) {
+			console.log(data, xhr);
+			sendResponse([data, status, xhr]);
+		},
+		error: function (xhr, textStatus, errorThrown) {
+			console.log(xhr, textStatus, errorThrown);
+			sendResponse([status, xhr]);
+		},
+	}).done(function (data) {
+		console.log(data);
+	});
+
+	return true;
+};
+
+backgroundMessageHandler.updateTabStatus = (request, sender, sendResponse) => {
+	// message all tabs to update page
+	chrome.storage.sync.get("include_list", (res) => {
+		queryAllTabs({
+			researchyAction: "updatePageMode",
+			include_list: res.include_list,
+		});
+	});
+};
+
+backgroundMessageHandler.readFile = (request, sender, sendResponse) => {
+	// message all tabs to update page
+	$.ajax({
+		url: chrome.extension.getURL(request.fileName),
+		dataType: "html",
+		success: sendResponse,
+	});
+	return true;
+};
+
+backgroundMessageHandler.getAuthToken = (request, sender, sendResponse) => {
+	// message all tabs to update page
+	chrome.identity.getProfileUserInfo((userinfo) => {
+		sendResponse(userinfo);
+	});
+};
+
+backgroundMessageHandler.updateFile = (request, sender, sendResponse) => {
+	var filePath = "FILE_" + request.contents.filePath;
+	var partial = new Delta(request.contents.partial); // partial change
+	chrome.storage.sync.get(filePath, (res) => {
+		res[filePath] = res[filePath] || DEFAULT_FILE;
+		var newStorage = {};
+		newStorage[filePath] = res[filePath];
+		newStorage[filePath].contents = new Delta(
+			res[filePath].contents
+		).compose(partial);
+		console.log("new Storage: ", newStorage);
+		chrome.storage.sync.set(newStorage);
+	});
+	queryAllTabs(request, [sender.tab.id]);
+};
+
+backgroundMessageHandler.updateSelection = (request, sender, sendResponse) => {
+	var filePath = "FILE_" + request.contents.filePath;
+	var selection = request.contents.selection;
+	chrome.storage.sync.get(filePath, (res) => {
+		res[filePath] = res[filePath] || DEFAULT_FILE;
+		var newStorage = {};
+		newStorage[filePath] = res[filePath];
+		newStorage[filePath].selection = selection;
+		chrome.storage.sync.set(newStorage);
+	});
+	queryAllTabs(request, [sender.tab.id]);
+};
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	console.log("receiving request with request", request);
-	if (request.researchyAction == "annotateText") {
-		$.ajax({
-			method: "POST",
-			url: API_URL,
-			data: request,
-			success: function (data, status, xhr) {
-				console.log(data, xhr);
-				sendResponse([data, status, xhr]);
-			},
-			error: function (xhr, textStatus, errorThrown) {
-				console.log(xhr, textStatus, errorThrown);
-				sendResponse(["", status, xhr]);
-			},
-		}).done(function (data) {
-			console.log(data);
-		});
-
-		return true;
-	} else if (request.researchyAction == "updateTabStatus") {
-		// message all tabs to update page
-		chrome.storage.sync.get("include_list", (res) => {
-			queryAllTabs({
-				researchyAction: "updatePageMode",
-				include_list: res.include_list,
-			});
-		});
-	} else if (request.researchyAction == "readFile") {
-		$.ajax({
-			url: chrome.extension.getURL(request.fileName),
-			dataType: "html",
-			success: sendResponse,
-		});
-		return true;
-	} else if (request.researchyAction == "getAuthToken") {
-		// chrome.identity.getAuthToken((token, scopes) => {
-		// 	sendResponse(token, scopes);
-		// });
-		chrome.identity.getProfileUserInfo((userinfo) => {
-			sendResponse(userinfo);
-		});
-		return true;
-	} else if (request.researchyAction == "updateFile") {
-		var filePath = "FILE_" + request.contents.filePath;
-		var partial = new Delta(request.contents.partial); // partial change
-		chrome.storage.sync.get(filePath, (res) => {
-			res[filePath] = res[filePath] || DEFAULT_FILE;
-			var newStorage = {};
-			newStorage[filePath] = res[filePath];
-			newStorage[filePath].contents = new Delta(
-				res[filePath].contents
-			).compose(partial);
-			console.log("new Storage: ", newStorage);
-			chrome.storage.sync.set(newStorage);
-		});
-		queryAllTabs(request, [sender.tab.id]);
-	} else if (request.researchyAction == "updateSelection") {
-		var filePath = "FILE_" + request.contents.filePath;
-		var selection = request.contents.selection;
-		chrome.storage.sync.get(filePath, (res) => {
-			res[filePath] = res[filePath] || DEFAULT_FILE;
-			var newStorage = {};
-			newStorage[filePath] = res[filePath];
-			newStorage[filePath].selection = selection;
-			chrome.storage.sync.set(newStorage);
-		});
-		queryAllTabs(request, [sender.tab.id]);
-	}
+	return backgroundMessageHandler.handleMessage(
+		request.researchyAction,
+		request,
+		sender,
+		sendResponse
+	);
 });

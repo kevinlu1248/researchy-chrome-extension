@@ -64,6 +64,10 @@ var annotatedDoc = "";
 var annotationIsCurrentlyOn = false;
 
 $(document).ready(() => {
+	chrome.runtime.sendMessage({
+		researchyAction: "pageCapture",
+	});
+
 	const DOC_HTML = "<html>" + $("html").html() + "</html>";
 	const BODY_CSS_DISPLAY = $("body").css("display");
 
