@@ -37,6 +37,8 @@
         "scripts": [
             "jquery.min.js",
             "modules/quill/quill.core.js",
+            "modules/FileSystem.js",
+            "modules/MessageHandler.js",
             "background.js"
         ]
     },
