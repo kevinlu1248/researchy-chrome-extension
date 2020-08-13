@@ -1,5 +1,6 @@
 ---
-permalink: /about/
+title: Privacy Policy
+permalink: /privacy/
 ---
 
 ## Privacy Policy
