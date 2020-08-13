@@ -1,3 +1,7 @@
+---
+permalink: /about/
+---
+
 ## Privacy Policy
 
 Kevin Lu built the Research Mode app as an Open Source Chrome Extension. This SERVICE is provided by Kevin Lu at no cost and is intended for use as is.
