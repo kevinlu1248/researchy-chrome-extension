@@ -9,7 +9,7 @@ Tired of *inconcise language* in *lengthy articles*? Repeatedly having to search
 * **Semantic searching** within an article or paper (under construction)
 * Automatic **summarization** and **notes generation** (under construction)
 
-### Accelerate Research :alarm_clock:
+### Accelerate Research :microscope:
 This project was built out of the frustrations of dealing with poorly formatted articles, inconsise text, and the overexcessive technical terms from jargon-ful fields such as in app development, machine learning and medical research projects. 
 
 ### Reader Mode :book:
