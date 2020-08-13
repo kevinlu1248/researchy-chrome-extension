@@ -1,6 +1,6 @@
 function MessageHandler() {
 	this.handleMessage = (researchyAction, request, sender, sendResponse) => {
-		console.log(this[researchyAction]);
+		// console.log(this[researchyAction]);
 		if (typeof this[researchyAction] == "function") {
 			return this[researchyAction](request, sender, sendResponse);
 		} else {

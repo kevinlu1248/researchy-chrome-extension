@@ -70,6 +70,8 @@ chrome.runtime.onInstalled.addListener(function () {
 	});
 });
 
+console.log("TESTING AUTORELOADER 5");
+
 function queryAllTabs(message, excludes = [], filter = {}) {
 	// helper function
 	// excludes is a set of ids
@@ -85,6 +87,7 @@ function queryAllTabs(message, excludes = [], filter = {}) {
 let backgroundMessageHandler = new MessageHandler();
 
 backgroundMessageHandler.annotateText = (request, sender, sendResponse) => {
+	console.log("text annotating");
 	$.ajax({
 		method: "POST",
 		url: API_URL,

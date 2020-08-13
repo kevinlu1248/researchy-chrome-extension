@@ -42,8 +42,13 @@ const READER_CSS = `
 	term {
 		font-weight: bold;
 	}
+
+	h1 {
+		font-size: 3rem;
+	}
 </style>
 `;
+// TODO: make seperate page and biological stuff optional
 const SPINNER_HTML = `
 <div class="preloader-wrapper big active">
     <div class="spinner-layer spinner-blue-only">

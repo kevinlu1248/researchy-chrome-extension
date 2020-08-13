@@ -2,29 +2,6 @@
 // maybe add date
 var Delta = Quill.import("delta");
 
-class StoredItem {
-	// Abstract class
-	constructor(name, contents) {
-		if (this.constructor === StoredItem) {
-			throw new Error("Can't instantiate abstract class!");
-		}
-
-		if (typeof name === "object" && name != null) {
-			var data = name;
-			var keys = Object.keys(data);
-			for (var i = 0; i < keys.length; i++) {
-				this[keys[i]] = data[keys[i]];
-			}
-		} else {
-			this.name = name;
-			this.contents = contents;
-		}
-
-		this.timeCreated = new Date();
-		this.timeModified = this.timeCreated;
-	}
-}
-
 class File {
 	static DEFAULT_DELTA = {
 		ops: [
@@ -54,19 +31,20 @@ class File {
 			}
 		} else {
 			this.name = name;
-			this.delta = delta;
+			this.delta = delta; // make deltable
 			this.length = contents.length;
 			this.selection = selection;
 		}
 
 		this.delta = this.delta || File.DEFAULT_PROPERTIES.delta;
 		this.selection = this.selection || File.DEFAULT_PROPERTIES.selection;
-
-		this.timeCreated = new Date();
-		this.timeModified = this.timeCreated;
+		this.timeCreated = this.timeCreated || new Date();
+		this.timeModified = this.timeModified || this.timeCreated;
 	}
-	updateDelta(partial) {
+
+	update(partial) {
 		this.delta = this.delta.compose(new Delta(partial));
+		this.timeModified = new Date();
 	}
 }
 
@@ -78,22 +56,21 @@ class Folder {
 			var keys = Object.keys(data);
 			for (var i = 0; i < keys.length; i++) {
 				if (keys[i] === "contents") {
-					this[keys[i]] = folderify(data[keys[i]]);
+					this[keys[i]] = Folder.folderify(data[keys[i]]);
 				} else {
 					this[keys[i]] = data[keys[i]];
 				}
 			}
 		} else {
 			this.name = name;
-			this.contents = folderify(contents);
+			this.contents = Folder.folderify(contents);
 			this.length = contents.length;
 		}
 
 		this.contents = this.contents || {};
 		this.length = this.length || 0;
-
-		this.timeCreated = new Date();
-		this.timeModified = this.timeCreated;
+		this.timeCreated = this.timeCreated || new Date();
+		this.timeModified = this.timeModified || this.timeCreated;
 	}
 
 	static folderify(contents) {
@@ -135,4 +112,9 @@ class Folder {
 	}
 }
 
-class FileSystem extends Folder {}
+class FileSystem extends Folder {
+	// essentially folder but with storage interactions
+	constructor(name, contents) {
+		parent.call(name, contents);
+	}
+}

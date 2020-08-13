@@ -35,6 +35,7 @@
     "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/**; object-src 'self'",
     "background": {
         "scripts": [
+            "hot-reload.js",
             "jquery.min.js",
             "modules/quill/quill.core.js",
             "modules/FileSystem.js",
