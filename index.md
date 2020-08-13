@@ -1,37 +1,21 @@
-## Welcome to GitHub Pages
+## Welcome to Research Mode (Coming soon!)
 
-You can use the [editor on GitHub](https://github.com/kevinlu1248/researchy-chrome-extension/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Tired of *inconcise language* in *lengthy articles*? Repeatedly having to search up *technical jargon*? Irritated from finding inexplicite *citations*? Look no further, as Research Mode can ease that all for you, with features such as
+* Automated **term (jargon)** highlighting and defining
+* A Google Docs-like **note taker** in a convenient sidebar saved to the cloud
+* An optimized **reader mode**
+* Text **simplification**
+* Auto-generated **citations** (under construction)
+* **Semantic searching** within an article or paper (under construction)
+* Automatic **summarization** and **notes generation** (under construction)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Accelerate Research :computer:
+This project was built out of the frustrations of dealing with poorly formatted articles, inconsise text, and the overexcessive technical terms from jargon-ful fields such as in app development, machine learning and medical research projects. 
 
-### Markdown
+### Reader Mode :book:
+A number of websites use illegible fonts or sizes, and reader mode is not provided on all sites. Thus, reader mode was also added which sets the character sizes and line widths to a proven optimal size for reading and removes ads. 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Note Taker :memo:
+Being tired of either screen splitting or having multiple tabs open and consequently forgetting my thoughts every time I switch tabs between my notes and my article, I decided to integrate the note taker into a sidebar. Consequently, this also allows for content-aware automated annotations such as auto-generated bibliographies
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/kevinlu1248/researchy-chrome-extension/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+The project is still under construction. My goal is to finish a majority of it by the end of summmer.
