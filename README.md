@@ -14,7 +14,14 @@ The terms used in this Privacy Policy have the same meanings as in our Terms and
 
 ### Information Collection and Use
 
-For a better experience, while using our service, I may require you to provide us with certain personally identifiable information, including but not limited to you're notes, which will be collected for training my engine to better identify website types and better summarize articles into notes. The information that I request will be saved on a database.
+For a better experience, while using our service, I may require you to provide us with certain personally identifiable information, including but not limited to you're notes, in conjunction with your citations, which will be collected for training my engine to:
+
+* Identify and extract terms
+* Summarize articles
+* Auto-generate notes, and
+* Autoegenerate bibliographies.
+
+The information that I request will be saved on a secure database managed by Heroku Postgres.
 
 The app does use third party services that may collect information used to identify you.
 
