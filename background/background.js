@@ -3,41 +3,41 @@ var Delta = Quill.import("delta");
 
 const API_URL = "http://64.225.115.179/api";
 
-const DEFAULT_FILES = [
-	{
-		type: "folder",
-		name: "First",
-		contents: [
-			{
-				type: "folder",
-				name: "Second",
-				contents: [{ type: "rtf", name: "File 1" }],
-			},
-			{
-				type: "folder",
-				name: "Third",
-				contents: [{ type: "rtf", name: "File 1" }],
-			},
-		],
-	},
-	{
-		type: "folder",
-		name: "Second",
-		contents: [
-			{ type: "rtf", name: "File 1" },
-			{
-				type: "folder",
-				name: "Third",
-				contents: [{ type: "rtf", name: "File 1" }],
-			},
-		],
-	},
-	{
-		type: "folder",
-		name: "Third",
-		contents: [{ type: "rtf", name: "File 1" }],
-	},
-];
+// const DEFAULT_FILES = [
+// 	{
+// 		type: "folder",
+// 		name: "First",
+// 		contents: [
+// 			{
+// 				type: "folder",
+// 				name: "Second",
+// 				contents: [{ type: "rtf", name: "File 1" }],
+// 			},
+// 			{
+// 				type: "folder",
+// 				name: "Third",
+// 				contents: [{ type: "rtf", name: "File 1" }],
+// 			},
+// 		],
+// 	},
+// 	{
+// 		type: "folder",
+// 		name: "Second",
+// 		contents: [
+// 			{ type: "rtf", name: "File 1" },
+// 			{
+// 				type: "folder",
+// 				name: "Third",
+// 				contents: [{ type: "rtf", name: "File 1" }],
+// 			},
+// 		],
+// 	},
+// 	{
+// 		type: "folder",
+// 		name: "Third",
+// 		contents: [{ type: "rtf", name: "File 1" }],
+// 	},
+// ];
 
 const DEFAULT_FILE = {
 	contents: {
@@ -69,8 +69,6 @@ chrome.runtime.onInstalled.addListener(function () {
 		});
 	});
 });
-
-console.log("TESTING AUTORELOADER 5");
 
 function queryAllTabs(message, excludes = [], filter = {}) {
 	// helper function
@@ -104,6 +102,25 @@ backgroundMessageHandler.annotateText = (request, sender, sendResponse) => {
 		console.log(data);
 	});
 
+	return true;
+};
+
+backgroundMessageHandler.ajax = (request, sender, sendResponse) => {
+	$.ajax({
+		method: request.method,
+		url: request.url,
+		data: request.data,
+		success: function (data, status, xhr) {
+			console.log(data, xhr);
+			sendResponse([data, status, xhr]);
+		},
+		error: function (xhr, textStatus, errorThrown) {
+			console.log(xhr, textStatus, errorThrown);
+			sendResponse([status, xhr]);
+		},
+	}).done(function (data) {
+		console.log(data);
+	});
 	return true;
 };
 
@@ -141,9 +158,9 @@ backgroundMessageHandler.updateFile = (request, sender, sendResponse) => {
 		res[filePath] = res[filePath] || DEFAULT_FILE;
 		var newStorage = {};
 		newStorage[filePath] = res[filePath];
-		newStorage[filePath].contents = new Delta(
-			res[filePath].contents
-		).compose(partial);
+		newStorage[filePath].delta = new Delta(res[filePath].delta).compose(
+			partial
+		);
 		console.log("new Storage: ", newStorage);
 		chrome.storage.sync.set(newStorage);
 	});

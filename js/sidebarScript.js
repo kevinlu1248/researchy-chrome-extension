@@ -64,7 +64,7 @@ function getContentsFromFilePath(
                 currentFolder =
                     index == expandedPath.length - 1
                         ? currentFolder[i]
-                        : currentFolder[i].contents;
+                        : currentFolder[i].delta;
                 break;
             }
         }
@@ -151,11 +151,11 @@ window.addEventListener("message", (event) => {
             console.log(storage);
             currentFileStructure = storage.fileSystem;
             document.getElementById("foldersMenu").innerHTML = filesToHtml(
-                storage.fileSystem
+                storage.fileSystem.contents
             );
             activeFilePath = storage.activeFilePath;
             activeFile = storage["FILE_" + activeFilePath];
-            activeFileContents = activeFile.contents || DEFAULT_FILE;
+            activeFileContents = activeFile.delta || DEFAULT_FILE;
             quill.setContents(activeFileContents);
 
             // TODO: remember location
@@ -189,10 +189,10 @@ window.addEventListener("message", (event) => {
             quill.focus();
             break;
         case "updateFile":
-            quill.updateContents(event.data.contents.partial);
+            quill.updateContents(event.data.delta.partial);
             break;
         case "updateSelection":
-            quill.setSelection(event.data.contents.selection);
+            quill.setSelection(event.data.delta.selection);
             break;
         case "switchFile":
             activeFile = event.data.fileContents;
@@ -200,7 +200,7 @@ window.addEventListener("message", (event) => {
             document
                 .getElementById("fileSystemMenu")
                 .classList.remove("fileSystemActive");
-            quill.setContents(activeFile.contents);
+            quill.setContents(activeFile.delta);
             quill.focus();
             quill.setSelection(activeFile.selection);
 

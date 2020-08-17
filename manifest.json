@@ -24,10 +24,11 @@
         {
             "matches": ["<all_urls>"],
             "js": [
-                "jquery.min.js",
+                "modules/jquery.min.js",
                 "modules/quill/quill.core.js",
-                "content.js",
-                "sidebar.js"
+                "modules/FileSystem.js",
+                "content/content.js",
+                "content/sidebar.js"
             ],
             "css": ["css/hideScrollbar.css", "css/sidebarRelated.css"]
         }
@@ -35,12 +36,13 @@
     "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/**; object-src 'self'",
     "background": {
         "scripts": [
-            "hot-reload.js",
-            "jquery.min.js",
+            "background/hot-reload.js",
+            "modules/jquery.min.js",
             "modules/quill/quill.core.js",
             "modules/FileSystem.js",
             "modules/MessageHandler.js",
-            "background.js"
+            "background/fsMessageHandler.js",
+            "background/background.js"
         ]
     },
     "web_accessible_resources": ["html/sidebar.html", "**.js", "**.css"],

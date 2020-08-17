@@ -2,86 +2,55 @@
 
 $ = jQuery;
 
-const EXCLUDE = ["www.google.com"];
-const INCLUDE = ["www.ncbi.nlm.nih.gov", "www.wikipedia.org", "example.com"];
-const READER_CSS = `
-<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link href="${chrome.runtime.getURL(
-	"modules/materialize/css/materialize.min.css"
-)}" rel="stylesheet">
-<style>
-	html {
-		font-family: 'Literata', serif;
-		display: flex;
-		line-height: 1.75;
-		padding: 2rem;
-	}
-
-	body {
-		max-width: 800px;
-		margin: auto;
-		text-align: justify;
-	}
-
-	title {
-		text-align: left;
-	}
-
-	p, annotated, li {
-		font-size: 20px;
-	}
-
-	gpe, cardinal, percentage, org {
-		background-color: pink;
-	}
-
-	cancer, organ, cell, tissue, gene_or_gene_product, simple_chemical, immaterial_anatomical_entity {
-	            background-color: aquamarine;
-	        }
-
-	term {
-		font-weight: bold;
-	}
-
-	h1 {
-		font-size: 3rem;
-	}
-</style>
-`;
 // TODO: make seperate page and biological stuff optional
-const SPINNER_HTML = `
-<div class="preloader-wrapper big active">
-    <div class="spinner-layer spinner-blue-only">
-        <div class="circle-clipper left">
-            <div class="circle"></div>
-        </div>
-        <div class="gap-patch">
-            <div class="circle"></div>
-        </div>
-        <div class="circle-clipper right">
-            <div class="circle"></div>
-        </div>
-    </div>
-</div>`;
+const IFRAME_HTML = `<iframe id="annotatedHTML" style="transform: 0.5s ease-in-out width, 0.5s ease-in-out margin-left;"></iframe>`;
 
-var originalDoc = "<html>" + $("html").html() + "</html>";
+const ORIGINAL_DOC = "<html>" + $("html").html() + "</html>";
 var annotatedDoc = "";
 var annotationIsCurrentlyOn = false;
 
 $(document).ready(() => {
+	var keyTerms = [];
+
 	chrome.runtime.sendMessage({
 		researchyAction: "pageCapture",
 	});
 
-	const DOC_HTML = "<html>" + $("html").html() + "</html>";
+	chrome.runtime.sendMessage(
+		{
+			researchyAction: "get",
+			path: "Third/File 1",
+		},
+		console.log
+	);
+
+	chrome.runtime.sendMessage(
+		{ researchyAction: "readFile", fileName: "html/reader.html" },
+		(html) => {
+			ANNOTATED_IFRAME.contents()
+				.find("head")
+				.html(
+					html.replace(
+						"{{modules/materialize/css/materialize.min.css}}",
+						chrome.runtime.getURL(
+							"modules/materialize/css/materialize.min.css"
+						)
+					)
+				);
+		}
+	);
+	chrome.runtime.sendMessage(
+		{ researchyAction: "readFile", fileName: "html/spinner.html" },
+		(html) => {
+			ANNOTATED_IFRAME.contents().find("body").html(html);
+		}
+	);
+
 	const BODY_CSS_DISPLAY = $("body").css("display");
 
-	$("html").prepend(
-		`<iframe id="annotatedHTML" style="transform: 0.5s ease-in-out width, 0.5s ease-in-out margin-left;"></iframe>`
-	);
+	$("html").prepend(IFRAME_HTML);
 	const ANNOTATED_IFRAME = $("iframe#annotatedHTML");
-	ANNOTATED_IFRAME.contents().find("head").html(READER_CSS);
-	ANNOTATED_IFRAME.contents().find("body").html(SPINNER_HTML);
+	console.log(ANNOTATED_IFRAME);
 
 	var setDocToAnnotated = (toAnnotated) => {
 		ANNOTATED_IFRAME.css("display", toAnnotated ? "inline-block" : "none");
@@ -118,17 +87,15 @@ $(document).ready(() => {
 	chrome.runtime.sendMessage(
 		{
 			researchyAction: "annotateText",
-			text: DOC_HTML,
+			text: ORIGINAL_DOC,
 			url: document.location,
 		},
-		(annotated) => {
+		(response) => {
 			console.log("responded");
-			console.log(annotated);
-			if (annotated[1] == "success") {
-				console.log("Success!");
-
+			console.log(response);
+			if (response[1] == "success") {
 				// initializing variables
-				var obj = annotated[0];
+				var obj = response[0];
 				var annotateDoc = obj["annotated_tree"];
 				var domparser = new DOMParser();
 				var annotatedDocDOM = domparser.parseFromString(
@@ -138,6 +105,8 @@ $(document).ready(() => {
 				var annotatedDocBody = annotatedDocDOM.getElementsByTagName(
 					"body"
 				)[0].innerHTML;
+				keyTerms = obj.key_terms;
+				console.log(keyTerms);
 
 				// interpreting grade level
 				var reading_level = "";

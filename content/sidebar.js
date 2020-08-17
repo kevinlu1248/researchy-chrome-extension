@@ -27,7 +27,7 @@ function getContentsFromFilePath(filePath, fileStructure) {
 				currentFolder =
 					index == expandedPath.length - 1
 						? currentFolder[i]
-						: currentFolder[i].contents;
+						: currentFolder[i].delta;
 				break;
 			}
 		}
@@ -106,6 +106,7 @@ $(document).ready(() => {
 				break;
 			case "getFiles":
 				chrome.storage.sync.get(null, (res) => {
+					console.log(res.fileSystem);
 					sidebarWindow.postMessage({
 						researchyAction: "refreshFiles",
 						storage: res,
@@ -113,16 +114,17 @@ $(document).ready(() => {
 				});
 				break;
 			case "updateFile":
+				console.log(event.data);
 				chrome.runtime.sendMessage(event.data);
 				break;
 			case "updateSelection":
+				console.log(event.data);
 				chrome.runtime.sendMessage(event.data);
 				break;
 			case "switchFile":
 				var filePath = "FILE_" + event.data.filePath;
 				chrome.storage.sync.get(filePath, (res) => {
-					res[filePath].contents =
-						res[filePath].contents || DEFAULT_FILE;
+					res[filePath].delta = res[filePath].delta || DEFAULT_FILE;
 					res[filePath].selection = res[filePath].selection || {
 						index: 0,
 						length: 0,
@@ -133,7 +135,7 @@ $(document).ready(() => {
 						fileContents: res[filePath] || defaultContents,
 					});
 				});
-				chrome.storage.sync.set("activeFilePath", filePath);
+				chrome.storage.sync.set({ activeFilePath: filePath });
 				chrome.runtime.sendMessage(event.data);
 				break;
 			case "newFile":
