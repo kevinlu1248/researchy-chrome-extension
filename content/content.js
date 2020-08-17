@@ -21,7 +21,9 @@ $(document).ready(() => {
 			researchyAction: "get",
 			path: "Third/File 1",
 		},
-		console.log
+		(response) => {
+			console.log(response);
+		}
 	);
 
 	chrome.runtime.sendMessage(

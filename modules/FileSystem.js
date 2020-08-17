@@ -354,8 +354,19 @@ const DEFAULT_FILES = [
 	},
 ];
 
-// const fs = new FileSystem(DEFAULT_FILES);
-// const partial = new Delta().insert("Testing");
-// fs.update("First/Second/File 1", new File("name", partial));
+const DEFAULT_FILE = {
+	contents: {
+		ops: [
+			{ insert: "Title" },
+			{ attributes: { header: 1 }, insert: "\n" },
+			{ insert: "Pursue your scholarly desires..." },
+		],
+	},
+	selection: 0,
+};
 
-// FileSystem.fs.then(console.log, console.log);
+const DEFAULT_STORAGE = {
+	activeFilePath: "Third/File 1",
+	"FILE_Third/File 1": DEFAULT_FILE,
+	fileSystem: DEFAULT_FILES,
+};

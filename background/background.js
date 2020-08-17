@@ -1,60 +1,5 @@
 "use strict";
-var Delta = Quill.import("delta");
-
 const API_URL = "http://64.225.115.179/api";
-
-// const DEFAULT_FILES = [
-// 	{
-// 		type: "folder",
-// 		name: "First",
-// 		contents: [
-// 			{
-// 				type: "folder",
-// 				name: "Second",
-// 				contents: [{ type: "rtf", name: "File 1" }],
-// 			},
-// 			{
-// 				type: "folder",
-// 				name: "Third",
-// 				contents: [{ type: "rtf", name: "File 1" }],
-// 			},
-// 		],
-// 	},
-// 	{
-// 		type: "folder",
-// 		name: "Second",
-// 		contents: [
-// 			{ type: "rtf", name: "File 1" },
-// 			{
-// 				type: "folder",
-// 				name: "Third",
-// 				contents: [{ type: "rtf", name: "File 1" }],
-// 			},
-// 		],
-// 	},
-// 	{
-// 		type: "folder",
-// 		name: "Third",
-// 		contents: [{ type: "rtf", name: "File 1" }],
-// 	},
-// ];
-
-const DEFAULT_FILE = {
-	contents: {
-		ops: [
-			{ insert: "Title" },
-			{ attributes: { header: 1 }, insert: "\n" },
-			{ insert: "Pursue your scholarly desires..." },
-		],
-	},
-	selection: 0,
-};
-
-const DEFAULT_STORAGE = {
-	activeFilePath: "Third/File 1",
-	"FILE_Third/File 1": DEFAULT_FILE,
-	fileSystem: DEFAULT_FILES,
-};
 
 chrome.runtime.onInstalled.addListener(function () {
 	// add length, contents of files, bibliography
@@ -183,7 +128,7 @@ backgroundMessageHandler.updateSelection = (request, sender, sendResponse) => {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	console.log("receiving request with request", request);
 	return backgroundMessageHandler.handleMessage(
-		request.researchyAction,
+		action,
 		request,
 		sender,
 		sendResponse
