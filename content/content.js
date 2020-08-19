@@ -29,6 +29,7 @@ $(document).ready(() => {
 	chrome.runtime.sendMessage(
 		{ researchyAction: "readFile", fileName: "html/reader.html" },
 		(html) => {
+			console.log(html);
 			ANNOTATED_IFRAME.contents()
 				.find("head")
 				.html(

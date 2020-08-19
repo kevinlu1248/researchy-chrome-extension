@@ -3,17 +3,6 @@
 // files stored as FILE_{filename}
 
 var Delta = Quill.import("delta");
-const DEFAULT_FILE = {
-	ops: [
-		{ insert: "Title" },
-		{ attributes: { header: 1 }, insert: "\n" },
-		{ insert: "Pursue your scholarly desires..." },
-	],
-};
-const DEFAULT_SELECTION = {
-	index: 0,
-	length: 0,
-};
 
 function getContentsFromFilePath(filePath, fileStructure) {
 	// uses filepath to find content of that structure within currentFileStructure
@@ -106,7 +95,7 @@ $(document).ready(() => {
 				break;
 			case "getFiles":
 				chrome.storage.sync.get(null, (res) => {
-					console.log(res.fileSystem);
+					console.log(res);
 					sidebarWindow.postMessage({
 						researchyAction: "refreshFiles",
 						storage: res,

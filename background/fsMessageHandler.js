@@ -13,4 +13,5 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (typeof fs[action] === "function") {
 		sendResponse(fs[action](...Object.values(request)));
 	}
+	request.researchyAction = action;
 });

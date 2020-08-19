@@ -1,5 +1,5 @@
 "use strict";
-const API_URL = "http://64.225.115.179/api";
+const API_URL = "https://researchy.duckdns.org/api";
 
 chrome.runtime.onInstalled.addListener(function () {
 	// add length, contents of files, bibliography
@@ -30,7 +30,6 @@ function queryAllTabs(message, excludes = [], filter = {}) {
 let backgroundMessageHandler = new MessageHandler();
 
 backgroundMessageHandler.annotateText = (request, sender, sendResponse) => {
-	console.log("text annotating");
 	$.ajax({
 		method: "POST",
 		url: API_URL,
@@ -126,11 +125,15 @@ backgroundMessageHandler.updateSelection = (request, sender, sendResponse) => {
 };
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	console.log("receiving request with request", request);
-	return backgroundMessageHandler.handleMessage(
-		action,
-		request,
-		sender,
-		sendResponse
-	);
+	console.info("Receiving request", request);
+	var action = request.researchyAction;
+	if (typeof backgroundMessageHandler[action] === "function") {
+		var doAsync = backgroundMessageHandler.handleMessage(
+			action,
+			request,
+			sender,
+			sendResponse
+		);
+		if (doAsync === true) return true;
+	}
 });
