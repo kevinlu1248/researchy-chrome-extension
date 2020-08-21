@@ -65,6 +65,7 @@ $(document).ready(() => {
 
 	var updatePageMode = () => {
 		chrome.storage.sync.get(["include_list", "plugin_is_on"], (res) => {
+			console.log(res);
 			var toAnnotated =
 				res.include_list.includes(
 					window.location.host + window.location.pathname

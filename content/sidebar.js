@@ -42,7 +42,7 @@ $(document).ready(() => {
 		(html) => {
 			var doc = sidebarWindow.document;
 			doc.open();
-			doc.write(html);
+			doc.write(replaceURLs(html));
 			doc.close();
 		}
 	);

@@ -10,6 +10,7 @@ FileSystem.fs.then((fs) => {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	var action = request.researchyAction;
 	delete request.researchyAction;
+	console.log(fs);
 	if (typeof fs[action] === "function") {
 		sendResponse(fs[action](...Object.values(request)));
 	}

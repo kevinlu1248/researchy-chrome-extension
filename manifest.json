@@ -1,5 +1,4 @@
 {
-    "key": "ngeljggnajfepdokmccoolkjbomnlime",
     "manifest_version": 2,
     "name": "Researchy",
     "version": "0.0.0.1",
@@ -27,6 +26,7 @@
                 "modules/jquery.min.js",
                 "modules/quill/quill.core.js",
                 "modules/FileSystem.js",
+                "modules/utils.js",
                 "content/content.js",
                 "content/sidebar.js"
             ],
@@ -41,6 +41,7 @@
             "modules/quill/quill.core.js",
             "modules/FileSystem.js",
             "modules/MessageHandler.js",
+            "modules/utils.js",
             "background/fsMessageHandler.js",
             "background/background.js"
         ]

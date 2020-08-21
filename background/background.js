@@ -1,17 +1,28 @@
 "use strict";
 const API_URL = "https://researchy.duckdns.org/api";
 
+const DEFAULT_STORAGE = {
+	activeFilePath: "Third/File 1",
+	"FILE_Third/File 1": DEFAULT_FILE,
+	fileSystem: DEFAULT_FILES,
+	plugin_is_on: false,
+	include_list: [],
+};
+
 chrome.runtime.onInstalled.addListener(function () {
 	// add length, contents of files, bibliography
 	// folder and files don't share names
 	// no quotation marks
-	chrome.storage.sync.get(null, (res) => {
-		console.log("Current storage: ", res);
+	chrome.storage.sync.get(null, (storage) => {
+		console.log("Current storage: ", storage);
+		var obj = {};
 		Object.keys(DEFAULT_STORAGE).forEach((key) => {
-			if (!res[key]) {
-				chrome.storage.syng.set({ key: DEFAULT_STORAGE[key] });
+			console.log({ key: DEFAULT_STORAGE[key] });
+			if (!storage[key]) {
+				obj[key] = DEFAULT_STORAGE[key];
 			}
 		});
+		chrome.storage.sync.set(obj);
 	});
 });
 
