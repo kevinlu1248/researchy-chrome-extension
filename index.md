@@ -1,4 +1,5 @@
 <a href="https://chrome.google.com/webstore/detail/researchy/ngeljggnajfepdokmccoolkjbomnlime"><img src="https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_206x58.png"/></a>
+<a href="https://github.com/kevinlu1248/researchy-chrome-extension"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" height="70"/></a>
 
 Tired of *inconcise language* in *lengthy articles*? Repeatedly having to search up *technical jargon*? Irritated from finding inexplicite *citations*? Look no further, as Research Mode can ease that all for you, with features such as
 * Automated **term (jargon)** highlighting and defining
