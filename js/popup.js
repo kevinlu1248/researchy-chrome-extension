@@ -1,5 +1,26 @@
 "use strict";
 
+// Initiate links
+document.addEventListener("DOMContentLoaded", () => {
+	var links = document.getElementsByTagName("a");
+	for (var i = 0; i < links.length; i++) {
+		links[i].addEventListener("click", (event) => {
+			var path = event.path;
+			for (var j = 0; j < path.length; j++) {
+				if (path[j] instanceof HTMLAnchorElement) {
+					chrome.tabs.create({ url: path[j].href });
+					break;
+				}
+			}
+		});
+	}
+
+	// initiate notes opener
+	document.getElementById("activateSidebar").addEventListener("click", () => {
+		chrome.runtime.sendMessage({ researchyAction: "activateSidebar" });
+	});
+});
+
 // Message background.js regarding changes
 var updateBackgroundTabStatus = () => {
 	console.log("sending message");
@@ -7,37 +28,26 @@ var updateBackgroundTabStatus = () => {
 };
 
 // Power button information --------------------------------------------------------------
-const powerButton = document.getElementById("power-button");
+const powerCheck = document.getElementById("powerCheck");
 
 var updatePowerSettings = (doSetToOn, callBack = () => {}) => {
 	// Updates power setting in storage to doSetTo
 	chrome.storage.sync.set({ plugin_is_on: doSetToOn }, callBack);
 };
 
-var updatePowerColor = (doSetToOn) => {
-	// set button to on if doSetToOn
-	if (doSetToOn) {
-		powerButton.classList.add("light-blue-text");
-		powerButton.classList.remove("grey-text");
-	} else {
-		powerButton.classList.add("grey-text");
-		powerButton.classList.remove("light-blue-text");
-	}
-};
-
 chrome.storage.sync.get("plugin_is_on", (res) => {
-	updatePowerColor(res.plugin_is_on);
+	powerCheck.checked = res.plugin_is_on;
 }); // sets the button to color according to storage
 
-powerButton.addEventListener("click", () => {
+powerCheck.addEventListener("click", () => {
 	// Turns button off and settings to off on click
-	var doSetToOn = !powerButton.classList.contains("light-blue-text");
-	updatePowerColor(doSetToOn);
+	var doSetToOn = powerCheck.checked;
 	updatePowerSettings(doSetToOn, updateBackgroundTabStatus);
 });
 
 // Annotate button ------------------------------------------------------------------------
-const annotateButton = document.getElementById("annotate-button");
+// const annotateButton = document.getElementById("annotate-button");
+const annotateCheck = document.getElementById("annotateCheck");
 var urlName;
 
 var updateAnnotateInclude = (newUrl, doInclude, callBack = () => {}) => {
@@ -67,14 +77,7 @@ var updateAnnotateInclude = (newUrl, doInclude, callBack = () => {}) => {
 
 var updateAnnotateColor = (doSetToOn) => {
 	// update annotate button color to match doSetToOn
-	console.log(doSetToOn);
-	if (doSetToOn) {
-		annotateButton.classList.add("light-blue");
-		annotateButton.classList.remove("grey");
-	} else {
-		annotateButton.classList.add("grey");
-		annotateButton.classList.remove("light-blue");
-	}
+	annotateCheck.checked = doSetToOn;
 };
 
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -83,12 +86,13 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 	console.log(url.host + url.pathname);
 	chrome.storage.sync.get("include_list", (res) => {
 		var doSetToOn = res.include_list.includes(urlName);
+		updateAnnotateColor(doSetToOn);
+		console.log(doSetToOn);
 	});
 });
 
-annotateButton.addEventListener("click", () => {
-	var doSetToOn = annotateButton.classList.contains("grey");
-	updateAnnotateColor(doSetToOn);
+annotateCheck.addEventListener("click", () => {
+	var doSetToOn = annotateCheck.checked;
 	updateAnnotateInclude(urlName, doSetToOn, updateBackgroundTabStatus);
 	chrome.storage.sync.get("include_list", (res) => {
 		console.log(res.include_list);

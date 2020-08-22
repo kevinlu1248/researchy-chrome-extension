@@ -22,17 +22,47 @@
 
         <style>
             body {
-                width: 200px;
+                width: 400px;
                 height: auto;
             }
+
             button {
                 background-color: white;
                 border: none;
             }
+
+            .switch label input[type="checkbox"]:checked + .lever:after {
+                background-color: #0277bd !important;
+            }
+
+            .switch label input[type="checkbox"]:checked + .lever {
+                background-color: #03a9f4;
+            }
+
+            .divider {
+                margin-bottom: 15px;
+                margin-top: -5px;
+            }
+
+            .m-auto {
+                margin: auto;
+            }
+
+            #title {
+                margin-bottom: 0;
+            }
+
+            .icons i {
+                font-size: 2rem;
+            }
+
+            .bigger-buttons i {
+                font-size: 1rem;
+            }
         </style>
     </head>
     <body>
-        <button
+        <!-- <button
             id="power-button"
             class="waves-effect waves-light btn py-1 w-100 z-depth-0 transparent"
             style="
@@ -46,6 +76,7 @@
                 power_settings_new
             </span>
         </button>
+        <hr />
         <div
             class="text-center my-auto mx-auto d-flex justify-content-between pb-3 px-3"
         >
@@ -66,6 +97,90 @@
                     settings
                 </span>
             </button>
+        </div> -->
+
+        <div id="mainPopup" class="container">
+            <div class="row">
+                <div class="col s12 center-align">
+                    <h4 id="title">
+                        <i class="material-icons">edit</i>&nbsp;Research Mode
+                    </h4>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+                <div class="col s6">
+                    <h6>Annotations engine</h6>
+                </div>
+                <div class="col s6 right-align m-auto">
+                    <div class="switch">
+                        <label>
+                            Off
+                            <input id="powerCheck" type="checkbox" />
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+                <div class="col s6"><h6>Annotate this page</h6></div>
+                <div class="col s6 right-align m-auto">
+                    <div class="switch">
+                        <label>
+                            Off
+                            <input id="annotateCheck" type="checkbox" />
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row bigger-buttons">
+                <div class="col s6 center-align">
+                    <button
+                        id="activateSidebar"
+                        class="waves-effect waves-light light-blue-text btn-flat"
+                    >
+                        <span>Notes</span>&nbsp;<i class="material-icons"
+                            >edit</i
+                        >
+                    </button>
+                </div>
+                <div class="col s6 center-align">
+                    <button
+                        class="waves-effect waves-light light-blue-text btn-flat"
+                        disabled="true"
+                    >
+                        Citations&nbsp;<i class="material-icons">book</i>
+                    </button>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row icons">
+                <div class="col s12 center-align">
+                    <a
+                        href="https://kevinlu1248.github.io/researchy-chrome-extension/"
+                        class="waves-effect waves-light light-blue-text btn-flat"
+                    >
+                        <i class="material-icons">info</i>
+                    </a>
+                    <a
+                        href="https://kevinlu1248.github.io/researchy-chrome-extension/privacy"
+                        class="waves-effect waves-light light-blue-text btn-flat"
+                    >
+                        <i class="material-icons">privacy_tip</i>
+                    </a>
+                    <a
+                        class="waves-effect waves-light light-blue-text btn-flat"
+                        disabled="true"
+                    >
+                        <i class="material-icons">settings</i>
+                    </a>
+                </div>
+            </div>
         </div>
 
         <script src="/js/popup.js"></script>

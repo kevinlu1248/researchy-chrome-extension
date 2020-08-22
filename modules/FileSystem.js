@@ -276,20 +276,24 @@ class Folder extends StoredItem {
 	}
 }
 
+// TODO: synced system
+
 class FileSystem extends Folder {
 	// essentially folder but with storage interactions
 
-	constructor(contents) {
+	constructor(contents, doSyncImmediately = false) {
 		if (contents == undefined) contents = "DEFAULT";
 		super(null, contents);
 		this.updateStorage();
 		this.allFiles = this.dfsFiles();
-		let keys = Object.keys(this.allFiles);
-		var storage = {};
-		keys.forEach((key) => {
-			storage["FILE_" + key] = this.allFiles[key];
-		});
-		chrome.storage.sync.set(storage);
+		if (doSyncImmediately) {
+			let keys = Object.keys(this.allFiles);
+			var storage = {};
+			keys.forEach((key) => {
+				storage["FILE_" + key] = this.allFiles[key];
+			});
+			chrome.storage.sync.set(storage);
+		}
 	}
 
 	set(path, newItem) {

@@ -24,6 +24,9 @@ chrome.runtime.onInstalled.addListener(function () {
 		});
 		chrome.storage.sync.set(obj);
 	});
+	chrome.identity.getAuthToken(null, (token, scopes) => {
+		// console.log(token, scopes);
+	});
 });
 
 function queryAllTabs(message, excludes = [], filter = {}) {
@@ -133,6 +136,14 @@ backgroundMessageHandler.updateSelection = (request, sender, sendResponse) => {
 		chrome.storage.sync.set(newStorage);
 	});
 	queryAllTabs(request, [sender.tab.id]);
+};
+
+backgroundMessageHandler.activateSidebar = (request, sender, sendResponse) => {
+	chrome.tabs.query({ active: true }, (tabs) => {
+		chrome.tabs.sendMessage(tabs[0].id, {
+			researchyAction: "activateSidebar",
+		});
+	});
 };
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

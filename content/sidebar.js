@@ -1,6 +1,7 @@
 "use strict";
 
 // files stored as FILE_{filename}
+// TODO: open and close from popup
 
 var Delta = Quill.import("delta");
 
@@ -55,6 +56,7 @@ $(document).ready(() => {
 	});
 
 	chrome.runtime.onMessage.addListener((message, callback) => {
+		console.log(message);
 		switch (message.researchyAction) {
 			case "updateFile":
 				sidebarWindow.postMessage(message);
@@ -62,6 +64,10 @@ $(document).ready(() => {
 			case "updateSelection":
 				sidebarWindow.postMessage(message);
 				break;
+			case "activateSidebar":
+				$("#researchySidebar, #annotatedHTML, body").addClass(
+					"sidebarActive"
+				);
 		}
 	});
 
