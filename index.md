@@ -22,4 +22,4 @@ A number of websites use illegible fonts or sizes, and reader mode is not provid
 ## Note Taker <img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4dd.png" alt="memo" width="25"/>
 Being tired of either screen splitting or having multiple tabs open and consequently forgetting my thoughts every time I switch tabs between my notes and my article, I decided to integrate the note taker into a sidebar. Consequently, this also allows for content-aware automated annotations such as auto-generated bibliographies
 
-The project is still under construction. My goal is to finish a majority of it by the end of summmer.
+The project is still under construction. My goal is to finish a majority of it by the end of summer.
