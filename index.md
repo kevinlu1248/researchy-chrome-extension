@@ -1,5 +1,3 @@
-# Welcome to Research Mode
-
 <a href="https://chrome.google.com/webstore/detail/researchy/ngeljggnajfepdokmccoolkjbomnlime"><img src="https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_206x58.png"/></a>
 
 Tired of *inconcise language* in *lengthy articles*? Repeatedly having to search up *technical jargon*? Irritated from finding inexplicite *citations*? Look no further, as Research Mode can ease that all for you, with features such as
