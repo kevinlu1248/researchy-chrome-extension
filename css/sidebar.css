@@ -88,10 +88,34 @@ html::-webkit-scrollbar {
 	transition: margin-left 0.5s ease-in-out;
 	margin-left: -100vw;
 	box-shadow: rgba(51, 51, 51, 0.533) 0px 0px 10px;
+	display: flex;
+	flex-direction: column;
 }
 
 #fileSystemMenu.fileSystemActive {
 	margin-left: 0;
+}
+
+#namerContainer {
+	margin-top: auto;
+	margin-left: 1rem;
+	margin-right: 1rem;
+	margin-bottom: -5rem;
+	transition: 0.2s ease-in-out margin-bottom;
+}
+
+#namerContainer.active {
+	margin-bottom: 0;
+}
+
+/* label focus color */
+.input-field input[type="text"]:focus + label {
+	color: #03a9f4 !important;
+}
+/* label underline focus color */
+.input-field input[type="text"]:focus {
+	border-bottom: 1px solid #03a9f4 !important;
+	box-shadow: 0 1px 0 0 #03a9f4 !important;
 }
 
 #menuPreloaderContainer {
@@ -125,9 +149,18 @@ html::-webkit-scrollbar {
 }
 
 .collapsible-header::before {
+	/*Reference: https://github.com/google/material-design-icons/commit/30c70eb87e0ae9465e59f1747b4e7bfd62edeb15#diff-2a6de7989576d15db52085617236be66*/
 	/*Folder icons*/
 	font-family: "Material Icons";
 	content: "\e2c7";
+	font-size: 1.6rem;
+	line-height: 1;
+	margin-right: 1rem;
+}
+
+li.active > .collapsible-header::before {
+	font-family: "Material Icons";
+	content: "\e2c8";
 	font-size: 1.6rem;
 	line-height: 1;
 	margin-right: 1rem;
@@ -195,4 +228,8 @@ html::-webkit-scrollbar {
 
 #addItem .material-icons {
 	color: black;
+}
+
+a.btn-flat {
+	height: fit-content;
 }

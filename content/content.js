@@ -29,7 +29,6 @@ $(document).ready(() => {
 	chrome.runtime.sendMessage(
 		{ researchyAction: "readFile", fileName: "html/reader.html" },
 		(html) => {
-			console.log(html);
 			ANNOTATED_IFRAME.contents()
 				.find("head")
 				.html(
@@ -53,7 +52,6 @@ $(document).ready(() => {
 
 	$("html").prepend(IFRAME_HTML);
 	const ANNOTATED_IFRAME = $("iframe#annotatedHTML");
-	console.log(ANNOTATED_IFRAME);
 
 	var setDocToAnnotated = (toAnnotated) => {
 		ANNOTATED_IFRAME.css("display", toAnnotated ? "inline-block" : "none");
@@ -95,8 +93,8 @@ $(document).ready(() => {
 			url: document.location,
 		},
 		(response) => {
-			console.log("responded");
-			console.log(response);
+			// console.log("responded");
+			// console.log(response);
 			if (response[1] == "success") {
 				// initializing variables
 				var obj = response[0];

@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// initiate notes opener
 	document.getElementById("activateSidebar").addEventListener("click", () => {
 		chrome.runtime.sendMessage({ researchyAction: "activateSidebar" });
+		window.close();
 	});
 });
 

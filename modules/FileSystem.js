@@ -13,7 +13,7 @@ class StoredItem {
 	}
 
 	json() {
-		return JSON.stringify(this);
+		return JSON.parse(JSON.stringify(this));
 	}
 }
 
@@ -36,27 +36,32 @@ class File extends StoredItem {
 		selection: File.DEFAULT_SELECTION,
 	};
 
-	constructor(name, delta, selection) {
+	constructor({ name, delta, selection } = {}) {
 		// file mainly oriented around delta
 		super();
-		if (typeof name === "object" && name != null) {
-			var data = name;
-			var keys = Object.keys(data);
-			for (var i = 0; i < keys.length; i++) {
-				this[keys[i]] = data[keys[i]];
-			}
-			this.delta = this.delta
-				? new Delta(this.delta)
-				: File.DEFAULT_PROPERTIES.delta;
-			this.selection =
-				this.selection || File.DEFAULT_PROPERTIES.selection;
-		} else {
-			this.name = name;
-			this.delta = delta
-				? new Delta(delta)
-				: File.DEFAULT_PROPERTIES.delta;
-			this.selection = selection || File.DEFAULT_PROPERTIES.selection;
-		}
+		// if (typeof name === "object" && name != null) {
+		// 	var data = name;
+		// 	var keys = Object.keys(data);
+		// 	for (var i = 0; i < keys.length; i++) {
+		// 		this[keys[i]] = data[keys[i]];
+		// 	}
+		// 	this.delta = this.delta
+		// 		? new Delta(this.delta)
+		// 		: File.DEFAULT_PROPERTIES.delta;
+		// 	this.selection =
+		// 		this.selection || File.DEFAULT_PROPERTIES.selection;
+		// } else {
+		// 	this.name = name;
+		// 	this.delta = delta
+		// 		? new Delta(delta)
+		// 		: File.DEFAULT_PROPERTIES.delta;
+		// 	this.selection = selection || File.DEFAULT_PROPERTIES.selection;
+		// }
+
+		this.name = name || null;
+		this.delta = delta ? new Delta(delta) : File.DEFAULT_PROPERTIES.delta;
+		this.selection = this.selection =
+			selection || File.DEFAULT_PROPERTIES.selection;
 
 		this.type = "rtf";
 		this.length = this.delta ? this.delta.length() : 0;
@@ -118,29 +123,32 @@ class Folder extends StoredItem {
 		},
 	];
 
-	constructor(name, contents) {
+	constructor({ name, contents } = {}) {
 		// contents an array of files and folders
 		super();
-		if (typeof name === "object" && name != null) {
-			var data = name;
-			var keys = Object.keys(data);
-			for (var i = 0; i < keys.length; i++) {
-				if (keys[i] === "contents") {
-					this[keys[i]] = Folder.folderify(data[keys[i]]);
-				} else {
-					this[keys[i]] = data[keys[i]];
-				}
-			}
-		} else if (contents == "DEFAULT") {
-			this.name = name;
-			this.contents = Folder.folderify(Folder.DEFAULT_FOLDER);
-		} else {
-			this.name = name;
-			this.contents = Folder.folderify(contents);
-		}
+		// if (typeof name === "object" && name != null) {
+		// 	var data = name;
+		// 	var keys = Object.keys(data);
+		// 	for (var i = 0; i < keys.length; i++) {
+		// 		if (keys[i] === "contents") {
+		// 			this[keys[i]] = Folder.folderify(data[keys[i]]);
+		// 		} else {
+		// 			this[keys[i]] = data[keys[i]];
+		// 		}
+		// 	}
+		// } else if (contents == "DEFAULT") {
+		// 	this.name = name;
+		// 	this.contents = Folder.folderify(Folder.DEFAULT_FOLDER);
+		// } else {
+		// 	this.name = name;
+		// 	this.contents = Folder.folderify(contents);
+		// }
 
+		this.name = name || null;
+		this.contents = contents
+			? Folder.folderify(contents)
+			: Folder.folderify(Folder.DEFAULT_FOLDER);
 		this.type = "folder";
-		this.contents = this.contents || {};
 		this.length = this.contents.length || 0;
 	}
 
@@ -169,6 +177,8 @@ class Folder extends StoredItem {
 
 	get(path) {
 		// recursive search
+		if (path == "" || path == "/") return this;
+
 		if (typeof path === "string") path = path.split("/");
 		var nextItem = this.child(path[0]);
 		if (
@@ -242,6 +252,19 @@ class Folder extends StoredItem {
 		return true;
 	}
 
+	updateSelection(path, selection) {
+		if (typeof path === "string") path = path.split("/");
+		var file = this.get(path);
+		if (!file instanceof File) return false;
+		file.selection = selection;
+		var item = this;
+		for (var i = 0; i < path.length - 1; i++) {
+			item.timeModified = new Date();
+			item = item.child(path[i]);
+		}
+		return true;
+	}
+
 	delete(path) {
 		if (typeof path === "string") path = path.split("/");
 		var fileName = path.pop();
@@ -277,71 +300,19 @@ class Folder extends StoredItem {
 }
 
 class FileSystem extends Folder {
-	constructor(contents, activeFilePath) {
-		if (contents == undefined) contents = "DEFAULT";
-		super(null, contents);
-		this.allFiles = this.dfsFiles();
-		// console.log(Object.keys(this.allFiles));
-		this.activeFilePath =
-			contents.activeFilePath ||
-			activeFilePath ||
-			Object.keys(this.allFiles)[0];
+	constructor({ contents = null, activeFilePath } = {}) {
+		super({ name: null, contents: contents });
+		this.activeFilePath = activeFilePath || Object.keys(this.dfsFiles())[0];
 	}
 
-	set activeFilePath(path) {
-		this._activeFilePath = path;
-		this.activeFileName = this.activeFilePath.split("/").slice(-1);
-		this.activeFile = this.get(this.activeFilePath);
+	get activeFileName() {
+		return this.activeFilePath.split("/").slice(-1);
 	}
 
-	get activeFilePath() {
-		return this._activeFilePath;
+	get activeFile() {
+		return this.get(this.activeFilePath);
 	}
 }
 
-const DEFAULT_FILES = [
-	{
-		type: "folder",
-		name: "First",
-		contents: [
-			{
-				type: "folder",
-				name: "Second",
-				contents: [{ type: "rtf", name: "File 1" }],
-			},
-			{
-				type: "folder",
-				name: "Third",
-				contents: [{ type: "rtf", name: "File 1" }],
-			},
-		],
-	},
-	{
-		type: "folder",
-		name: "Second",
-		contents: [
-			{ type: "rtf", name: "File 1" },
-			{
-				type: "folder",
-				name: "Third",
-				contents: [{ type: "rtf", name: "File 1" }],
-			},
-		],
-	},
-	{
-		type: "folder",
-		name: "Third",
-		contents: [{ type: "rtf", name: "File 1" }],
-	},
-];
-
-const DEFAULT_FILE = {
-	contents: {
-		ops: [
-			{ insert: "Title" },
-			{ attributes: { header: 1 }, insert: "\n" },
-			{ insert: "Pursue your scholarly desires..." },
-		],
-	},
-	selection: 0,
-};
+const DEFAULT_FILES = Folder.DEFAULT_FOLDER;
+const DEFAULT_FILE = File.DEFAULT_FILE;

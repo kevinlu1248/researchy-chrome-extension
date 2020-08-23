@@ -17,7 +17,6 @@ chrome.runtime.onInstalled.addListener(function () {
 		console.log("Current storage: ", storage);
 		var obj = {};
 		Object.keys(DEFAULT_STORAGE).forEach((key) => {
-			console.log({ key: DEFAULT_STORAGE[key] });
 			if (!storage[key]) {
 				obj[key] = DEFAULT_STORAGE[key];
 			}
@@ -120,19 +119,6 @@ backgroundMessageHandler.updateFile = (request, sender, sendResponse) => {
 			partial
 		);
 		console.log("new Storage: ", newStorage);
-		chrome.storage.sync.set(newStorage);
-	});
-	queryAllTabs(request, [sender.tab.id]);
-};
-
-backgroundMessageHandler.updateSelection = (request, sender, sendResponse) => {
-	var filePath = "FILE_" + request.contents.filePath;
-	var selection = request.contents.selection;
-	chrome.storage.sync.get(filePath, (res) => {
-		res[filePath] = res[filePath] || DEFAULT_FILE;
-		var newStorage = {};
-		newStorage[filePath] = res[filePath];
-		newStorage[filePath].selection = selection;
 		chrome.storage.sync.set(newStorage);
 	});
 	queryAllTabs(request, [sender.tab.id]);

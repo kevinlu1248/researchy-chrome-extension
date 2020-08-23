@@ -8,12 +8,25 @@ SyncedFileSystem.fs.then((fs) => {
 }, console.log);
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	var action = request.researchyAction;
+	let action = request.researchyAction;
 	delete request.researchyAction;
-	console.log(fs[action]);
 	if (typeof fs[action] === "function") {
-		// console.log(fs[action](...Object.values(request))
 		sendResponse(fs[action](...Object.values(request)));
+		console.log(fs);
 	}
 	request.researchyAction = action;
+});
+
+chrome.runtime.onConnect.addListener((port) => {
+	if (port.name == "fs") {
+		port.onMessage.addListener((request) => {
+			let action = request.researchyAction;
+			delete request.researchyAction;
+			if (typeof fs[action] === "function") {
+				port.postMessage(fs[action](...Object.values(request)));
+				console.log(fs);
+			}
+			request.researchyAction = action;
+		});
+	}
 });

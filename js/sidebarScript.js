@@ -16,7 +16,9 @@ document.getElementById("deactivateFileSystem").onclick = () => {
     });
 };
 
-var fs;
+let fs;
+const NAMER_CONTAINER = document.getElementById("namerContainer");
+const NAMER = document.getElementById("namer");
 
 var Delta = Quill.import("delta");
 var quill = new Quill("#editor", {
@@ -37,13 +39,10 @@ var quill = new Quill("#editor", {
     theme: "snow",
 });
 
-function getContentsFromFilePath(
-    filePath,
-    fileStructure = currentFileStructure
-) {
-    // uses filepath to find content of that structure within currentFileStructure
+function getContentsFromFilePath(filePath, fileStructure = fs) {
+    // uses filepath to find content of that structure within fs
     // TODO: Add error management
-    var currentFolder = currentFileStructure;
+    var currentFolder = fs;
     var expandedPath = filePath.split("/");
     expandedPath.forEach((entityName, index) => {
         console.log(currentFolder, entityName);
@@ -60,20 +59,20 @@ function getContentsFromFilePath(
     return currentFolder;
 }
 
-function filesToHtml(fileStructure, filePath = "") {
+function filesToHtml(fs, filePath = "") {
     // recursively generate a doc
     var html = `<ul class="${
         !filePath ? "" : "collapsible-body " // check if initial
     }collapsible expandable">`;
-    fileStructure.forEach((e) => {
+    fs.forEach((e) => {
         if (e.type == "rtf") {
             html = html.concat(`
-                <li class="fileItem waves-effect waves-blue btn-flat" file_path="${
+                <li class="fileItem waves-effect waves-blue btn-flat file-folder-item" file_path="${
                     filePath + e.name
                 }">
                     ${e.name}
                     <span>
-                        <a class="waves-effect waves-blue btn-flat">
+                        <a class="waves-effect waves-blue btn-flat file-folder-action">
                             <i class="material-icons">delete</i>
                         </a>
                     </span>
@@ -83,21 +82,21 @@ function filesToHtml(fileStructure, filePath = "") {
             // TODO: add feature for determining openness
             html = html.concat(`
                 <li>
-                    <div class="collapsible-header" file_path="${
+                    <div class="collapsible-header file-folder-item" file_path="${
                         filePath + e.name
                     }">
                         ${e.name}
                         <span>
-                            <a class="waves-effect waves-blue btn-flat">
+                            <a class="waves-effect waves-blue btn-flat file-folder-action">
                                 <i class="material-icons">add</i>
                             </a>
-                            <a class="waves-effect waves-blue btn-flat">
+                            <a class="waves-effect waves-blue btn-flat file-folder-action">
                                 <i class="material-icons">create_new_folder</i>
                             </a>
-                            <a class="waves-effect waves-blue btn-flat">
+                            <a class="waves-effect waves-blue btn-flat file-folder-action">
                                 <i class="material-icons">edit</i>
                             </a>
-                            <a class="waves-effect waves-blue btn-flat">
+                            <a class="waves-effect waves-blue btn-flat file-folder-action">
                                 <i class="material-icons">delete</i>
                             </a
                         </span>
@@ -134,10 +133,10 @@ var messageHandler = new VanillaMessageHandler();
 
 messageHandler.refreshFiles = (data) => {
     let storage = data.storage;
-    fs = new FileSystem(storage.filesystem);
-    currentFileStructure = fs.contents;
+    console.log(data, storage);
+    fs = new FileSystemClient(storage.contents, storage.activeFilePath);
     document.getElementById("foldersMenu").innerHTML = filesToHtml(
-        storage.fileSystem.contents
+        fs.contents // TODO FIX
     );
     quill.setContents(fs.activeFile.delta);
     document.getElementById("filenameInput").value = fs.activeFileName;
@@ -145,6 +144,7 @@ messageHandler.refreshFiles = (data) => {
     // TODO: remember location
     quill.focus();
     quill.setSelection(fs.activeFile.selection);
+    console.log(fs.activeFile.selection);
 
     // reinitiate popups
     var elems = document.querySelectorAll(".collapsible.expandable");
@@ -160,23 +160,15 @@ messageHandler.refreshFiles = (data) => {
                 "block";
             fs.activeFilePath = e.target.getAttribute("file_path");
 
-            activeFile = new File(event.data.file);
-            console.log(activeFile);
-
             document
                 .getElementById("fileSystemMenu")
                 .classList.remove("fileSystemActive");
-            quill.setContents(activeFile.delta);
+            quill.setContents(fs.activeFile.delta);
             quill.focus();
-            quill.setSelection(activeFile.selection);
+            quill.setSelection(fs.activeFile.selection);
             document.getElementById("filenameInput").value = fs.activeFileName;
             document.getElementById("editorPreloaderContainer").style.display =
                 "none";
-
-            // parent.postMessage({
-            //     researchyAction: "switchFile",
-            //     filePath: fs.activeFilePath,
-            // });
         }
     });
 
@@ -209,31 +201,72 @@ window.addEventListener("message", messageHandler.handleMessage);
 var change = new Delta();
 quill.on("text-change", (delta, oldDelta, source) => {
     if (source == "user") {
-        change = change.compose(delta);
-        parent.postMessage({
-            researchyAction: "updateFile",
-            contents: {
-                filePath: activeFilePath,
-                partial: delta,
-            },
-        });
+        partial = change.compose(delta);
+        fs.update(fs.activeFilePath, partial);
     }
 });
 
 quill.on("selection-change", (range, oldRange, source) => {
     if (source == "user") {
-        parent.postMessage({
-            researchyAction: "updateSelection",
-            contents: {
-                filePath: activeFilePath,
-                selection: range,
-            },
-        });
+        fs.updateSelection(fs.activeFilePath, range);
     }
 });
 
 refreshFiles();
+
 document.addEventListener("DOMContentLoaded", function () {
     var elems = document.querySelectorAll(".dropdown-trigger");
     var instances = M.Dropdown.init(elems);
+});
+
+document.addEventListener("click", (event) => {});
+
+document.addEventListener("click", (event) => {
+    let btn = event.target.closest(".file-folder-action");
+    if (btn == null) {
+        console.log(event.target.closest("#namerContainer"));
+        if (!event.target.closest("#namerContainer")) {
+            NAMER_CONTAINER.classList.remove("active");
+            NAMER.classList.remove("valid");
+            NAMER.classList.remove("invalid");
+            NAMER.value = "";
+        }
+        return;
+    }
+    let item = btn.closest(".file-folder-item");
+    let path = btn.closest(".file-folder-item").getAttribute("file_path");
+    let action = btn.children[0].innerHTML;
+
+    event.preventDefault();
+    switch (action) {
+        case "delete":
+            fs.delete(path);
+            item.remove();
+            break;
+        case "add":
+            NAMER_CONTAINER.classList.add("active");
+            NAMER.value = "";
+            NAMER.focus();
+            let handler = (event) => {
+                if (event.which == 13) {
+                    // on enter
+                    if (fs.child(NAMER.value)) {
+                        NAMER.classList.add("invalid");
+                        NAMER.classList.remove("valid");
+                    } else {
+                        NAMER.classList.add("valid");
+                        NAMER.classList.remove("invalid");
+                        fs.newFile(path, NAMER.value);
+                        NAMER_CONTAINER.classList.remove("active");
+                        NAMER.removeEventListener("keyup", handler);
+                    }
+                }
+            };
+            NAMER.addEventListener("keyup", handler);
+            break;
+        case "edit":
+            break;
+        case "create_new_folder":
+            break;
+    }
 });

@@ -46,6 +46,11 @@ class SyncedFileSystem extends FileSystem {
 		this.updateStorage(path);
 	}
 
+	updateSelection(path, selection) {
+		super.updateSelection(path, selection);
+		this.updateStorage(path);
+	}
+
 	delete(path) {
 		super.delete(path);
 		this.updateStorage();
