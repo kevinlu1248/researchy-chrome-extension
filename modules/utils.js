@@ -4,3 +4,13 @@ function replaceURLs(doc) {
 		return chrome.runtime.getURL(p);
 	});
 }
+
+function VanillaMessageHandler() {
+	const obj = {};
+	obj.handleMessage = function (event) {
+		if (typeof obj[event.data.researchyAction] === "function") {
+			obj[event.data.researchyAction](event.data);
+		}
+	};
+	return obj;
+}

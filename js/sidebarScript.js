@@ -16,11 +16,7 @@ document.getElementById("deactivateFileSystem").onclick = () => {
     });
 };
 
-var activeFile,
-    activeFileName,
-    activeFilePath,
-    activeFileContents,
-    currentFileStructure;
+var fs;
 
 var Delta = Quill.import("delta");
 var quill = new Quill("#editor", {
@@ -66,7 +62,6 @@ function getContentsFromFilePath(
 
 function filesToHtml(fileStructure, filePath = "") {
     // recursively generate a doc
-    console.log(fileStructure);
     var html = `<ul class="${
         !filePath ? "" : "collapsible-body " // check if initial
     }collapsible expandable">`;
@@ -135,33 +130,21 @@ function refreshFiles(fileStructure = null) {
     }
 }
 
-function MessageHandler() {
-    const obj = {};
-    obj.handleMessage = function (event) {
-        if (typeof obj[event.data.researchyAction] === "function") {
-            obj[event.data.researchyAction](event.data);
-        }
-    };
-    return obj;
-}
-
-var messageHandler = new MessageHandler();
+var messageHandler = new VanillaMessageHandler();
 
 messageHandler.refreshFiles = (data) => {
-    var storage = data.storage;
-    var fs = new FileSystem(storage);
+    let storage = data.storage;
+    fs = new FileSystem(storage.filesystem);
     currentFileStructure = fs.contents;
     document.getElementById("foldersMenu").innerHTML = filesToHtml(
         storage.fileSystem.contents
     );
-    activeFilePath = storage.activeFilePath;
-    activeFile = storage["FILE_" + activeFilePath];
-    activeFileContents = activeFile.delta || DEFAULT_FILE;
-    quill.setContents(activeFileContents);
+    quill.setContents(fs.activeFile.delta);
+    document.getElementById("filenameInput").value = fs.activeFileName;
 
     // TODO: remember location
     quill.focus();
-    quill.setSelection(activeFile.selection);
+    quill.setSelection(fs.activeFile.selection);
 
     // reinitiate popups
     var elems = document.querySelectorAll(".collapsible.expandable");
@@ -175,14 +158,30 @@ messageHandler.refreshFiles = (data) => {
         if (e.target.matches("li.fileItem")) {
             document.getElementById("editorPreloaderContainer").style.display =
                 "block";
-            activeFilePath = e.target.getAttribute("file_path");
-            parent.postMessage({
-                researchyAction: "switchFile",
-                filePath: activeFilePath,
-            });
+            fs.activeFilePath = e.target.getAttribute("file_path");
+
+            activeFile = new File(event.data.file);
+            console.log(activeFile);
+
+            document
+                .getElementById("fileSystemMenu")
+                .classList.remove("fileSystemActive");
+            quill.setContents(activeFile.delta);
+            quill.focus();
+            quill.setSelection(activeFile.selection);
+            document.getElementById("filenameInput").value = fs.activeFileName;
+            document.getElementById("editorPreloaderContainer").style.display =
+                "none";
+
+            // parent.postMessage({
+            //     researchyAction: "switchFile",
+            //     filePath: fs.activeFilePath,
+            // });
         }
     });
+
     document.getElementById("menuPreloaderContainer").style.display = "none";
+    document.getElementById("editorPreloaderContainer").style.display = "none";
 };
 
 messageHandler.sidebarActivated = () => quill.focus();
@@ -191,7 +190,8 @@ messageHandler.updateFile = () =>
 messageHandler.updateSelection = () =>
     quill.setSelection(event.data.delta.selection);
 messageHandler.switchFile = () => {
-    activeFile = event.data.fileContents;
+    activeFile = new File(event.data.file);
+    console.log(activeFile);
 
     document
         .getElementById("fileSystemMenu")
@@ -199,14 +199,7 @@ messageHandler.switchFile = () => {
     quill.setContents(activeFile.delta);
     quill.focus();
     quill.setSelection(activeFile.selection);
-
-    var activeFileName = event.data.filePath.split("/");
-    if (activeFileName.length == 1) {
-        activeFileName = activeFileName[0].slice(5);
-    } else {
-        activeFileName = activeFileName.slice(-1)[0];
-    }
-    document.getElementById("filenameInput").value = activeFileName;
+    document.getElementById("filenameInput").value = fs.activeFileName;
     document.getElementById("editorPreloaderContainer").style.display = "none";
 };
 

@@ -28,12 +28,7 @@ function getContentsFromFilePath(filePath, fileStructure) {
 $(document).ready(() => {
 	// TODO: make external page instead
 	// chrome-extension://ehloondkpaeflbcliilagbjffflhfhag/html/sidebar.html
-	$("html").prepend(`
-		<button id="activateSidebarButton">
-			&#9658;
-		</button>
-		<iframe id="researchySidebar"></iframe>
-	`);
+	$("html").prepend(`<iframe id="researchySidebar"></iframe>`);
 
 	const sidebarWindow = document.getElementById("researchySidebar")
 		.contentWindow;
@@ -48,13 +43,6 @@ $(document).ready(() => {
 		}
 	);
 
-	$("#activateSidebarButton").click(() => {
-		$("#researchySidebar, #annotatedHTML, body").addClass("sidebarActive");
-		sidebarWindow.postMessage({
-			researchyAction: "sidebarActivated",
-		});
-	});
-
 	chrome.runtime.onMessage.addListener((message, callback) => {
 		console.log(message);
 		switch (message.researchyAction) {
@@ -68,10 +56,13 @@ $(document).ready(() => {
 				$("#researchySidebar, #annotatedHTML, body").addClass(
 					"sidebarActive"
 				);
+				sidebarWindow.postMessage({
+					researchyAction: "sidebarActivated",
+				});
 		}
 	});
 
-	window.addEventListener("message", function (event) {
+	window.addEventListener("message", (event) => {
 		if (
 			!["updateFile", "updateSelection"].includes(
 				event.data.researchyAction
@@ -79,6 +70,17 @@ $(document).ready(() => {
 		) {
 			// too frequent, less logging
 			console.log("Received message ", event.data);
+		}
+
+		if (event.data.receiver == "background") {
+			let id = event.data.id;
+			delete event.data.receiver;
+			delete event.data.id;
+			console.log(event.data, id);
+			chrome.runtime.sendMessage(event.data, (...response) => {
+				sidebarWindow.postMessage({ id: id, response: response });
+			});
+			return;
 		}
 
 		switch (event.data.researchyAction) {
@@ -117,20 +119,20 @@ $(document).ready(() => {
 				chrome.runtime.sendMessage(event.data);
 				break;
 			case "switchFile":
-				var filePath = "FILE_" + event.data.filePath;
-				chrome.storage.sync.get(filePath, (res) => {
-					res[filePath].delta = res[filePath].delta || DEFAULT_FILE;
-					res[filePath].selection = res[filePath].selection || {
-						index: 0,
-						length: 0,
-					};
-					sidebarWindow.postMessage({
-						researchyAction: "switchFile",
-						filePath: event.data.filePath,
-						fileContents: res[filePath] || defaultContents,
-					});
-				});
-				chrome.storage.sync.set({ activeFilePath: filePath });
+				chrome.runtime.sendMessage(
+					{
+						researchyAction: "get",
+						path: event.data.filePath,
+					},
+					(file) => {
+						console.log(file);
+						sidebarWindow.postMessage({
+							researchyAction: "switchFile",
+							file: file,
+						});
+					}
+				);
+				// chrome.storage.sync.set({ activeFilePath: filePath });
 				chrome.runtime.sendMessage(event.data);
 				break;
 			case "newFile":

@@ -139,7 +139,8 @@ backgroundMessageHandler.updateSelection = (request, sender, sendResponse) => {
 };
 
 backgroundMessageHandler.activateSidebar = (request, sender, sendResponse) => {
-	chrome.tabs.query({ active: true }, (tabs) => {
+	chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+		console.log(tabs);
 		chrome.tabs.sendMessage(tabs[0].id, {
 			researchyAction: "activateSidebar",
 		});
