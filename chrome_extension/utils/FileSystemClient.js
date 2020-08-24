@@ -47,7 +47,6 @@ class FileSystemClient extends FileSystem {
 		let headerDom = document.querySelector(
 			`.collapsible-header[file_path="${path}"]`
 		);
-		console.log(headerDom.childNodes[0]);
 		headerDom.childNodes[0].replaceWith(newName);
 	}
 
@@ -152,14 +151,11 @@ class FileSystemClient extends FileSystem {
 	}
 
 	activateFile(path) {
-		console.log(this);
-
 		FileSystemClient.fsLoader.style.display = "block";
 		this.activeFilePath = path;
 		FileSystemClient.fsMenuSidebar.classList.remove("fileSystemActive");
 		quill.setContents(this.activeFile.delta);
 		quill.focus();
-		console.log(this.activeFile);
 		quill.setSelection(this.activeFile.selection || File.DEFAULT_SELECTION);
 		FileSystemClient.renamer.value = this.activeFile.name;
 		FileSystemClient.fsLoader.style.display = "none";

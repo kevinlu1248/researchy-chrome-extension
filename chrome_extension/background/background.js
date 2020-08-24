@@ -124,7 +124,6 @@ backgroundMessageHandler.updateFile = (request, sender, sendResponse) => {
 };
 
 backgroundMessageHandler.activateSidebar = (request, sender, sendResponse) => {
-	console.log("activated");
 	chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
 		console.log(tabs);
 		chrome.tabs.sendMessage(tabs[0].id, {
