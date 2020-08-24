@@ -1,5 +1,4 @@
 "use strict";
-const API_URL = "https://researchy.duckdns.org/api";
 
 const DEFAULT_STORAGE = {
 	activeFilePath: "Third/File 1",

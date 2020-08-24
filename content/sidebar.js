@@ -5,27 +5,9 @@
 
 var Delta = Quill.import("delta");
 
-function getContentsFromFilePath(filePath, fileStructure) {
-	// uses filepath to find content of that structure within currentFileStructure
-	// TODO: Add error management
-	var currentFolder = currentFileStructure;
-	var expandedPath = filePath.split("/");
-	expandedPath.forEach((entityName, index) => {
-		console.log(currentFolder, entityName);
-		for (var i = 0; i < currentFolder.length; i++) {
-			if (currentFolder[i].name == entityName) {
-				currentFolder =
-					index == expandedPath.length - 1
-						? currentFolder[i]
-						: currentFolder[i].delta;
-				break;
-			}
-		}
-	});
-	return currentFolder;
-}
 // TODO: make external page instead
 // chrome-extension://ehloondkpaeflbcliilagbjffflhfhag/html/sidebar.html
+console.log(window.location.href);
 $("html").prepend(`<iframe id="researchySidebar"></iframe>`);
 
 const sidebarWindow = document.getElementById("researchySidebar").contentWindow;
@@ -106,13 +88,6 @@ window.addEventListener("message", (event) => {
 				.removeClass("fileSystemActive");
 			break;
 		case "getFiles":
-			// chrome.storage.sync.get(null, (storage) => {
-			// 	sidebarWindow.postMessage({
-			// 		researchyAction: "refreshFiles",
-			// 		storage: storage,
-			// 	});
-			// });
-
 			chrome.runtime.sendMessage(
 				{
 					researchyAction: "json",

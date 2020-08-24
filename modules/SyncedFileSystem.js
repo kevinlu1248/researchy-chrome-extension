@@ -54,6 +54,7 @@ class SyncedFileSystem extends FileSystem {
 	delete(path) {
 		super.delete(path);
 		this.updateStorage();
+		path = path.split("/").slice(0, -1).join("/");
 		var files = this.get(path).dfsFiles();
 		var keys = Object.keys(files);
 		keys.forEach((key) => {
@@ -81,7 +82,7 @@ class SyncedFileSystem extends FileSystem {
 				}
 				var fs;
 				if (storage.fileSystem) {
-					fs = new SyncedFileSystem(storage.fileSystem.contents);
+					fs = new SyncedFileSystem(storage.fileSystem);
 				} else {
 					fs = new SyncedFileSystem("DEFAULT_FILES");
 				}

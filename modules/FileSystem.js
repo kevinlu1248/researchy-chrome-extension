@@ -39,29 +39,10 @@ class File extends StoredItem {
 	constructor({ name, delta, selection } = {}) {
 		// file mainly oriented around delta
 		super();
-		// if (typeof name === "object" && name != null) {
-		// 	var data = name;
-		// 	var keys = Object.keys(data);
-		// 	for (var i = 0; i < keys.length; i++) {
-		// 		this[keys[i]] = data[keys[i]];
-		// 	}
-		// 	this.delta = this.delta
-		// 		? new Delta(this.delta)
-		// 		: File.DEFAULT_PROPERTIES.delta;
-		// 	this.selection =
-		// 		this.selection || File.DEFAULT_PROPERTIES.selection;
-		// } else {
-		// 	this.name = name;
-		// 	this.delta = delta
-		// 		? new Delta(delta)
-		// 		: File.DEFAULT_PROPERTIES.delta;
-		// 	this.selection = selection || File.DEFAULT_PROPERTIES.selection;
-		// }
 
 		this.name = name || null;
 		this.delta = delta ? new Delta(delta) : File.DEFAULT_PROPERTIES.delta;
-		this.selection = this.selection =
-			selection || File.DEFAULT_PROPERTIES.selection;
+		this.selection = selection || File.DEFAULT_PROPERTIES.selection;
 
 		this.type = "rtf";
 		this.length = this.delta ? this.delta.length() : 0;
@@ -123,31 +104,16 @@ class Folder extends StoredItem {
 		},
 	];
 
-	constructor({ name, contents } = {}) {
+	constructor({ name, contents, isOpen } = {}) {
 		// contents an array of files and folders
 		super();
-		// if (typeof name === "object" && name != null) {
-		// 	var data = name;
-		// 	var keys = Object.keys(data);
-		// 	for (var i = 0; i < keys.length; i++) {
-		// 		if (keys[i] === "contents") {
-		// 			this[keys[i]] = Folder.folderify(data[keys[i]]);
-		// 		} else {
-		// 			this[keys[i]] = data[keys[i]];
-		// 		}
-		// 	}
-		// } else if (contents == "DEFAULT") {
-		// 	this.name = name;
-		// 	this.contents = Folder.folderify(Folder.DEFAULT_FOLDER);
-		// } else {
-		// 	this.name = name;
-		// 	this.contents = Folder.folderify(contents);
-		// }
+
+		if (contents == "DEFAULT")
+			contents = Folder.folderify(Folder.DEFAULT_FOLDER);
 
 		this.name = name || null;
-		this.contents = contents
-			? Folder.folderify(contents)
-			: Folder.folderify(Folder.DEFAULT_FOLDER);
+		this.contents = contents ? Folder.folderify(contents) : [];
+		this.isOpen = isOpen || false;
 		this.type = "folder";
 		this.length = this.contents.length || 0;
 	}
@@ -227,7 +193,7 @@ class Folder extends StoredItem {
 		var folder = this.get(path);
 		if (folder == false && folder instanceof Folder) return false;
 		if (folder.child(name)) return false; // check namespace
-		item.contents.push(new File(name));
+		folder.contents.push(new File({ name: name }));
 	}
 
 	newFolder(path, name) {
@@ -235,7 +201,7 @@ class Folder extends StoredItem {
 		if (typeof path === "string") path = path.split("/");
 		var folder = this.get(path);
 		if (folder.child(name)) return false; // check namespace
-		item.contents.push(new Folder(name));
+		folder.contents.push(new Folder({ name }));
 	}
 
 	update(path, partial) {
@@ -262,6 +228,13 @@ class Folder extends StoredItem {
 			item.timeModified = new Date();
 			item = item.child(path[i]);
 		}
+		return true;
+	}
+
+	toggleOpen(path, doOpen) {
+		let item = this.get(path);
+		if (item == false) return false;
+		item.isOpen = doOpen;
 		return true;
 	}
 
@@ -302,15 +275,40 @@ class Folder extends StoredItem {
 class FileSystem extends Folder {
 	constructor({ contents = null, activeFilePath } = {}) {
 		super({ name: null, contents: contents });
-		this.activeFilePath = activeFilePath || Object.keys(this.dfsFiles())[0];
+
+		this.allFiles = this.dfsFiles();
+		this.activeFilePath = activeFilePath || Object.keys(this.allFiles)[0];
+	}
+
+	get totalLength() {
+		let sum = 0;
+		let keys = Object.keys(this.allFiles);
+		for (var i = 0; i < keys.length; i++) {
+			sum += this.allFiles[keys[i]].length;
+		}
+		return sum;
+	}
+
+	get activeFilePath() {
+		return this._activeFilePath;
+	}
+
+	set activeFilePath(path) {
+		this._activeFilePath = path;
+		delete this._activeFileName;
+		delete this._activeFile;
 	}
 
 	get activeFileName() {
-		return this.activeFilePath.split("/").slice(-1);
+		if (this._activeFileName) return this._activeFileName;
+		return (this._activeFileName = this.activeFilePath
+			.split("/")
+			.slice(-1));
 	}
 
 	get activeFile() {
-		return this.get(this.activeFilePath);
+		if (this._activeFile) return this._activeFile;
+		return (this._activeFile = this.get(this.activeFilePath));
 	}
 }
 
