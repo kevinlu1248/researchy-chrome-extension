@@ -4,7 +4,7 @@
 <a href="https://github.com/kevinlu1248/researchy-chrome-extension"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" height="70"/></a>
 
 
-Chrome Extension for automatic reader mode and key term highlighting for researching. API can be found at https://github.com/kevinlu1248/researchy-api.
+Chrome Extension for automatic reader mode and key term highlighting for researching. API can be found at https://github.com/kevinlu1248/researchy-api. Website at https://kevinlu1248.github.io/researchy-chrome-extension/.
 
 ## Privacy Policy
 
