@@ -1,0 +1,27 @@
+{
+    "name": "researchy-chrome-extension",
+    "version": "1.0.0",
+    "description": "Chrome Extension at https://chrome.google.com/webstore/detail/researchy/ngeljggnajfepdokmccoolkjbomnlime for automatic reader mode and key term highlighting for researching. API can be found at https://github.com/kevinlu1248/researchy-api.",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kevinlu1248/researchy-chrome-extension.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kevinlu1248/researchy-chrome-extension/issues"
+    },
+    "homepage": "https://github.com/kevinlu1248/researchy-chrome-extension#readme",
+    "dependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-react-app": "^3.1.2"
+    }
+}

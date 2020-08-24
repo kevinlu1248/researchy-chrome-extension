@@ -2,6 +2,8 @@
 
 Chrome Extension at https://chrome.google.com/webstore/detail/researchy/ngeljggnajfepdokmccoolkjbomnlime for automatic reader mode and key term highlighting for researching. API can be found at https://github.com/kevinlu1248/researchy-api.
 
+The Chome Extension can be found at `/chrome_extension`.
+
 ## Privacy Policy
 
 Kevin Lu built the Research Mode app as an Open Source Chrome Extension. This SERVICE is provided by Kevin Lu at no cost and is intended for use as is.
@@ -16,10 +18,10 @@ The terms used in this Privacy Policy have the same meanings as in our Terms and
 
 For a better experience, while using our service, I may require you to provide us with certain personally identifiable information, including but not limited to you're notes, in conjunction with your citations, which will be collected for training my engine to:
 
-* Identify and extract terms
-* Summarize articles
-* Auto-generate notes, and
-* Autoegenerate bibliographies.
+-   Identify and extract terms
+-   Summarize articles
+-   Auto-generate notes, and
+-   Autoegenerate bibliographies.
 
 The information that I request will be saved on a secure database managed by Heroku Postgres.
 
@@ -27,9 +29,9 @@ The app does use third party services that may collect information used to ident
 
 Link to privacy policy of third party service providers used by the chrome extension:
 
-* Google Play Services
-* Sentry
-* Log Data
+-   Google Play Services
+-   Sentry
+-   Log Data
 
 I want to inform you that whenever you use my Service, in a case of an error in the app I collect data and information (through third party products) on your phone called Log Data. This Log Data may include information such as your device the page you requested to simplify in conjunction with your notes, the time and location, and other statistics.
 
@@ -41,10 +43,10 @@ Cookies are files with a small amount of data that are commonly used as anonymou
 
 I may employ third-party companies and individuals due to the following reasons:
 
-* To facilitate our service;
-* To provide the service on our behalf;
-* To perform service-related services; or
-* To assist us in analyzing how our service is used.
+-   To facilitate our service;
+-   To provide the service on our behalf;
+-   To perform service-related services; or
+-   To assist us in analyzing how our service is used.
 
 I want to inform users of this service that these third parties have access to your personal information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.
 
