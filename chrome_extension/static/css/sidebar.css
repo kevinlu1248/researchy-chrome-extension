@@ -16,12 +16,17 @@ html::-webkit-scrollbar {
 #filenameInput {
 	margin-bottom: 0;
 	/*margin-top: 0.5rem;*/
-	border: none;
-	box-shadow: none;
+	/*border: none;*/
+	/*box-shadow: none;*/
 }
 
 #filenameInput:focus {
-	border-color: #90caf9;
+	/*border-color: #90caf9;*/
+}
+
+#filenameInput:not(:focus) {
+	border-color: transparent;
+	box-shadow: 0 1px 0 0 grey;
 }
 
 #topbar {

@@ -1,9 +1,8 @@
 class SyncedFileSystem extends FileSystem {
 	// essentially folder but with storage interactions
-
-	constructor(contents, activeFile = null, doSyncImmediately = false) {
-		if (contents == undefined) contents = "DEFAULT";
-		super(contents, activeFile);
+	constructor({ contents = null, doSyncImmediately = false } = {}) {
+		if (contents == null) contents = "DEFAULT";
+		super({ contents: contents });
 		this.updateStorage();
 		this.allFiles = this.dfsFiles();
 		if (doSyncImmediately) {
@@ -74,6 +73,24 @@ class SyncedFileSystem extends FileSystem {
 		chrome.storage.sync.get(null, console.log);
 	}
 
+	static clear() {
+		chrome.storage.sync.remove("fileSystem");
+	}
+
+	static clearAll() {
+		SyncedFileSystem.clear();
+		chrome.storage.sync.get(null, (storage) => {
+			if (chrome.runtime.lastError) {
+				reject(chrome.runtime.lastError);
+			}
+			for (const key in storage) {
+				if (key.startsWith("FILE_")) {
+					chrome.storage.sync.remove(key);
+				}
+			}
+		});
+	}
+
 	static get fs() {
 		return new Promise((resolve, reject) => {
 			chrome.storage.sync.get(null, (storage) => {
@@ -84,7 +101,8 @@ class SyncedFileSystem extends FileSystem {
 				if (storage.fileSystem) {
 					fs = new SyncedFileSystem(storage.fileSystem);
 				} else {
-					fs = new SyncedFileSystem("DEFAULT_FILES");
+					fs = new SyncedFileSystem({ doSyncImmediately: true });
+					console.log(fs);
 				}
 				resolve(fs);
 			});

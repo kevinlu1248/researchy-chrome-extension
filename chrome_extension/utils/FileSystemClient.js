@@ -45,7 +45,7 @@ class FileSystemClient extends FileSystem {
 			newName: newName,
 		});
 		let headerDom = document.querySelector(
-			`.collapsible-header[file_path="${path}"]`
+			`.collapsible-header[file_path="${path}"], .fileItem[file_path="${path}"]`
 		);
 		headerDom.childNodes[0].replaceWith(newName);
 	}

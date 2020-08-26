@@ -1,20 +1,17 @@
 "use strict";
 
 const DEFAULT_STORAGE = {
-	activeFilePath: "Third/File 1",
-	"FILE_Third/File 1": DEFAULT_FILE,
-	fileSystem: DEFAULT_FILES,
 	plugin_is_on: false,
 	include_list: [],
 };
 
 chrome.runtime.onInstalled.addListener(function () {
-	// add length, contents of files, bibliography
+	// add contents of files, bibliography
 	// folder and files don't share names
 	// no quotation marks
 	chrome.storage.sync.get(null, (storage) => {
 		console.log("Current storage: ", storage);
-		var obj = {};
+		let obj = {};
 		Object.keys(DEFAULT_STORAGE).forEach((key) => {
 			if (!storage[key]) {
 				obj[key] = DEFAULT_STORAGE[key];
@@ -108,11 +105,11 @@ backgroundMessageHandler.getAuthToken = (request, sender, sendResponse) => {
 };
 
 backgroundMessageHandler.updateFile = (request, sender, sendResponse) => {
-	var filePath = "FILE_" + request.contents.filePath;
-	var partial = new Delta(request.contents.partial); // partial change
+	let filePath = "FILE_" + request.contents.filePath;
+	let partial = new Delta(request.contents.partial); // partial change
 	chrome.storage.sync.get(filePath, (res) => {
 		res[filePath] = res[filePath] || DEFAULT_FILE;
-		var newStorage = {};
+		let newStorage = {};
 		newStorage[filePath] = res[filePath];
 		newStorage[filePath].delta = new Delta(res[filePath].delta).compose(
 			partial
@@ -134,9 +131,9 @@ backgroundMessageHandler.activateSidebar = (request, sender, sendResponse) => {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	console.info("Receiving request", request);
-	var action = request.researchyAction;
+	let action = request.researchyAction;
 	if (typeof backgroundMessageHandler[action] === "function") {
-		var doAsync = backgroundMessageHandler.handleMessage(
+		let doAsync = backgroundMessageHandler.handleMessage(
 			action,
 			request,
 			sender,

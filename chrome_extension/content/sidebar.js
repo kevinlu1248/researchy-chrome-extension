@@ -7,10 +7,16 @@ var Delta = Quill.import("delta");
 
 // TODO: make external page instead
 // chrome-extension://ehloondkpaeflbcliilagbjffflhfhag/html/sidebar.html
-console.log(window.location.href);
+console.log(
+	window.location.href,
+	window.location.href == "https://this-page-intentionally-left-blank.org/"
+);
 $("html").prepend(`<iframe id="researchySidebar"></iframe>`);
 
 const sidebarWindow = document.getElementById("researchySidebar").contentWindow;
+
+if (window.location.href == "https://this-page-intentionally-left-blank.org/")
+	$("#researchySidebar, #annotatedHTML, body").addClass("sidebarActive");
 
 chrome.runtime.sendMessage(
 	{ researchyAction: "readFile", fileName: "static/html/sidebar.html" },
@@ -45,7 +51,11 @@ const fsport = chrome.runtime.connect({ name: "fs" });
 
 window.addEventListener("message", (event) => {
 	if (
-		!["updateFile", "updateSelection"].includes(event.data.researchyAction)
+		!["updateFile", "updateSelection"].includes(
+			event.data.researchyAction
+		) &&
+		event.data &&
+		event.data.researchyAction
 	) {
 		// too frequent, less logging
 		console.log("Received message ", event.data);

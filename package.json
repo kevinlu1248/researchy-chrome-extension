@@ -7,7 +7,9 @@
         "test": "tests"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "npx babel --watch src/components --out-dir chrome_extension/components --presets react-app/prod src/componenets/component.js -> chrome_extension/componentscomponent.js",
+        "deploy": "python build/zip_extension.py"
     },
     "repository": {
         "type": "git",

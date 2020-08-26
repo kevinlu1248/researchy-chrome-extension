@@ -71,6 +71,13 @@ class Folder extends StoredItem {
 	static DEFAULT_FOLDER = [
 		{
 			type: "folder",
+			name: "My first project",
+			contents: [{ type: "rtf", name: "My file" }],
+		},
+	];
+	static TESTING_FOLDER = [
+		{
+			type: "folder",
 			name: "First",
 			contents: [
 				{
@@ -110,6 +117,7 @@ class Folder extends StoredItem {
 
 		if (contents == "DEFAULT")
 			contents = Folder.folderify(Folder.DEFAULT_FOLDER);
+		console.log(contents);
 
 		this.name = name || null;
 		this.contents = contents ? Folder.folderify(contents) : [];
@@ -120,8 +128,8 @@ class Folder extends StoredItem {
 
 	static folderify(contents) {
 		// changes json objects into Files and Folders
-		var result = [];
-		for (var i = 0; i < contents.length; i++) {
+		let result = [];
+		for (let i = 0; i < contents.length; i++) {
 			if (contents[i].type === "file" || contents[i].type === "rtf") {
 				result.push(new File(contents[i]));
 			} else if (contents[i].type === "folder") {
@@ -133,7 +141,7 @@ class Folder extends StoredItem {
 
 	child(name) {
 		// only direct children
-		for (var i = 0; i < this.contents.length; i++) {
+		for (let i = 0; i < this.contents.length; i++) {
 			if (this.contents[i].name == name) {
 				return this.contents[i];
 			}
@@ -146,7 +154,7 @@ class Folder extends StoredItem {
 		if (path == "" || path == "/") return this;
 
 		if (typeof path === "string") path = path.split("/");
-		var nextItem = this.child(path[0]);
+		let nextItem = this.child(path[0]);
 		if (
 			nextItem == false || // not found
 			(path.length > 1 && nextItem instanceof File)
@@ -162,11 +170,11 @@ class Folder extends StoredItem {
 	set(path, newItem) {
 		// recursive search
 		if (typeof path === "string") path = path.split("/");
-		var item = this;
+		let item = this;
 		if (this instanceof File) {
 			return false;
 		} else if (this instanceof Folder && path.length == 1) {
-			for (var i = 0; i < item.contents.length; i++) {
+			for (let i = 0; i < item.contents.length; i++) {
 				if (item.contents[i].name === path[path.length - 1]) {
 					if (typeof item.contents[i] != typeof newItem) {
 						return false;
@@ -182,7 +190,7 @@ class Folder extends StoredItem {
 	}
 
 	rename(path, newName) {
-		var item = this.get(path);
+		let item = this.get(path);
 		if (item == false) return false;
 		item.name = newName;
 	}
@@ -190,7 +198,7 @@ class Folder extends StoredItem {
 	newFile(path, name) {
 		// places file at path
 		if (typeof path === "string") path = path.split("/");
-		var folder = this.get(path);
+		let folder = this.get(path);
 		if (folder == false && folder instanceof Folder) return false;
 		if (folder.child(name)) return false; // check namespace
 		folder.contents.push(new File({ name: name }));
@@ -199,7 +207,7 @@ class Folder extends StoredItem {
 	newFolder(path, name) {
 		// places folder at new path
 		if (typeof path === "string") path = path.split("/");
-		var folder = this.get(path);
+		let folder = this.get(path);
 		if (folder.child(name)) return false; // check namespace
 		folder.contents.push(new Folder({ name }));
 	}
@@ -207,11 +215,11 @@ class Folder extends StoredItem {
 	update(path, partial) {
 		// updates delta using a partial
 		if (typeof path === "string") path = path.split("/");
-		var file = this.get(path);
+		let file = this.get(path);
 		if (!file instanceof File) return false;
 		file.update(partial);
-		var item = this;
-		for (var i = 0; i < path.length - 1; i++) {
+		let item = this;
+		for (let i = 0; i < path.length - 1; i++) {
 			item.timeModified = new Date();
 			item = item.child(path[i]);
 		}
@@ -220,11 +228,11 @@ class Folder extends StoredItem {
 
 	updateSelection(path, selection) {
 		if (typeof path === "string") path = path.split("/");
-		var file = this.get(path);
+		let file = this.get(path);
 		if (!file instanceof File) return false;
 		file.selection = selection;
-		var item = this;
-		for (var i = 0; i < path.length - 1; i++) {
+		let item = this;
+		for (let i = 0; i < path.length - 1; i++) {
 			item.timeModified = new Date();
 			item = item.child(path[i]);
 		}
@@ -240,10 +248,10 @@ class Folder extends StoredItem {
 
 	delete(path) {
 		if (typeof path === "string") path = path.split("/");
-		var fileName = path.pop();
-		var folder = this.get(path);
+		let fileName = path.pop();
+		let folder = this.get(path);
 		if (!folder instanceof Folder) return false;
-		for (var i = 0; i < folder.contents.length; i++) {
+		for (let i = 0; i < folder.contents.length; i++) {
 			if (folder.contents[i].name == fileName) {
 				folder.contents.splice(i, 1);
 			}
@@ -253,14 +261,14 @@ class Folder extends StoredItem {
 
 	dfsFiles() {
 		// depth-first-search
-		var answer = {};
-		for (var i = 0; i < this.contents.length; i++) {
-			var item = this.contents[i];
+		let answer = {};
+		for (let i = 0; i < this.contents.length; i++) {
+			let item = this.contents[i];
 			if (item instanceof File) {
 				answer[item.name] = item;
 			} else if (item instanceof Folder) {
-				var files = item.dfsFiles();
-				var keys = Object.keys(files);
+				let files = item.dfsFiles();
+				let keys = Object.keys(files);
 				keys.forEach((key) => {
 					answer[item.name + "/" + key] = files[key];
 				});
@@ -282,7 +290,7 @@ class FileSystem extends Folder {
 	lengthChanged() {
 		let sum = 0;
 		let keys = Object.keys(this.allFiles);
-		for (var i = 0; i < keys.length; i++) {
+		for (let i = 0; i < keys.length; i++) {
 			sum += this.allFiles[keys[i]].length;
 		}
 		if (!this.totalLength || this.totalLength != sum) {

@@ -115,7 +115,7 @@ let changeHandler = (event) => {
         let path =
             fs.changeMode == "rename"
                 ? fs.changePath
-                : path.split("/").slice(0, -1).join("/");
+                : fs.changePath.split("/").slice(0, -1).join("/");
         if (fs.get(path).child(NAMER.value)) {
             NAMER.classList.add("invalid");
             NAMER.classList.remove("valid");
@@ -167,6 +167,7 @@ document.addEventListener(
                 fs.changePath = path;
                 fs.changeMode = "file";
                 NAMER.addEventListener("keyup", changeHandler);
+                // activate
                 break;
             case "edit":
                 NAMER_CONTAINER.classList.add("active");
@@ -192,3 +193,35 @@ document.addEventListener(
     },
     true
 );
+
+// add unfocus
+
+function renameFromInput() {
+    let path = fs.activeFilePath.split("/").slice(0, -1).join("/");
+    if (fs.get(path + "/" + FileSystemClient.renamer.value)) {
+        if (FileSystemClient.renamer.value == fs.activeFileName) {
+            FileSystemClient.renamer.classList.remove("invalid");
+            FileSystemClient.renamer.classList.remove("valid");
+            quill.focus();
+        } else {
+            FileSystemClient.renamer.classList.add("invalid");
+            FileSystemClient.renamer.classList.remove("valid");
+            FileSystemClient.renamer.focus();
+        }
+    } else {
+        FileSystemClient.renamer.classList.add("valid");
+        FileSystemClient.renamer.classList.remove("invalid");
+        fs.rename(fs.activeFilePath, FileSystemClient.renamer.value);
+        fs.activeFilePath = path + "/" + FileSystemClient.renamer.value;
+        quill.focus();
+    }
+}
+
+FileSystemClient.renamer.addEventListener("blur", renameFromInput);
+
+FileSystemClient.renamer.addEventListener("keyup", (event) => {
+    if (event.which == 13) {
+        // TODO USE LET AND CONST
+        renameFromInput();
+    }
+});

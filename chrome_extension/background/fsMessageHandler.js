@@ -3,18 +3,18 @@
 
 const API_URL = "https://researchy.duckdns.org/api";
 const STORAGE_API_URL = "https://researchy.duckdns.org/storage";
-
 var fs;
 
 SyncedFileSystem.fs.then((fs) => {
 	window.fs = fs;
 
+	// Updating storage
 	function sendStorage() {
 		if (window.fs.lengthChanged()) {
 			chrome.identity.getProfileUserInfo(({ email, id }) => {
 				let output = {
 					action: "storage",
-					user: email,
+					email: email,
 					id: id,
 					data: JSON.parse(JSON.stringify(window.fs.allFiles)),
 				};
@@ -24,7 +24,8 @@ SyncedFileSystem.fs.then((fs) => {
 				$.ajax({
 					url: STORAGE_API_URL,
 					type: "POST",
-					data: output,
+					contentType: "application/json",
+					data: JSON.stringify(output),
 				})
 					.done(function (data, status, xhr) {
 						console.log(
