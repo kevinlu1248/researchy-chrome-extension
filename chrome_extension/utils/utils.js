@@ -8,7 +8,6 @@ function replaceURLs(doc) {
 function VanillaMessageHandler() {
 	const obj = {};
 	obj.handleMessage = function (event) {
-		console.log(event.data);
 		if (typeof obj[event.data.researchyAction] === "function") {
 			obj[event.data.researchyAction](event.data);
 		}

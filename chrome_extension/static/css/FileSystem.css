@@ -1,0 +1,78 @@
+#FileSystem {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.FileSystemC__Main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Folder {
+    list-style-type: None;
+}
+
+.File__HeaderText,
+.FolderC__HeaderText {
+    margin-left: 0;
+}
+
+.Folder__List {
+    margin-left: 1rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.FileC__Button,
+.FolderC__Button {
+    width: 2rem;
+    min-width: 0 !important;
+    background: transparent !important;
+}
+
+.FileSystemC__Skeleton {
+    height: 3rem !important;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.MuiSkeleton-text {
+    transform: scale(1, 0.8) !important;
+}
+
+.FileSystemC__Skeleton--First {
+    margin-top: 1rem !important;
+}
+
+.FileSystemC__TextFieldHolder {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+    margin-top: auto;
+}
+
+.MuiInputBase-input.MuiInput-input {
+    border-bottom: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+}
+
+.MuiFormControl-root.MuiTextField-root.FileSystemC__TextField {
+    width: 100%;
+}
+
+.MuiListItemIcon-root {
+    color: black !important;
+    min-width: 3rem !important;
+}
+
+.FileSystemC__TextField {
+    margin-bottom: -8rem !important;
+    transition: margin-bottom 0.3s ease-in-out;
+}
+
+.FileSystemC__TextField--Active {
+    margin-bottom: 1rem !important;
+}

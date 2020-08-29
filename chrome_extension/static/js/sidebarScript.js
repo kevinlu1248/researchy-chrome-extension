@@ -16,7 +16,6 @@ document.getElementById("deactivateFileSystem").onclick = () => {
     });
 };
 
-let fs;
 const NAMER_CONTAINER = document.getElementById("namerContainer");
 const NAMER = document.getElementById("namer");
 

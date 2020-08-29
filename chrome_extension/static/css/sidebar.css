@@ -1,63 +1,63 @@
 body {
-	margin: 0;
+    margin: 0;
 }
 
 html::-webkit-scrollbar {
-	width: 0px;
-	height: 0px;
+    width: 0px;
+    height: 0px;
 }
 
 .waves-effect.waves-blue .waves-ripple {
-	/* The alpha value allows the text and background color
+    /* The alpha value allows the text and background color
    of the button to still show through. */
-	background-color: rgba(144, 202, 249, 0.65);
+    background-color: rgba(144, 202, 249, 0.65);
 }
 
 #filenameInput {
-	margin-bottom: 0;
-	/*margin-top: 0.5rem;*/
-	/*border: none;*/
-	/*box-shadow: none;*/
+    margin-bottom: 0;
+    /*margin-top: 0.5rem;*/
+    /*border: none;*/
+    /*box-shadow: none;*/
 }
 
 #filenameInput:focus {
-	/*border-color: #90caf9;*/
+    /*border-color: #90caf9;*/
 }
 
 #filenameInput:not(:focus) {
-	border-color: transparent;
-	box-shadow: 0 1px 0 0 grey;
+    border-color: transparent;
+    box-shadow: 0 1px 0 0 grey;
 }
 
 #topbar {
-	display: flex;
+    display: flex;
 }
 
 #editor {
-	border: none;
-	height: 100vh;
-	height: auto;
-	/*flex-grow: 1;*/
+    border: none;
+    height: 100vh;
+    height: auto;
+    /*flex-grow: 1;*/
 }
 
 .ql-toolbar.ql-snow {
-	border: none;
+    border: none;
 }
 
 .ql-editor::-webkit-scrollbar {
-	width: 0px;
-	height: 0px;
+    width: 0px;
+    height: 0px;
 }
 
 .ql-editor {
-	font-family: "Literata", serif;
+    font-family: "Literata", serif;
 }
 
 #editorContainer {
-	flex-flow: column;
-	height: 100vh;
-	display: flex;
-	padding: 0.25rem;
+    flex-flow: column;
+    height: 100vh;
+    display: flex;
+    padding: 0.25rem;
 }
 
 .ql-editor p,
@@ -65,163 +65,165 @@ html::-webkit-scrollbar {
 .ql-editor ul,
 .ql-editor pre,
 .ql-editor blockquote {
-	font-size: 1.25rem;
+    font-size: 1.25rem;
 }
 
 .ql-snow .ql-editor h1 {
-	font-size: 2.5rem;
+    font-size: 2.5rem;
 }
 
 .ql-snow .ql-editor h2 {
-	font-size: 2rem;
+    font-size: 2rem;
 }
 
 #editorPreloaderContainer {
-	margin-bottom: auto;
-	text-align: center;
-	margin-top: 30px;
+    margin-bottom: auto;
+    text-align: center;
+    margin-top: 30px;
 }
 
 #fileSystemMenu {
-	height: 100vh;
-	width: 100vw;
-	position: fixed;
-	background: white;
-	z-index: 2;
-	padding: 0.25rem;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: white;
+    z-index: 2;
+    padding: 0.25rem;
 
-	transition: margin-left 0.5s ease-in-out;
-	margin-left: -100vw;
-	box-shadow: rgba(51, 51, 51, 0.533) 0px 0px 10px;
-	display: flex;
-	flex-direction: column;
+    transition: margin-left 0.5s ease-in-out;
+    margin-left: -100vw;
+    box-shadow: rgba(51, 51, 51, 0.533) 0px 0px 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 #fileSystemMenu.fileSystemActive {
-	margin-left: 0;
+    margin-left: 0;
 }
 
 #namerContainer {
-	margin-top: auto;
-	margin-left: 1rem;
-	margin-right: 1rem;
-	margin-bottom: -7rem;
-	transition: 0.2s ease-in-out margin-bottom;
+    margin-top: auto;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-bottom: -7rem;
+    transition: 0.2s ease-in-out margin-bottom;
 }
 
 #namerContainer.active {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* label focus color */
 .input-field input[type="text"]:focus + label {
-	color: #03a9f4 !important;
+    color: #03a9f4 !important;
 }
 /* label underline focus color */
 .input-field input[type="text"]:not(.valid):not(.invalid):focus {
-	border-bottom: 1px solid #03a9f4 !important;
-	box-shadow: 0 1px 0 0 #03a9f4 !important;
+    border-bottom: 1px solid #03a9f4 !important;
+    box-shadow: 0 1px 0 0 #03a9f4 !important;
 }
 
 #menuPreloaderContainer {
-	text-align: center;
-	margin-top: 50px;
+    text-align: center;
+    margin-top: 50px;
+
+    display: none !important;
 }
 
 .collapsible.expandable {
-	box-shadow: none !important;
-	border: none !important;
-	margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
 }
 
 .collapsible-body {
-	padding-top: 0 !important;
-	padding-bottom: 0 !important;
-	padding-right: 0 !important;
-	padding-left: 1rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-right: 0 !important;
+    padding-left: 1rem !important;
 }
 
 .collapsible-body > .collapsible.expandable {
-	margin: 0 !important;
+    margin: 0 !important;
 }
 
 .collapsible-header {
-	/*display: block !important;*/
+    /*display: block !important;*/
 }
 
 .collapsible-header:last-child {
-	border-bottom: none !important;
+    border-bottom: none !important;
 }
 
 .collapsible-header::before {
-	/*Reference: https://github.com/google/material-design-icons/commit/30c70eb87e0ae9465e59f1747b4e7bfd62edeb15#diff-2a6de7989576d15db52085617236be66*/
-	/*Folder icons*/
-	font-family: "Material Icons";
-	content: "\e2c7";
-	font-size: 1.6rem;
-	line-height: 1;
-	margin-right: 1rem;
+    /*Reference: https://github.com/google/material-design-icons/commit/30c70eb87e0ae9465e59f1747b4e7bfd62edeb15#diff-2a6de7989576d15db52085617236be66*/
+    /*Folder icons*/
+    font-family: "Material Icons";
+    content: "\e2c7";
+    font-size: 1.6rem;
+    line-height: 1;
+    margin-right: 1rem;
 }
 
 li.active > .collapsible-header::before {
-	font-family: "Material Icons";
-	content: "\e2c8";
-	font-size: 1.6rem;
-	line-height: 1;
-	margin-right: 1rem;
+    font-family: "Material Icons";
+    content: "\e2c8";
+    font-size: 1.6rem;
+    line-height: 1;
+    margin-right: 1rem;
 }
 
 #foldersMenu li.fileItem {
-	/*Files*/
-	line-height: 1.5;
-	margin: auto;
-	padding: 1rem;
-	display: flex;
-	cursor: pointer;
-	text-transform: none;
-	height: auto !important;
+    /*Files*/
+    line-height: 1.5;
+    margin: auto;
+    padding: 1rem;
+    display: flex;
+    cursor: pointer;
+    text-transform: none;
+    height: auto !important;
 }
 
 #foldersMenu li.fileItem:focus {
-	/*Files*/
-	background: lightgrey;
+    /*Files*/
+    background: lightgrey;
 }
 
 #foldersMenu li.fileItem::before {
-	/*File icons*/
-	font-family: "Material Icons";
-	content: "\e8d2";
-	font-size: 1.6rem;
-	line-height: 1 !important;
-	margin-right: 1rem;
+    /*File icons*/
+    font-family: "Material Icons";
+    content: "\e8d2";
+    font-size: 1.6rem;
+    line-height: 1 !important;
+    margin-right: 1rem;
 }
 
 .collapsible-header .waves-effect.waves-blue.btn-flat {
-	padding: 0;
-	font-size: 1.6rem !important;
-	line-height: 1;
+    padding: 0;
+    font-size: 1.6rem !important;
+    line-height: 1;
 }
 
 .fileItem .waves-effect.waves-blue.btn-flat {
-	padding: 0;
-	font-size: 1.6rem !important;
-	line-height: 1;
+    padding: 0;
+    font-size: 1.6rem !important;
+    line-height: 1;
 }
 
 .fileItem .waves-effect.waves-blue.btn-flat .material-icons {
-	font-size: 1.6rem !important;
-	line-height: 1;
+    font-size: 1.6rem !important;
+    line-height: 1;
 }
 
 .collapsible-header .waves-effect.waves-blue.btn-flat .material-icons,
 .fileItem .waves-effect.waves-blue.btn-flat .material-icons {
-	margin-right: 0;
+    margin-right: 0;
 }
 
 .collapsible-header > span,
 .fileItem > span {
-	height: 1rem;
-	margin-left: auto;
+    height: 1rem;
+    margin-left: auto;
 }
 
 /*.dropdown-content {
@@ -232,9 +234,9 @@ li.active > .collapsible-header::before {
 */
 
 #addItem .material-icons {
-	color: black;
+    color: black;
 }
 
 a.btn-flat {
-	height: fit-content;
+    height: fit-content;
 }

@@ -7,6 +7,7 @@
         />
         <link href="{{/utils/quill/quill.snow.css}}" rel="stylesheet" />
         <link href="{{/static/css/sidebar.css}}" rel="stylesheet" />
+        <link href="{{/static/css/FileSystem.css}}" rel="stylesheet" />
 
         <link
             href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,700;1,400&display=swap"
@@ -23,9 +24,11 @@
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"
         />
+
+        <script src="http://localhost:8097"></script>
     </head>
     <body>
-        <div id="fileSystemMenu">
+        <div id="fileSystemMenu" class="fileSystemActive">
             <div id="topbar">
                 <span>
                     <a
@@ -65,8 +68,8 @@
                     <i class="material-icons">chevron_left</i>
                 </a>
             </div>
-            <div id="foldersMenu"></div>
-            <div id="reactComponent"></div>
+            <div id="foldersMenu" style="display: none;"></div>
+            <div id="FileSystem"></div>
             <div id="menuPreloaderContainer" style="display: none;">
                 <div class="preloader-wrapper big active">
                     <div class="spinner-layer spinner-blue-only">
@@ -155,7 +158,7 @@
 
         <!-- Load React. -->
         <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-        <script
+        <!-- <script
             src="https://unpkg.com/react@16/umd/react.development.js"
             crossorigin
         ></script>
@@ -165,10 +168,9 @@
         ></script>
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-        <script
-            type="text/babel"
-            src="{{/components/FileSystemComponent.js}}"
-        ></script>
+        <script type="text/babel" src="{{/components/bundle.js}}"></script> -->
+
+        <script src="{{/components/bundle.js}}"></script>
 
         <script src="{{/static/js/sidebarScript.js}}"></script>
     </body>

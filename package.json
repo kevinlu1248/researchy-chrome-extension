@@ -8,8 +8,9 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "watch": "npx babel --watch src/components --out-dir chrome_extension/components --presets react-app/prod src/componenets/component.js -> chrome_extension/componentscomponent.js",
-        "deploy": "python build/zip_extension.py"
+        "watch": "watchify src/components/FileSystemC.jsx -o chrome_extension/components/bundle.js -v",
+        "build": "browserify src/components/FileSystemC.jsx -o chrome_extension/components/bundle.js -v",
+        "create": "python build/zip_extension.py"
     },
     "repository": {
         "type": "git",
@@ -23,7 +24,82 @@
     },
     "homepage": "https://github.com/kevinlu1248/researchy-chrome-extension#readme",
     "dependencies": {
-        "babel-cli": "^6.26.0",
-        "babel-preset-react-app": "^3.1.2"
+        "@material-ui/core": "^4.11.0",
+        "@material-ui/icons": "^4.9.1",
+        "@material-ui/lab": "^4.0.0-alpha.56",
+        "babel-preset-react-app": "^3.1.2",
+        "browserify": "^16.5.2",
+        "classnames": "^2.2.6",
+        "gulp-run-command": "0.0.10",
+        "gulp-sourcemaps": "^2.6.5",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "stylelint": "^13.6.1",
+        "stylelint-config-recommended": "^3.0.0",
+        "stylelint-config-standard": "^20.0.0",
+        "typescript": "^4.0.2",
+        "vinyl": "^2.2.0",
+        "vinyl-buffer": "^1.0.1",
+        "vinyl-fs": "^3.0.3",
+        "vinyl-source-stream": "^2.0.0",
+        "watchify": "^3.11.1"
+    },
+    "prettier": {
+        "tabWidth": 4
+    },
+    "stylelint": {
+        "extends": "stylelint-config-recommended",
+        "rules": {
+            "indentation": "tab",
+            "number-leading-zero": null
+        }
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.10.5",
+        "@babel/core": "^7.11.4",
+        "@babel/preset-env": "^7.11.0",
+        "@babel/preset-react": "^7.10.4",
+        "@babel/preset-typescript": "^7.10.4",
+        "babelify": "^10.0.0",
+        "gulp": "^4.0.2",
+        "install": "^0.13.0",
+        "npm": "^6.14.8"
+    },
+    "babel": {
+        "presets": [
+            "@babel/preset-env",
+            "@babel/preset-react"
+        ],
+        "plugins": [
+            "transform-class-properties"
+        ]
+    },
+    "browserify": {
+        "sourceType": "module",
+        "plugin": [
+            [
+                "tsify",
+                {
+                    "target": "es6"
+                }
+            ]
+        ],
+        "require": [
+            "@material-ui/icons"
+        ],
+        "transform": [
+            [
+                "babelify",
+                {
+                    "presets": [
+                        "@babel/preset-env",
+                        "@babel/preset-react"
+                    ],
+                    "plugins": [
+                        "transform-class-properties"
+                    ]
+                }
+            ]
+        ]
     }
 }
