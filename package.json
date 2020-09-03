@@ -8,8 +8,8 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "watch": "watchify src/components/FileSystemC.jsx -o chrome_extension/components/bundle.js -v",
-        "build": "browserify src/components/FileSystemC.jsx -o chrome_extension/components/bundle.js -v",
+        "watch": "watchify src/Sidebar/Sidebar.jsx -o chrome_extension/components/bundle.js -v",
+        "build": "browserify src/Sidebar/Sidebar.jsx -o chrome_extension/components/bundle.js -v",
         "create": "python build/zip_extension.py"
     },
     "repository": {
@@ -34,6 +34,7 @@
         "gulp-sourcemaps": "^2.6.5",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "react-quill": "^1.3.5",
         "stylelint": "^13.6.1",
         "stylelint-config-recommended": "^3.0.0",
         "stylelint-config-standard": "^20.0.0",

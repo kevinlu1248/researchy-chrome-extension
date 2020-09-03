@@ -2,7 +2,7 @@
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhAXHuRSPiGt7SJDS77QFwDeSisOqqrtWMLFrX+f6O186ikK+TfjtGj/6smta7+c3EevBN95Ah1FhfUbRnrWLWZnuTHmCWaZOx0zhrzWQ7x7tg5tEAeMNU6WZQmkkdi1lVX/yRe9BOjjqX+vAw4MA+ZiMahuiAeeTnFCmg20PCyYTshvyQ19b9efHBAQjRdFxaWx8XWc8xIxzlL6xnfHM9avNDF53w/IYrzFpcGDAclH3M4mFONZSHoEbx4uOtDMy1tWZyTR9K34LxREBOyeX+FrUPnlZ0nkXS/ZG/go1LJtxXUFkJiIUgZAvqXsCLxq965KNsz4cuORpVS70KcHdPQIDAQAB",
     "manifest_version": 2,
     "name": "Research Mode",
-    "version": "0.0.0.4",
+    "version": "0.0.0.5",
     "description": "A simple Chrome extension for making pages readable and auto-highlighting and bolding key terms.",
     "browser_action": {
         "default_popup": "static/html/popup.html",

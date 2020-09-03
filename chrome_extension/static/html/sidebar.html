@@ -28,76 +28,12 @@
         <script src="http://localhost:8097"></script>
     </head>
     <body>
-        <div id="fileSystemMenu" class="fileSystemActive">
-            <div id="topbar">
-                <span>
-                    <a
-                        class="dropdown-trigger waves-effect waves-blue btn-flat"
-                        href="#"
-                        data-target="addItem"
-                        ><i class="material-icons">more_vert</i></a
-                    >
-
-                    <ul id="addItem" class="dropdown-content">
-                        <li>
-                            <a class="file-folder-action"
-                                ><i class="material-icons">add</i></a
-                            >
-                        </li>
-                        <li>
-                            <a class="file-folder-action"
-                                ><i class="material-icons"
-                                    >create_new_folder</i
-                                ></a
-                            >
-                        </li>
-                    </ul>
-                </span>
-
-                <div
-                    class="input-field inline"
-                    style="margin: auto; flex-grow: 1; width: auto;"
-                >
-                    Notes
-                </div>
-
-                <a
-                    id="deactivateFileSystem"
-                    class="waves-effect waves-blue btn-flat"
-                >
-                    <i class="material-icons">chevron_left</i>
-                </a>
-            </div>
+        <div id="app"></div>
+        <div id="FileSystem" class="fileSystemActive" style="display: none;">
             <div id="foldersMenu" style="display: none;"></div>
-            <div id="FileSystem"></div>
-            <div id="menuPreloaderContainer" style="display: none;">
-                <div class="preloader-wrapper big active">
-                    <div class="spinner-layer spinner-blue-only">
-                        <div class="circle-clipper left">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="gap-patch">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="circle-clipper right">
-                            <div class="circle"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="namerContainer" class="row">
-                <div class="input-field col s12">
-                    <input id="namer" type="text" class="validate" />
-                    <label class="active" for="namer">Name</label>
-                    <span
-                        class="helper-text"
-                        data-error="This name is already used."
-                        data-success="Nice!"
-                    ></span>
-                </div>
-            </div>
+            <!-- <div id="FileSystem"></div> -->
         </div>
-        <div id="editorContainer">
+        <div id="editorContainer" style="display: none;">
             <div id="topbar">
                 <a
                     id="activateFileSystem"

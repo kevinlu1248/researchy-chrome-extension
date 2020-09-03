@@ -1,13 +1,19 @@
-#FileSystem {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
 .FileSystemC__Main {
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: fixed;
+    z-index: 1;
+    background: white;
+    width: 100%;
+    margin-left: -100%;
+    transition: margin-left 0.4s ease-in-out;
+    box-shadow: rgba(51, 51, 51, 0.533) 0px 0px 10px;
+}
+
+.FileSystemC__Main--Active {
+    margin-left: 0;
+    box-shadow: ;
 }
 
 .Folder {
@@ -25,6 +31,7 @@
     padding-bottom: 0 !important;
 }
 
+.Topbar__Button,
 .FileC__Button,
 .FolderC__Button {
     width: 2rem;
@@ -75,4 +82,14 @@
 
 .FileSystemC__TextField--Active {
     margin-bottom: 1rem !important;
+}
+
+button:focus {
+    background-color: transparent !important;
+}
+
+.EditorTopBar__TextField {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+    flex-grow: 1;
 }

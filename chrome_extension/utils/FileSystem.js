@@ -158,6 +158,7 @@ class Folder extends StoredItem {
         if (path == "" || path == "/") return this;
 
         if (typeof path === "string") path = path.split("/");
+        if (path[0] === "") path = path.slice(1);
         let nextItem = this.child(path[0]);
         if (
             nextItem == false || // not found
@@ -311,20 +312,35 @@ class FileSystem extends Folder {
 
     set activeFilePath(path) {
         this._activeFilePath = path;
-        delete this._activeFileName;
-        delete this._activeFile;
+        delete this._activeFileName,
+            this._activeFile,
+            this._activeFolder,
+            this._activeFolder;
     }
 
     get activeFileName() {
         if (this._activeFileName) return this._activeFileName;
         return (this._activeFileName = this.activeFilePath
             .split("/")
-            .slice(-1));
+            .slice(-1)[0]);
     }
 
     get activeFile() {
         if (this._activeFile) return this._activeFile;
         return (this._activeFile = this.get(this.activeFilePath));
+    }
+
+    get activeFolderName() {
+        if (this._activeFolderName) return this._activeFolderName;
+        return (this._activeFolder = this.activeFilePath
+            .split("/")
+            .slice(0, -1)
+            .join("/"));
+    }
+
+    get activeFolder() {
+        if (this._activeFolder) return this._activeFolder;
+        return (this._activeFolder = this.get(this.activeFolderName));
     }
 }
 

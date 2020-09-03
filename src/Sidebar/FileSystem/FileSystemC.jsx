@@ -6,27 +6,27 @@ import classNames from "classnames";
 
 import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
-
 import Skeleton from "@material-ui/lab/Skeleton";
 import TextField from "@material-ui/core/TextField";
 
+import Topbar from "./Topbar.jsx";
 import FileC from "./FileC.jsx";
 import FolderC from "./FolderC.jsx";
-
-let fs;
+import ConfirmDeleteDialog from "./ConfirmDeleteDialog.jsx";
 
 /*
 Components have names {}C since their corresponding name have already
 been taken, but this does not apply for the class names
 */
 
-class FileSystemC extends React.Component {
+export default class FileSystemC extends React.Component {
     constructor(props) {
         super(props);
         this.inputRef = React.createRef();
         this.focusInput = this.focusInput.bind(this);
         this.state = {
-            fs: null,
+            isActive: false,
+            fs: this.props.fs,
             input: {
                 label: "Create New File:",
                 isActive: false,
@@ -34,34 +34,29 @@ class FileSystemC extends React.Component {
                 hasError: false,
                 value: "",
             },
+            dialog: {
+                isOpen: false,
+                filePath: "",
+            },
         };
-    }
-
-    refresh() {
-        this._asyncRequest = FileSystemClient.fs.then((fs) => {
-            this._asyncRequest = null;
-            window.fs = fs;
-            console.log(this.props);
-            this.setState({ fs: new FileSystem(fs) });
-        });
-    }
-
-    componentDidMount() {
-        this.refresh();
-    }
-
-    componentWillUnmount() {
-        if (this._asyncRequest) {
-            this._asyncRequest.cancel();
-        }
     }
 
     focusInput() {
         this.inputRef.focus();
     }
 
+    handleChange(event) {
+        const input = this.state.input;
+        input.value = event.target.value;
+        this.setState({ input: input });
+    }
+
     handleClick() {
         this.setState({ input: { value: "", isActive: false } });
+    }
+
+    handleToggleOpen(filePath, isOpen) {
+        this.props.onUpdateFs("toggleOpen", filePath, !isOpen);
     }
 
     handleCreateFile(filePath) {
@@ -104,20 +99,25 @@ class FileSystemC extends React.Component {
     }
 
     handleDelete(filePath) {
-        const fs = this.state.fs;
-        fs.delete(filePath);
-        this.setState({ fs: fs });
+        this.modifyingPath = filePath;
+        this.setState({
+            modifyingPath: filePath,
+            dialog: { isOpen: true, filePath: filePath },
+        });
     }
 
-    handleChange(event) {
-        const input = this.state.input;
-        input.value = event.target.value;
-        this.setState({ input: input });
+    handleCancel() {
+        this.setState({ dialog: { isOpen: false } });
+    }
+
+    handleConfirmDelete() {
+        this.props.onDelete(this.modifyingPath);
+        this.setState({ dialog: { isOpen: false } });
     }
 
     handleKeyUp(event) {
         if (event.key == "Enter") {
-            const fs = this.state.fs;
+            const fs = this.props.fs;
             const filePathDirectory =
                 this.modifyMode == "rename"
                     ? this.modifyingPath.split("/").slice(0, -1).join()
@@ -146,17 +146,28 @@ class FileSystemC extends React.Component {
             } else {
                 switch (this.modifyMode) {
                     case "createFile":
-                        fs.newFile(this.modifyingPath, event.target.value);
+                        this.props.onUpdateFs(
+                            "newFile",
+                            this.modifyingPath,
+                            event.target.value
+                        );
                         break;
                     case "createFolder":
-                        fs.newFolder(this.modifyingPath, event.target.value);
+                        this.props.onUpdateFs(
+                            "newFolder",
+                            this.modifyingPath,
+                            event.target.value
+                        );
                         break;
                     case "rename":
-                        fs.rename(this.modifyingPath, event.target.value);
+                        this.props.onUpdateFs(
+                            "rename",
+                            this.modifyingPath,
+                            event.target.value
+                        );
                         break;
                 }
                 this.setState({
-                    fs: fs,
                     input: { value: "", isActive: false },
                 });
             }
@@ -164,19 +175,37 @@ class FileSystemC extends React.Component {
     }
 
     render() {
-        return this.state.fs === null ? (
-            <>
+        return this.props.fs === null ? (
+            <div
+                className={classNames({
+                    FileSystemC__Main: true,
+                    "FileSystemC__Main--Active": this.props.isActive,
+                })}
+            >
+                <Topbar
+                    disabled={true}
+                    onCloseFileSystem={() => this.props.onCloseFileSystem()}
+                />
                 <Skeleton className="FileSystemC__Skeleton FileSystemC__Skeleton--First" />
                 <Skeleton className="FileSystemC__Skeleton" />
                 <Skeleton className="FileSystemC__Skeleton" />
-            </>
+            </div>
         ) : (
             <div
-                className="FileSystemC__Main"
                 onClick={() => this.handleClick()}
+                className={classNames({
+                    FileSystemC__Main: true,
+                    "FileSystemC__Main--Active": this.props.isActive,
+                })}
             >
+                <Topbar
+                    disabled={false}
+                    onCreateFile={() => this.handleCreateFile("")}
+                    onCreateFolder={() => this.handleCreateFolder("")}
+                    onCloseFileSystem={() => this.props.onCloseFileSystem()}
+                />
                 <List className="FileSystemC__List">
-                    {this.state.fs.contents.map((value) =>
+                    {this.props.fs.contents.map((value) =>
                         value.type == "folder" ? (
                             <FolderC
                                 key={value.name}
@@ -194,18 +223,28 @@ class FileSystemC extends React.Component {
                                 onDelete={(filePath) =>
                                     this.handleDelete(filePath)
                                 }
-                                onRename={(filePath) =>
-                                    this.handleRename(filePath)
+                                isOpen={value.isOpen}
+                                onToggleOpen={(filePath, isOpen) =>
+                                    this.handleToggleOpen(filePath, isOpen)
                                 }
-                                onDelete={(filePath) =>
-                                    this.handleDelete(filePath)
+                                onActivateFile={(filePath) =>
+                                    this.props.onActivateFile(filePath)
                                 }
                             />
                         ) : (
                             <FileC
                                 key={value.name}
                                 filePath={value.name}
-                                name={value.name}
+                                file={value}
+                                onRename={(filePath) =>
+                                    this.handleRename(filePath)
+                                }
+                                onDelete={(filePath) =>
+                                    this.handleDelete(filePath)
+                                }
+                                onActivateFile={(filePath) =>
+                                    this.props.onActivateFile(filePath)
+                                }
                             />
                         )
                     )}
@@ -228,9 +267,13 @@ class FileSystemC extends React.Component {
                         error={this.state.input.hasError}
                     />
                 </div>
+                <ConfirmDeleteDialog
+                    isOpen={this.state.dialog.isOpen}
+                    filePath={this.modifyingPath}
+                    onCancel={() => this.handleCancel()}
+                    onConfirmDelete={() => this.handleConfirmDelete()}
+                />
             </div>
         );
     }
 }
-
-ReactDOM.render(<FileSystemC />, document.querySelector("#FileSystem"));

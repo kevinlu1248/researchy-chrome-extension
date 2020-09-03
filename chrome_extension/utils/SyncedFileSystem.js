@@ -112,5 +112,3 @@ class SyncedFileSystem extends FileSystem {
         });
     }
 }
-
-SyncedFileSystem.clearAll();
