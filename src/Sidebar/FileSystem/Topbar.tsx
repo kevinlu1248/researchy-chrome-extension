@@ -23,9 +23,10 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Topbar(props) {
+export default function Topbar(props: any) {
     const classes = useStyles();
     return (
+        // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Grid
             className={classes.root}
             container
@@ -33,6 +34,7 @@ export default function Topbar(props) {
             justify="center"
             alignItems="center"
         >
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <Button
                 className="Topbar__Button"
                 onClick={(event) => {
@@ -41,8 +43,10 @@ export default function Topbar(props) {
                 }}
                 disableElevation
             >
+                {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
                 <AddIcon />
             </Button>
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <Button
                 className="Topbar__Button"
                 onClick={(event) => {
@@ -51,14 +55,18 @@ export default function Topbar(props) {
                 }}
                 disableElevation
             >
+                {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
                 <CreateNewFolderIcon />
             </Button>
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <Typography className="Topbar__Title">Notes</Typography>
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <Button
                 className="Topbar__Button Topbar__BackButton"
                 onClick={(event) => props.onCloseFileSystem()}
                 disableElevation
             >
+                {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
                 <ArrowLeftIcon />
             </Button>
         </Grid>
