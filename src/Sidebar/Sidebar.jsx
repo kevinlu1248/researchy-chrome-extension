@@ -7,7 +7,7 @@ import classNames from "classnames";
 import FileSystemC from "./FileSystem/FileSystemC.jsx";
 import Editor from "./Editor/Editor.jsx";
 
-class Sidebar extends React.Component {
+export default class Sidebar extends React.Component {
     constructor(props) {
         super(props);
         this.editorRef = React.createRef();
@@ -29,6 +29,7 @@ class Sidebar extends React.Component {
 
     refresh() {
         this._asyncRequest = FileSystemClient.fs.then((fs) => {
+            console.log(fs);
             this._asyncRequest = null;
             window.fs = fs;
             this.setState({ fs: new FileSystemClient(fs) }, () =>
@@ -104,4 +105,4 @@ class Sidebar extends React.Component {
     }
 }
 
-ReactDOM.render(<Sidebar />, document.querySelector("#app"));
+// ReactDOM.render(<Sidebar />, document.querySelector("#app"));

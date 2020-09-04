@@ -102,7 +102,7 @@ class SyncedFileSystem extends FileSystem {
                     fs = new SyncedFileSystem(storage.fileSystem);
                 } else {
                     fs = new SyncedFileSystem({
-                        contents: "TESTING",
+                        contents: "DEFAULT",
                         doSyncImmediately: true,
                     });
                     console.log(fs);
