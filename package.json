@@ -1,113 +1,113 @@
 {
-    "name": "researchy-chrome-extension",
-    "version": "1.0.0",
-    "description": "Chrome Extension at https://chrome.google.com/webstore/detail/researchy/ngeljggnajfepdokmccoolkjbomnlime for automatic reader mode and key term highlighting for researching. API can be found at https://github.com/kevinlu1248/researchy-api.",
-    "main": "index.js",
-    "directories": {
-        "test": "tests"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "watch": "yarn run webpack --watch",
-        "build": "yarn run webpack",
-        "create": "python build/zip_extension.py"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/kevinlu1248/researchy-chrome-extension.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/kevinlu1248/researchy-chrome-extension/issues"
-    },
-    "homepage": "https://github.com/kevinlu1248/researchy-chrome-extension#readme",
-    "dependencies": {
-        "@material-ui/core": "^4.11.0",
-        "@material-ui/icons": "^4.9.1",
-        "@material-ui/lab": "^4.0.0-alpha.56",
-        "babel-loader": "^8.1.0",
-        "babel-preset-react-app": "^3.1.2",
-        "browserify": "^16.5.2",
-        "classnames": "^2.2.6",
-        "gulp-run-command": "0.0.10",
-        "gulp-sourcemaps": "^2.6.5",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
-        "react-frame-component": "^4.1.3",
-        "react-quill": "^1.3.5",
-        "stylelint": "^13.6.1",
-        "stylelint-config-recommended": "^3.0.0",
-        "stylelint-config-standard": "^20.0.0",
-        "ts-loader": "^8.0.3",
-        "typescript": "^4.0.2",
-        "typestat": "^0.3.1",
-        "vinyl": "^2.2.0",
-        "vinyl-buffer": "^1.0.1",
-        "vinyl-fs": "^3.0.3",
-        "vinyl-source-stream": "^2.0.0",
-        "watchify": "^3.11.1",
-        "webpack": "^4.44.1"
-    },
-    "prettier": {
-        "tabWidth": 4
-    },
-    "stylelint": {
-        "extends": "stylelint-config-recommended",
-        "rules": {
-            "indentation": "tab",
-            "number-leading-zero": null
-        }
-    },
-    "devDependencies": {
-        "@babel/cli": "^7.10.5",
-        "@babel/core": "^7.11.4",
-        "@babel/preset-env": "^7.11.0",
-        "@babel/preset-react": "^7.10.4",
-        "@babel/preset-typescript": "^7.10.4",
-        "babelify": "^10.0.0",
-        "gulp": "^4.0.2",
-        "install": "^0.13.0",
-        "npm": "^6.14.8",
-        "webpack-cli": "^3.3.12"
-    },
-    "babel": {
-        "presets": [
-            "@babel/preset-env",
-            "@babel/preset-react",
-            "@babel/preset-typescript"
-        ],
-        "plugins": [
-            "transform-class-properties"
-        ]
-    },
-    "browserify": {
-        "sourceType": "module",
-        "plugin": [
-            [
-                "tsify",
-                {
-                    "target": "es6"
-                }
-            ]
-        ],
-        "require": [
-            "@material-ui/icons"
-        ],
-        "transform": [
-            [
-                "babelify",
-                {
-                    "presets": [
-                        "@babel/preset-env",
-                        "@babel/preset-react"
-                    ],
-                    "plugins": [
-                        "transform-class-properties"
-                    ]
-                }
-            ]
-        ]
+  "name": "researchy-chrome-extension",
+  "version": "1.0.0",
+  "description": "Chrome Extension at https://chrome.google.com/webstore/detail/researchy/ngeljggnajfepdokmccoolkjbomnlime for automatic reader mode and key term highlighting for researching. API can be found at https://github.com/kevinlu1248/researchy-api.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "yarn run webpack --watch",
+    "build": "yarn run webpack",
+    "create": "python build/zip_extension.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinlu1248/researchy-chrome-extension.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinlu1248/researchy-chrome-extension/issues"
+  },
+  "homepage": "https://github.com/kevinlu1248/researchy-chrome-extension#readme",
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "babel-loader": "^8.1.0",
+    "babel-preset-react-app": "^3.1.2",
+    "browserify": "^16.5.2",
+    "classnames": "^2.2.6",
+    "gulp-run-command": "0.0.10",
+    "gulp-sourcemaps": "^2.6.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-frame-component": "^4.1.3",
+    "react-quill": "^1.3.5",
+    "stylelint": "^13.6.1",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-config-standard": "^20.0.0",
+    "ts-loader": "^8.0.3",
+    "typescript": "^4.0.2",
+    "typestat": "^0.3.1",
+    "vinyl": "^2.2.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-fs": "^3.0.3",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.11.1",
+    "webpack": "^4.44.1"
+  },
+  "prettier": {
+    "tabWidth": 4
+  },
+  "stylelint": {
+    "extends": "stylelint-config-recommended",
+    "rules": {
+      "indentation": "tab",
+      "number-leading-zero": null
     }
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "babelify": "^10.0.0",
+    "gulp": "^4.0.2",
+    "install": "^0.13.0",
+    "npm": "^6.14.8",
+    "webpack-cli": "^3.3.12"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      "@babel/preset-typescript"
+    ],
+    "plugins": [
+      "transform-class-properties"
+    ]
+  },
+  "browserify": {
+    "sourceType": "module",
+    "plugin": [
+      [
+        "tsify",
+        {
+          "target": "es6"
+        }
+      ]
+    ],
+    "require": [
+      "@material-ui/icons"
+    ],
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "@babel/preset-env",
+            "@babel/preset-react"
+          ],
+          "plugins": [
+            "transform-class-properties"
+          ]
+        }
+      ]
+    ]
+  }
 }
