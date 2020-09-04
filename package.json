@@ -8,8 +8,8 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "watch": "watchify src/Sidebar/Sidebar.jsx -o chrome_extension/components/bundle.js -v",
-        "build": "browserify src/Sidebar/Sidebar.jsx -o chrome_extension/components/bundle.js -v",
+        "watch": "yarn run webpack --watch",
+        "build": "yarn run webpack",
         "create": "python build/zip_extension.py"
     },
     "repository": {
@@ -27,6 +27,7 @@
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
         "@material-ui/lab": "^4.0.0-alpha.56",
+        "babel-loader": "^8.1.0",
         "babel-preset-react-app": "^3.1.2",
         "browserify": "^16.5.2",
         "classnames": "^2.2.6",
@@ -34,16 +35,20 @@
         "gulp-sourcemaps": "^2.6.5",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "react-frame-component": "^4.1.3",
         "react-quill": "^1.3.5",
         "stylelint": "^13.6.1",
         "stylelint-config-recommended": "^3.0.0",
         "stylelint-config-standard": "^20.0.0",
+        "ts-loader": "^8.0.3",
         "typescript": "^4.0.2",
+        "typestat": "^0.3.1",
         "vinyl": "^2.2.0",
         "vinyl-buffer": "^1.0.1",
         "vinyl-fs": "^3.0.3",
         "vinyl-source-stream": "^2.0.0",
-        "watchify": "^3.11.1"
+        "watchify": "^3.11.1",
+        "webpack": "^4.44.1"
     },
     "prettier": {
         "tabWidth": 4
@@ -65,14 +70,18 @@
         "gulp": "^4.0.2",
         "install": "^0.13.0",
         "npm": "^6.14.8",
+<<<<<<< HEAD
         "ts-migrate": "^0.1.2",
         "webpack": "^4.44.1",
+=======
+>>>>>>> 398917d9fa5064730c25fffecd1a5afb7836af00
         "webpack-cli": "^3.3.12"
     },
     "babel": {
         "presets": [
             "@babel/preset-env",
-            "@babel/preset-react"
+            "@babel/preset-react",
+            "@babel/preset-typescript"
         ],
         "plugins": [
             "transform-class-properties"

@@ -11,18 +11,18 @@ $("html").prepend(`<iframe id="researchySidebar"></iframe>`);
 
 const sidebarWindow = document.getElementById("researchySidebar").contentWindow;
 
-if (window.location.href == "https://this-page-intentionally-left-blank.org/")
-    $("#researchySidebar, #annotatedHTML, body").addClass("sidebarActive");
-
-chrome.runtime.sendMessage(
-    { researchyAction: "readFile", fileName: "static/html/sidebar.html" },
-    (html) => {
-        var doc = sidebarWindow.document;
-        doc.open();
-        doc.write(replaceURLs(html));
-        doc.close();
-    }
-);
+// if (window.location.href == "https://this-page-intentionally-left-blank.org/")
+//     $("#researchySidebar, #annotatedHTML, body").addClass("sidebarActive");
+//
+// chrome.runtime.sendMessage(
+//     { researchyAction: "readFile", fileName: "static/html/sidebar.html" },
+//     (html) => {
+//         var doc = sidebarWindow.document;
+//         doc.open();
+//         doc.write(replaceURLs(html));
+//         doc.close();
+//     }
+// );
 
 chrome.runtime.onMessage.addListener((message, callback) => {
     console.log(message);
