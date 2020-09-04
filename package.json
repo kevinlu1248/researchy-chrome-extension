@@ -8,8 +8,8 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "watch": "yarn create webpack --watch",
-        "build": "yarn create webpack",
+        "watch": "yarn run webpack --watch",
+        "build": "yarn run webpack",
         "create": "python build/zip_extension.py"
     },
     "repository": {
@@ -35,6 +35,7 @@
         "gulp-sourcemaps": "^2.6.5",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "react-frame-component": "^4.1.3",
         "react-quill": "^1.3.5",
         "stylelint": "^13.6.1",
         "stylelint-config-recommended": "^3.0.0",
@@ -69,13 +70,13 @@
         "gulp": "^4.0.2",
         "install": "^0.13.0",
         "npm": "^6.14.8",
-        "ts-migrate": "^0.1.2",
         "webpack-cli": "^3.3.12"
     },
     "babel": {
         "presets": [
             "@babel/preset-env",
-            "@babel/preset-react"
+            "@babel/preset-react",
+            "@babel/preset-typescript"
         ],
         "plugins": [
             "transform-class-properties"

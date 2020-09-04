@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "./chrome_extension/",
+        "outDir": "./chrome_extension/components",
         "allowSyntheticDefaultImports": true,
         "module": "es6",
         "target": "es5",

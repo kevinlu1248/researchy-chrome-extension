@@ -2,20 +2,18 @@ const path = require("path");
 
 module.exports = {
     mode: "development",
-    entry: "./src/Sidebar/Sidebar.tsx",
+    entry: {
+        sidebar: "./src/Sidebar/Sidebar.jsx",
+        iframe: "./src/Sidebar/Iframe.jsx",
+    },
     output: {
-        filename: "sidebarReact.js",
+        filename: "[name].js",
         path: path.resolve(__dirname, "chrome_extension/components"),
     },
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                use: "ts-loader",
-                exclude: /node_modules/,
-            },
-            {
-                test: /\.(js|jsx)$/,
+                test: /\.(js|jsx|tsx)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
