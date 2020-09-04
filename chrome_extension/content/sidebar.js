@@ -26,84 +26,98 @@ const sidebarWindow = document.getElementById("researchySidebar").contentWindow;
 // );
 
 chrome.runtime.onMessage.addListener((message, callback) => {
-  console.log(message);
-  switch (message.researchyAction) {
-  case "updateFile":
-    sidebarWindow.postMessage(message);
-    break;
-  case "updateSelection":
-    sidebarWindow.postMessage(message);
-    break;
-  case "activateSidebar":
-    $("#researchySidebar, #annotatedHTML, body").addClass("sidebarActive");
-    sidebarWindow.postMessage({
-      researchyAction : "sidebarActivated",
-    });
-  }
+    console.log(message);
+    switch (message.researchyAction) {
+        case "updateFile":
+            sidebarWindow.postMessage(message);
+            break;
+        case "updateSelection":
+            sidebarWindow.postMessage(message);
+            break;
+        case "activateSidebar":
+            $("#researchySidebar, #annotatedHTML, body").addClass(
+                "sidebarActive"
+            );
+            sidebarWindow.postMessage({
+                researchyAction: "sidebarActivated",
+            });
+    }
 });
 
-const fsport = chrome.runtime.connect({name : "fs"});
+const fsport = chrome.runtime.connect({ name: "fs" });
 
 window.addEventListener("message", (event) => {
-  if (!["updateFile", "updateSelection"].includes(event.data.researchyAction) &&
-      event.data && event.data.researchyAction) {
-    // too frequent, less logging
-    console.log("Received message ", event.data);
-  }
-
-  if (event.data.receiver == "fs") {
-    let id = event.data.id;
-    delete event.data.receiver;
-    if (id != undefined) {
-      fsport.postMessage(event.data);
-      fsport.onMessage.addListener((response) => {
-        console.log(response);
-        sidebarWindow.postMessage(response);
-      });
-    } else {
-      fsport.postMessage(event.data);
+    if (
+        !["updateFile", "updateSelection"].includes(
+            event.data.researchyAction
+        ) &&
+        event.data &&
+        event.data.researchyAction
+    ) {
+        // too frequent, less logging
+        console.log("Received message ", event.data);
     }
-    return;
-  }
 
-  switch (event.data.researchyAction) {
-  case "deactivateSidebarButton":
-    $("#researchySidebar, #annotatedHTML, body").removeClass("sidebarActive");
-    break;
-  case "activateFileSystem":
-    $("#researchySidebar")
-        .contents()
-        .find("#fileSystemMenu")
-        .addClass("fileSystemActive");
-    break;
-  case "deactivateFileSystem":
-    $("#researchySidebar")
-        .contents()
-        .find("#fileSystemMenu")
-        .removeClass("fileSystemActive");
-    break;
-  case "getFiles":
-    chrome.runtime.sendMessage({
-      researchyAction : "json",
-    },
-                               (storage) => sidebarWindow.postMessage({
-                                 researchyAction : "refreshFiles",
-                                 storage : storage,
-                               }));
-    break;
-  case "switchFile":
-    chrome.runtime.sendMessage({
-      researchyAction : "get",
-      path : event.data.filePath,
-    },
-                               (file) => {
-                                 console.log(file);
-                                 sidebarWindow.postMessage({
-                                   researchyAction : "switchFile",
-                                   file : file,
-                                 });
-                               });
-    chrome.runtime.sendMessage(event.data);
-    break;
-  }
+    if (event.data.receiver == "fs") {
+        let id = event.data.id;
+        delete event.data.receiver;
+        if (id != undefined) {
+            fsport.postMessage(event.data);
+            fsport.onMessage.addListener((response) => {
+                console.log(response);
+                sidebarWindow.postMessage(response);
+            });
+        } else {
+            fsport.postMessage(event.data);
+        }
+        return;
+    }
+
+    switch (event.data.researchyAction) {
+        case "deactivateSidebarButton":
+            $("#researchySidebar, #annotatedHTML, body").removeClass(
+                "sidebarActive"
+            );
+            break;
+        case "activateFileSystem":
+            $("#researchySidebar")
+                .contents()
+                .find("#fileSystemMenu")
+                .addClass("fileSystemActive");
+            break;
+        case "deactivateFileSystem":
+            $("#researchySidebar")
+                .contents()
+                .find("#fileSystemMenu")
+                .removeClass("fileSystemActive");
+            break;
+        case "getFiles":
+            chrome.runtime.sendMessage(
+                {
+                    researchyAction: "json",
+                },
+                (storage) =>
+                    sidebarWindow.postMessage({
+                        researchyAction: "refreshFiles",
+                        storage: storage,
+                    })
+            );
+            break;
+        case "switchFile":
+            chrome.runtime.sendMessage(
+                {
+                    researchyAction: "get",
+                    path: event.data.filePath,
+                },
+                (file) => {
+                    console.log(file);
+                    sidebarWindow.postMessage({
+                        researchyAction: "switchFile",
+                        file: file,
+                    });
+                }
+            );
+            chrome.runtime.sendMessage(event.data);
+            break;
+    }
 });
