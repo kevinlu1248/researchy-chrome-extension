@@ -237,43 +237,52 @@ export default class FileSystemC extends React.Component<{}, State> {
                 {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
                 <List className="FileSystemC__List">
                     {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'fs' does not exist on type 'Readonly<{}>... Remove this comment to see the full error message */}
-                    {this.props.fs.contents.map((value: any) => value.type == "folder" ? (
-                        // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-                        <FolderC
-                            key={value.name}
-                            filePath={value.name}
-                            folder={value}
-                            onNewFile={(filePath: any) => this.handleCreateFile(filePath)
-                            }
-                            onNewFolder={(filePath: any) => this.handleCreateFolder(filePath)
-                            }
-                            onRename={(filePath: any) => this.handleRename(filePath)
-                            }
-                            onDelete={(filePath: any) => this.handleDelete(filePath)
-                            }
-                            isOpen={value.isOpen}
-                            onToggleOpen={(filePath: any, isOpen: any) =>
-                                this.handleToggleOpen(filePath, isOpen)
-                            }
-                            // @ts-expect-error ts-migrate(2339) FIXME: Property 'onActivateFile' does not exist on type '... Remove this comment to see the full error message
-                            onActivateFile={(filePath: any) => this.props.onActivateFile(filePath)
-                            }
-                        />
-                    ) : (
-                        // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-                        <FileC
-                            key={value.name}
-                            filePath={value.name}
-                            file={value}
-                            onRename={(filePath: any) => this.handleRename(filePath)
-                            }
-                            onDelete={(filePath: any) => this.handleDelete(filePath)
-                            }
-                            // @ts-expect-error ts-migrate(2339) FIXME: Property 'onActivateFile' does not exist on type '... Remove this comment to see the full error message
-                            onActivateFile={(filePath: any) => this.props.onActivateFile(filePath)
-                            }
-                        />
-                    )
+                    {this.props.fs.contents.map((value: any) =>
+                        value.type == "folder" ? (
+                            // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
+                            <FolderC
+                                key={value.name}
+                                filePath={value.name}
+                                folder={value}
+                                onNewFile={(filePath: any) =>
+                                    this.handleCreateFile(filePath)
+                                }
+                                onNewFolder={(filePath: any) =>
+                                    this.handleCreateFolder(filePath)
+                                }
+                                onRename={(filePath: any) =>
+                                    this.handleRename(filePath)
+                                }
+                                onDelete={(filePath: any) =>
+                                    this.handleDelete(filePath)
+                                }
+                                isOpen={value.isOpen}
+                                onToggleOpen={(filePath: any, isOpen: any) =>
+                                    this.handleToggleOpen(filePath, isOpen)
+                                }
+                                // @ts-expect-error ts-migrate(2339) FIXME: Property 'onActivateFile' does not exist on type '... Remove this comment to see the full error message
+                                onActivateFile={(filePath: any) =>
+                                    this.props.onActivateFile(filePath)
+                                }
+                            />
+                        ) : (
+                            // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
+                            <FileC
+                                key={value.name}
+                                filePath={value.name}
+                                file={value}
+                                onRename={(filePath: any) =>
+                                    this.handleRename(filePath)
+                                }
+                                onDelete={(filePath: any) =>
+                                    this.handleDelete(filePath)
+                                }
+                                // @ts-expect-error ts-migrate(2339) FIXME: Property 'onActivateFile' does not exist on type '... Remove this comment to see the full error message
+                                onActivateFile={(filePath: any) =>
+                                    this.props.onActivateFile(filePath)
+                                }
+                            />
+                        )
                     )}
                 </List>
                 {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
