@@ -1,32 +1,27 @@
 let messageCounter = 0;
 
-let sendMessage = (message) => {
+const sendMessage = (message) => {
     message.receiver = "fs";
     message.id = messageCounter++;
     parent.postMessage(message);
     return new Promise((resolve, reject) => {
         let handler = (event) => {
+            console.log(event);
             if (event.data.id == message.id) {
                 resolve(event.data.response);
                 window.removeEventListener("messsage", handler);
             }
         };
-        console.log(window);
         window.addEventListener("message", handler);
     });
 };
 
-let fsMessage = (message) => {
+const fsMessage = (message) => {
     message.receiver = "fs";
     parent.postMessage(message);
 };
 
 class FileSystemClient extends FileSystem {
-    static fsMenuSidebar = document.getElementById("fileSystemMenu");
-    static fsMenu = document.getElementById("foldersMenu");
-    static fsLoader = document.getElementById("editorPreloaderContainer");
-    static renamer = document.getElementById("filenameInput");
-
     static get fs() {
         return sendMessage({ researchyAction: "get", path: "" });
     }
@@ -36,7 +31,7 @@ class FileSystemClient extends FileSystem {
         fsMessage({
             researchyAction: "set",
             path: path,
-            newItem: newItem,
+            newItem: newItem
         });
     }
 
@@ -45,7 +40,7 @@ class FileSystemClient extends FileSystem {
         fsMessage({
             researchyAction: "rename",
             path: path,
-            newName: newName,
+            newName: newName
         });
     }
 
@@ -54,7 +49,7 @@ class FileSystemClient extends FileSystem {
         fsMessage({
             researchyAction: "newFile",
             path: path,
-            name: name,
+            name: name
         });
     }
 
@@ -63,7 +58,7 @@ class FileSystemClient extends FileSystem {
         fsMessage({
             researchyAction: "newFolder",
             path: path,
-            name: name,
+            name: name
         });
     }
 
@@ -71,7 +66,7 @@ class FileSystemClient extends FileSystem {
         super.delete(path);
         fsMessage({
             researchyAction: "delete",
-            path: path,
+            path: path
         });
     }
 
@@ -80,7 +75,7 @@ class FileSystemClient extends FileSystem {
         fsMessage({
             researchyAction: "update",
             path: path,
-            partial: partial,
+            partial: partial
         });
     }
 
@@ -89,7 +84,7 @@ class FileSystemClient extends FileSystem {
         fsMessage({
             researchyAction: "updateSelection",
             path: path,
-            selection: selection,
+            selection: selection
         });
     }
 }

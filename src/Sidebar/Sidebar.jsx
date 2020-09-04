@@ -15,7 +15,7 @@ export default class Sidebar extends React.Component {
         this.setSelection = this.setSelection.bind(this);
         this.state = {
             fileSystemIsActive: false,
-            fs: null,
+            fs: null
         };
     }
 
@@ -105,4 +105,4 @@ export default class Sidebar extends React.Component {
     }
 }
 
-// ReactDOM.render(<Sidebar />, document.querySelector("#app"));
+ReactDOM.render(<Sidebar />, document.querySelector("#app"));

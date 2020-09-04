@@ -1,0 +1,15 @@
+root = true
+
+end_of_line = lf
+insert_final_newline = true
+
+[*.{js,jsx,css,html,json}]
+charset = utf-8
+
+# 4 space indentation
+[*.py]
+indent_style = space
+indent_size = 4
+
+[**.{js,jsx,css,json}]
+indent_style = tab

@@ -27,10 +27,8 @@
                 "utils/jquery.min.js",
                 "utils/quill/quill.core.js",
                 "utils/FileSystem.js",
-                "utils/FileSystemClient.js",
                 "utils/utils.js",
                 "content/content.js",
-                "components/iframe.js",
                 "content/sidebar.js"
             ],
             "css": [
