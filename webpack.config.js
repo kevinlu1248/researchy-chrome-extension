@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
     mode: "development",
-    entry: "./src/Sidebar/Sidebar.jsx",
+    entry: "./src/Sidebar/Sidebar.tsx",
     output: {
         filename: "sidebarReact.js",
         path: path.resolve(__dirname, "chrome_extension/components"),

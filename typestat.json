@@ -7,8 +7,6 @@
         "missingProperties": true,
         "noImplicitAny": true
     },
-    "include": [
-        "src/**/*.{js,jsx}"
-    ],
+    "include": ["src/**/*.{js,jsx,ts,tsx}"],
     "project": "./tsconfig.json"
 }

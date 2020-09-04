@@ -7,8 +7,6 @@ import classNames from "classnames";
 import FileSystemC from "./FileSystem/FileSystemC.jsx";
 import Editor from "./Editor/Editor.jsx";
 
-// TODO: migrate to jss, set up webpack with es6, ts, and babel-react
-
 class Sidebar extends React.Component {
     constructor(props) {
         super(props);

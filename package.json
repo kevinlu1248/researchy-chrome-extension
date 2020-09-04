@@ -8,8 +8,8 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "watch": "watchify src/Sidebar/Sidebar.jsx -o chrome_extension/components/bundle.js -v",
-        "build": "browserify src/Sidebar/Sidebar.jsx -o chrome_extension/components/bundle.js -v",
+        "watch": "yarn create webpack --watch",
+        "build": "yarn create webpack",
         "create": "python build/zip_extension.py"
     },
     "repository": {
@@ -69,6 +69,7 @@
         "gulp": "^4.0.2",
         "install": "^0.13.0",
         "npm": "^6.14.8",
+        "ts-migrate": "^0.1.2",
         "webpack-cli": "^3.3.12"
     },
     "babel": {
