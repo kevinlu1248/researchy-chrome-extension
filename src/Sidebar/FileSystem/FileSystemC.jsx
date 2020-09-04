@@ -10,7 +10,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import TextField from "@material-ui/core/TextField";
 
 import Topbar from "./Topbar.jsx";
-import FileC from "./FileC.jsx";
+import FileC from "./FileC.tsx";
 import FolderC from "./FolderC.jsx";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog.jsx";
 

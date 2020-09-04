@@ -16,7 +16,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import Button from "@material-ui/core/Button";
 
-import FileC from "./FileC.jsx";
+import FileC from "./FileC.tsx";
 
 export default function FolderC(props) {
     const [folder, setFolder] = useState(props.folder);
