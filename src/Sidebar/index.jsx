@@ -105,4 +105,4 @@ export default class Sidebar extends React.Component {
     }
 }
 
-ReactDOM.render(<Sidebar />, document.querySelector("#app"));
+ReactDOM.render(<Sidebar />, document.querySelector("#root"));
