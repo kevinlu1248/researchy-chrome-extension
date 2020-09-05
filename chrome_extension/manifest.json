@@ -37,7 +37,7 @@
             ]
         }
     ],
-    "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/**; object-src 'self'",
+    "content_security_policy": "script-src 'unsafe-eval' 'self' https://cdnjs.cloudflare.com; object-src 'self'",
     "background": {
         "scripts": [
             "background/hot-reload.js",
@@ -51,7 +51,10 @@
             "background/background.js"
         ]
     },
-    "web_accessible_resources": ["html/sidebar.html", "**.js", "**.css"],
+    "externally_connectable": {
+        "matches": ["chrome-extension://ngeljggnajfepdokmccoolkjbomnlime/**"]
+    },
+    "web_accessible_resources": ["static/html/sidebar.html", "**.js", "**.css"],
     "oauth2": {
         "client_id": "791991284503-42csc8frdl1tiu20lh7kobk15l7bjqb8.apps.googleusercontent.com",
         "scopes": ["https://www.googleapis.com/auth/drive"]

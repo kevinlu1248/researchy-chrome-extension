@@ -16,7 +16,7 @@ SyncedFileSystem.fs.then((fs) => {
                     action: "storage",
                     email: email,
                     id: id,
-                    data: JSON.parse(JSON.stringify(window.fs.allFiles)),
+                    data: JSON.parse(JSON.stringify(window.fs.allFiles))
                 };
 
                 console.log(output);
@@ -25,7 +25,7 @@ SyncedFileSystem.fs.then((fs) => {
                     url: STORAGE_API_URL,
                     type: "POST",
                     contentType: "application/json",
-                    data: JSON.stringify(output),
+                    data: JSON.stringify(output)
                 })
                     .done(function (data, status, xhr) {
                         console.log(
@@ -72,7 +72,7 @@ chrome.runtime.onConnect.addListener((port) => {
             if (typeof fs[action] === "function") {
                 port.postMessage({
                     id: id,
-                    response: fs[action](...Object.values(request)),
+                    response: fs[action](...Object.values(request))
                 });
                 console.log(fs);
             }

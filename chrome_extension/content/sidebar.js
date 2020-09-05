@@ -6,22 +6,24 @@
 var Delta = Quill.import("delta");
 
 // TODO: make external page instead
-$("html").prepend(`<iframe id="researchySidebar"></iframe>`);
+$("html").prepend(
+    `<iframe id="researchySidebar" src="chrome-extension://ngeljggnajfepdokmccoolkjbomnlime/static/html/sidebar.html"></iframe>`
+);
 
 const sidebarWindow = document.getElementById("researchySidebar").contentWindow;
 
 if (window.location.href == "https://this-page-intentionally-left-blank.org/")
     $("#researchySidebar, #annotatedHTML, body").addClass("sidebarActive");
 
-chrome.runtime.sendMessage(
-    { researchyAction: "readFile", fileName: "static/html/sidebar.html" },
-    (html) => {
-        var doc = sidebarWindow.document;
-        doc.open();
-        doc.write(replaceURLs(html));
-        doc.close();
-    }
-);
+// chrome.runtime.sendMessage(
+//     { researchyAction: "readFile", fileName: "static/html/sidebar.html" },
+//     (html) => {
+//         var doc = sidebarWindow.document;
+//         doc.open();
+//         doc.write(replaceURLs(html));
+//         doc.close();
+//     }
+// );
 
 chrome.runtime.onMessage.addListener((message, callback) => {
     console.log(message);
@@ -71,51 +73,51 @@ window.addEventListener("message", (event) => {
         return;
     }
 
-    switch (event.data.researchyAction) {
-        case "deactivateSidebarButton":
-            $("#researchySidebar, #annotatedHTML, body").removeClass(
-                "sidebarActive"
-            );
-            break;
-        case "activateFileSystem":
-            $("#researchySidebar")
-                .contents()
-                .find("#fileSystemMenu")
-                .addClass("fileSystemActive");
-            break;
-        case "deactivateFileSystem":
-            $("#researchySidebar")
-                .contents()
-                .find("#fileSystemMenu")
-                .removeClass("fileSystemActive");
-            break;
-        case "getFiles":
-            chrome.runtime.sendMessage(
-                {
-                    researchyAction: "json"
-                },
-                (storage) =>
-                    sidebarWindow.postMessage({
-                        researchyAction: "refreshFiles",
-                        storage: storage
-                    })
-            );
-            break;
-        case "switchFile":
-            chrome.runtime.sendMessage(
-                {
-                    researchyAction: "get",
-                    path: event.data.filePath
-                },
-                (file) => {
-                    console.log(file);
-                    sidebarWindow.postMessage({
-                        researchyAction: "switchFile",
-                        file: file
-                    });
-                }
-            );
-            chrome.runtime.sendMessage(event.data);
-            break;
-    }
+    // switch (event.data.researchyAction) {
+    //     case "deactivateSidebarButton":
+    //         $("#researchySidebar, #annotatedHTML, body").removeClass(
+    //             "sidebarActive"
+    //         );
+    //         break;
+    //     case "activateFileSystem":
+    //         $("#researchySidebar")
+    //             .contents()
+    //             .find("#fileSystemMenu")
+    //             .addClass("fileSystemActive");
+    //         break;
+    //     case "deactivateFileSystem":
+    //         $("#researchySidebar")
+    //             .contents()
+    //             .find("#fileSystemMenu")
+    //             .removeClass("fileSystemActive");
+    //         break;
+    //     case "getFiles":
+    //         chrome.runtime.sendMessage(
+    //             {
+    //                 researchyAction: "json"
+    //             },
+    //             (storage) =>
+    //                 sidebarWindow.postMessage({
+    //                     researchyAction: "refreshFiles",
+    //                     storage: storage
+    //                 })
+    //         );
+    //         break;
+    //     case "switchFile":
+    //         chrome.runtime.sendMessage(
+    //             {
+    //                 researchyAction: "get",
+    //                 path: event.data.filePath
+    //             },
+    //             (file) => {
+    //                 console.log(file);
+    //                 sidebarWindow.postMessage({
+    //                     researchyAction: "switchFile",
+    //                     file: file
+    //                 });
+    //             }
+    //         );
+    //         chrome.runtime.sendMessage(event.data);
+    //         break;
+    // }
 });

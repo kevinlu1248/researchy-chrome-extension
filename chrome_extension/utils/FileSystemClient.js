@@ -1,4 +1,8 @@
 let messageCounter = 0;
+let fs = null;
+let fsport = chrome.runtime.connect({ name: "fs" });
+
+// fsport.onMessage.addListener((response) => console.log(response));
 
 const sendMessage = (message) => {
     message.receiver = "fs";
@@ -6,13 +10,26 @@ const sendMessage = (message) => {
     parent.postMessage(message);
     return new Promise((resolve, reject) => {
         let handler = (event) => {
-            console.log(event);
             if (event.data.id == message.id) {
                 resolve(event.data.response);
                 window.removeEventListener("messsage", handler);
             }
         };
         window.addEventListener("message", handler);
+    });
+};
+
+const backgroundMessage = (message, port) => {
+    message.id = messageCounter++;
+    port.postMessage(message);
+    return new Promise((resolve, reject) => {
+        let handler = (response) => {
+            if (response.id == message.id) {
+                resolve(response.response);
+                port.onMessage.removeListener(handler);
+            }
+        };
+        port.onMessage.addListener(handler);
     });
 };
 
@@ -23,7 +40,7 @@ const fsMessage = (message) => {
 
 class FileSystemClient extends FileSystem {
     static get fs() {
-        return sendMessage({ researchyAction: "get", path: "" });
+        return backgroundMessage({ researchyAction: "get", path: "" }, fsport);
     }
 
     set(path, newItem) {

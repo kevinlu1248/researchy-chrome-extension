@@ -3,12 +3,11 @@ const path = require("path");
 module.exports = {
     mode: "development",
     entry: {
-        sidebar: "./src/Sidebar/Sidebar.jsx",
-        iframe: "./src/Sidebar/Iframe.jsx",
+        sidebar: "./src/Sidebar/Sidebar.jsx"
     },
     output: {
         filename: "[name].js",
-        path: path.resolve(__dirname, "chrome_extension/components"),
+        path: path.resolve(__dirname, "chrome_extension/components")
     },
     module: {
         rules: [
@@ -16,12 +15,12 @@ module.exports = {
                 test: /\.(js|jsx|tsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader",
-                },
-            },
-        ],
+                    loader: "babel-loader"
+                }
+            }
+        ]
     },
     resolve: {
-        extensions: [".tsx", ".ts", ".js"],
-    },
+        extensions: [".tsx", ".ts", ".js"]
+    }
 };
