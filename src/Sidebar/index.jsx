@@ -29,7 +29,6 @@ export default class Sidebar extends React.Component {
 
     refresh() {
         this._asyncRequest = FileSystemClient.fs.then((fs) => {
-            console.log(fs);
             this._asyncRequest = null;
             window.fs = fs;
             this.setState({ fs: new FileSystemClient(fs) }, () =>
@@ -105,4 +104,4 @@ export default class Sidebar extends React.Component {
     }
 }
 
-ReactDOM.render(<Sidebar />, document.querySelector("#root"));
+ReactDOM.render(<Sidebar />, document.querySelector("#app"));

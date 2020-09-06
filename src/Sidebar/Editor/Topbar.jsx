@@ -13,9 +13,16 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 export default function EditorTopBar(props) {
+    function closeSidebar() {
+        chrome.runtime.sendMessage({ researchyAction: "closeSidebar" });
+    }
     return (
-        <Box display="flex">
-            <Button disabled={props.disabled} onClick={props.onOpenFileSystem}>
+        <Box className="EditorTopBar__Box" display="flex">
+            <Button
+                className="EditorTopBar__Button"
+                disabled={props.disabled}
+                onClick={props.onOpenFileSystem}
+            >
                 <MenuIcon />
             </Button>
             <TextField
@@ -28,7 +35,11 @@ export default function EditorTopBar(props) {
                 helperText={props.renamerError.helperText}
                 inputProps={{ onBlur: props.onRenamerBlur }}
             />
-            <Button disabled={props.disabled}>
+            <Button
+                className="EditorTopBar__Button"
+                disabled={props.disabled}
+                onClick={closeSidebar}
+            >
                 <ArrowLeftIcon />
             </Button>
         </Box>

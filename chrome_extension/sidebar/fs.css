@@ -88,8 +88,23 @@ button:focus {
     background-color: transparent !important;
 }
 
+.ql-container.ql-snow {
+    border-bottom: none;
+}
+
+.ql-toolbar.ql-snow {
+    padding: 0;
+    padding-top: 1rem;
+}
+
+.ql-container {
+    border: none !important;
+}
+
 .EditorTopBar__TextField {
-    margin-top: 1rem !important;
-    margin-bottom: 1rem !important;
     flex-grow: 1;
+}
+
+.EditorTopBar__Button {
+    padding: 0 !important;
 }

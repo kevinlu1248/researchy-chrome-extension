@@ -8,7 +8,6 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "yarn run webpack-dev-server --open --config webpack/webpack.dev.js",
         "watch": "yarn run webpack --watch",
         "build": "yarn run webpack",
         "create": "python build/zip_extension.py"

@@ -53,6 +53,12 @@ html::-webkit-scrollbar {
     font-family: "Literata", serif;
 }
 
+.ql-editor h1,
+.ql-editor h2 {
+    margin-top: 1.3rem;
+    margin-bottom: 0.7rem;
+}
+
 #editorContainer {
     flex-flow: column;
     height: 100vh;

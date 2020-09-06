@@ -103,7 +103,7 @@ class SyncedFileSystem extends FileSystem {
                 } else {
                     fs = new SyncedFileSystem({
                         contents: "DEFAULT",
-                        doSyncImmediately: true,
+                        doSyncImmediately: true
                     });
                     console.log(fs);
                 }

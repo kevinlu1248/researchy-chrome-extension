@@ -2,6 +2,7 @@
 
 const DEFAULT_STORAGE = {
     plugin_is_on: false,
+    sidebarIsOpen: false,
     include_list: []
 };
 
@@ -89,12 +90,16 @@ backgroundMessageHandler.readFile = (request, sender, sendResponse) => {
     return true;
 };
 
+backgroundMessageHandler.toggleSidebar = (request, sender, sendResponse) => {};
+
 backgroundMessageHandler.activateSidebar = (request, sender, sendResponse) => {
-    chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-        chrome.tabs.sendMessage(tabs[0].id, {
-            researchyAction: "activateSidebar"
-        });
-    });
+    chrome.storage.sync.set({ sidebarIsOpen: true });
+    queryAllTabs({ researchyAction: "openSidebar" });
+};
+
+backgroundMessageHandler.closeSidebar = (request, sender, sendResponse) => {
+    chrome.storage.sync.set({ sidebarIsOpen: false });
+    queryAllTabs({ researchyAction: "closeSidebar" });
 };
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
