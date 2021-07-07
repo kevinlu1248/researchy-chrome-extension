@@ -2,10 +2,13 @@ const path = require("path");
 
 module.exports = {
     mode: "development",
-    entry: "./src/Sidebar/index.jsx",
+    entry: {
+        sidebar: "./src/sidebar/index.jsx",
+        popup: "./src/popup/index.jsx"
+    },
     output: {
-        filename: "index.bundle.js",
-        path: path.resolve(__dirname, "chrome_extension/sidebar")
+        filename: "[name]/index.bundle.js",
+        path: path.resolve(__dirname, "chrome_extension/")
     },
     module: {
         rules: [

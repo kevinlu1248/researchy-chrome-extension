@@ -93,7 +93,9 @@ backgroundMessageHandler.readFile = (request, sender, sendResponse) => {
 backgroundMessageHandler.toggleSidebar = (request, sender, sendResponse) => {};
 
 backgroundMessageHandler.activateSidebar = (request, sender, sendResponse) => {
-    chrome.storage.sync.set({ sidebarIsOpen: true });
+    chrome.storage.sync.set({ sidebarIsOpen: true }, () =>
+        chrome.storage.sync.get("sidebarIsOpen", console.log)
+    );
     queryAllTabs({ researchyAction: "openSidebar" });
 };
 

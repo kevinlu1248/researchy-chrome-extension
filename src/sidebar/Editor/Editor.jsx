@@ -45,7 +45,6 @@ export default (props) => {
 
     function handleChange(change, filePath, source) {
         if (props.fs === null) return;
-        console.log(change, source);
         if (source === "user")
             props.onUpdateFs("update", props.fs.activeFilePath, change);
     }
@@ -138,10 +137,10 @@ export default (props) => {
                         <Typography variant="h2">
                             <Skeleton />
                         </Typography>
-                        <Typography variant="p">
+                        <Typography variant="body1">
                             <Skeleton />
                         </Typography>
-                        <Typography variant="p">
+                        <Typography variant="body1">
                             <Skeleton />
                         </Typography>
                     </div>

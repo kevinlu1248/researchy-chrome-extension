@@ -108,3 +108,8 @@ button:focus {
 .EditorTopBar__Button {
     padding: 0 !important;
 }
+
+h1,
+h2 {
+    font-weight: normal;
+}

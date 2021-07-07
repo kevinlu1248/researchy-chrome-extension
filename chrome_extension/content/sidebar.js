@@ -13,8 +13,11 @@ $("html").prepend(
 
 const sidebarWindow = document.getElementById("researchySidebar").contentWindow;
 
-if (window.location.href == "https://this-page-intentionally-left-blank.org/")
-    $("#researchySidebar, #annotatedHTML, body").addClass("sidebarIsOpen");
+chrome.storage.sync.get("sidebarIsOpen", (isOpen) => {
+    console.log(isOpen);
+    if (isOpen)
+        $("#researchySidebar, #annotatedHTML, body").addClass("sidebarIsOpen");
+});
 
 chrome.runtime.onMessage.addListener((message, callback) => {
     // console.log(message);

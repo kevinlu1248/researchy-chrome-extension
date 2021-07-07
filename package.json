@@ -10,7 +10,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "watch": "yarn run webpack --watch",
         "build": "yarn run webpack",
-        "create": "python build/zip_extension.py"
+        "create": "python build/zip_extension.py",
+        "deploy": "yarn run dist/deploy.js & prettier chrome_extension/manifest.json --write"
     },
     "repository": {
         "type": "git",
@@ -30,6 +31,7 @@
         "babel-loader": "^8.1.0",
         "babel-preset-react-app": "^3.1.2",
         "babel-runtime": "^6.26.0",
+        "chrome-webstore-upload": "^0.4.2",
         "classnames": "^2.2.6",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-prettier": "^3.1.4",
@@ -45,7 +47,8 @@
         "stylelint-config-standard": "^20.0.0",
         "webpack": "^4.44.1",
         "webpack-dev-server": "^3.11.0",
-        "webpack-merge": "^5.1.3"
+        "webpack-merge": "^5.1.3",
+        "zip-folder": "^1.0.0"
     },
     "prettier": {
         "tabWidth": 4
